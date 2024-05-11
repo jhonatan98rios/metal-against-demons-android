@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 
 public class CanvasFacade implements AbstractCanvasFacade {
@@ -32,16 +33,11 @@ public class CanvasFacade implements AbstractCanvasFacade {
     }
 
     public void animate() {
-        // Atualiza o tempo decorrido desde o último frame
         timeSinceLastFrame += Gdx.graphics.getDeltaTime();
-
-        // Calcula o índice do próximo frame com base no tempo decorrido
         if (timeSinceLastFrame >= frameDuration) {
-            currentFrame = (currentFrame + 1) % numFramesX; // Avança para o próximo frame
-            timeSinceLastFrame = 0; // Reseta o tempo decorrido
+            currentFrame = (currentFrame + 1) % numFramesX;
+            timeSinceLastFrame = 0;
         }
-
-        // Atualiza a posição x do recorte do sprite
         posX = currentFrame * frameWidth;
     }
 

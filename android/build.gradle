@@ -22,7 +22,7 @@ android {
     }
     defaultConfig {
         applicationId "com.teixeirarios.mad"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 34
         versionCode 1
         versionName "1.0"
@@ -32,6 +32,9 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    buildFeatures {
+        compose true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

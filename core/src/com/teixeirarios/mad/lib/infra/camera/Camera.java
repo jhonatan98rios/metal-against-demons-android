@@ -37,4 +37,12 @@ public class Camera implements AbstractCamera {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
     }
+
+    public float getPosX() {
+        return camera.position.x - camera.viewportWidth / 2;
+    }
+
+    public float getPosY() {
+        return camera.position.y - camera.viewportHeight / 2;
+    }
 }

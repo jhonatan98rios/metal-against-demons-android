@@ -1,6 +1,7 @@
 package com.teixeirarios.mad.lib.domain.entities.player;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 
@@ -52,5 +53,13 @@ public class Player implements Body2D {
             posY += velocity * playerController.getAnalogY();
             posX += velocity * playerController.getAnalogX();
         }
+    }
+
+    public float getPosX() {
+        return posX;
+    }
+
+    public float getPosY() {
+        return posY;
     }
 }

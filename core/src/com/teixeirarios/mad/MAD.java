@@ -6,10 +6,10 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.player.PlayerFactory;
 import com.teixeirarios.mad.lib.domain.entities.scenario.Scenario;
+import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.input.VirtualJoystick;
 
 
@@ -17,19 +17,14 @@ public class MAD extends ApplicationAdapter {
 	SpriteBatch batch;
 	Player player;
 	Scenario scenario;
-	FitViewport viewport;
 	Stage stage;
 	VirtualJoystick joystick;
+	Camera camera;
 	
 	@Override
 	public void create () {
-		viewport = new FitViewport(
-				Gdx.graphics.getWidth() / 2,
-				Gdx.graphics.getHeight() / 2
-		);
-
 		batch = new SpriteBatch();
-		stage = new Stage(viewport, batch);
+		stage = new Stage();
 		joystick = new VirtualJoystick(stage);
 
 		InputMultiplexer multiplexer = new InputMultiplexer();
@@ -38,6 +33,7 @@ public class MAD extends ApplicationAdapter {
 
 		player = PlayerFactory.create(batch, joystick);
 		scenario = new Scenario(batch);
+		camera = new Camera(batch, player);
 	}
 
 	@Override
@@ -47,6 +43,7 @@ public class MAD extends ApplicationAdapter {
 
 		batch.begin();
 		player.update();
+		camera.update();
 
 		batch.end();
 		stage.act();

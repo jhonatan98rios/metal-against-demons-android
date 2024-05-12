@@ -24,7 +24,7 @@ public class Player implements Body2D {
         this.height = 100;
         this.width = 50;
         this.posDirection = 'L';
-        this.velocity = 1.5f;
+        this.velocity = 2f;
     }
 
     public void update() {

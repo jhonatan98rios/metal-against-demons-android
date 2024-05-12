@@ -36,7 +36,7 @@ public class VirtualJoystick {
 
         touchpad = new Touchpad(0, style);
         touchpad.setBounds(
-                ((float) Gdx.graphics.getWidth() / 4) - 100,
+                ((float) Gdx.graphics.getWidth() / 2) - 100,
                 25,
                 200,
                 200

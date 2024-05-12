@@ -10,20 +10,25 @@ public class Scenario {
     private Texture backgroundTexture;
     private TiledDrawable tiledBackground;
     private Batch batch;
-    private float viewportWidth;
-    private float viewportHeight;
+    private float scenarioWidth;
+    private float scenarioHeight;
+    private float scenarioX;
+    private float scenarioY;
 
     public Scenario(Batch batch) {
+        this.scenarioWidth = Gdx.graphics.getWidth() * 4;
+        this.scenarioHeight = Gdx.graphics.getHeight() * 4;
+        this.scenarioX = Gdx.graphics.getWidth() * -2;
+        this.scenarioY = Gdx.graphics.getHeight() * -2;
+
         this.batch = batch;
-        this.viewportWidth = Gdx.graphics.getWidth();
-        this.viewportHeight = Gdx.graphics.getHeight();
-        this.backgroundTexture = new Texture("pattern.png");
+        this.backgroundTexture = new Texture("pattern-small.png");
         this.tiledBackground = new TiledDrawable(new TextureRegion(backgroundTexture));
     }
 
     public void drawBackground() {
         batch.begin();
-        tiledBackground.draw(batch, 0, 0, viewportWidth, viewportHeight);
+        tiledBackground.draw(batch, scenarioX, scenarioY, scenarioWidth, scenarioHeight);
         batch.end();
     }
 }

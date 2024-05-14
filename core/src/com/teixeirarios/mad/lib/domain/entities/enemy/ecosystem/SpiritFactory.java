@@ -13,8 +13,8 @@ public class SpiritFactory {
         CanvasFacade enemyCanvas = new CanvasFacade(batch, "enemies/spirit.png", 4, 0.25f, 36);
 
         Enemy enemy = new Enemy(
-                36,
-                75,
+                72,
+                150,
                 posX,
                 posY,
                 enemyCanvas

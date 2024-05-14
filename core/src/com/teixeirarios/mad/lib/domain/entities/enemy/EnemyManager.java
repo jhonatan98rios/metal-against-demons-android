@@ -4,10 +4,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.utils.Constants;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class EnemyManager {
 
@@ -42,19 +46,10 @@ public class EnemyManager {
         }
 
         Vector2 playerPosition = new Vector2(player.getPosX(), player.getPosY());
-        Vector2 cameraPosition = new Vector2(camera.getPosX(), camera.getPosY());
-
         movimentationStrategy.updateEnemiesMovement(enemies, playerPosition);
-        render(cameraPosition);
-    }
 
-    public void render(Vector2 cameraPosition) {
         for (Enemy enemy : enemies) {
-            enemy.update(
-                    enemy.getPosX(),
-                    enemy.getPosY(),
-                    player.posX
-            );
+            enemy.update(player.posX);
         }
     }
 

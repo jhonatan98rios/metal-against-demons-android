@@ -2,6 +2,7 @@ package com.teixeirarios.mad.lib.infra.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -36,11 +37,11 @@ public class VirtualJoystick {
 
         touchpad = new Touchpad(0, style);
         touchpad.setBounds(
-                ((float) Gdx.graphics.getWidth() / 2) - 100,
-                25,
-                200,
-                200
-        ); // Posição e tamanho do touchpad
+                ((float) Gdx.graphics.getWidth() / 2) - 200,
+                100,
+                400,
+                400
+        );
 
         setEventListeners();
         stage.addActor(touchpad);

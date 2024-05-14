@@ -17,8 +17,8 @@ public class Player implements Body2D {
 
         this.posX = posX;
         this.posY = posY;
-        this.height = 100;
-        this.width = 50;
+        this.height = 200;
+        this.width = 100;
         this.posDirection = 'L';
         this.velocity = 2;
     }
@@ -26,7 +26,10 @@ public class Player implements Body2D {
     public void update() {
         moveTouch();
         playerCanvas.animate();
-        playerCanvas.drawImage(0, getSprite(), this.width, this.height, posX, posY, this.width, this.height);
+    }
+
+    public void render() {
+        playerCanvas.drawImage(0, getSprite(), 50, 100, this.posX, this.posY, this.width, this.height);
     }
 
     public float getSprite() {
@@ -61,11 +64,11 @@ public class Player implements Body2D {
         posX = nextPosX;
     }
 
-    public float getPosX() {
-        return posX;
+    public int getPosX() {
+        return (int) posX;
     }
 
-    public float getPosY() {
-        return posY;
+    public int getPosY() {
+        return (int) posY;
     }
 }

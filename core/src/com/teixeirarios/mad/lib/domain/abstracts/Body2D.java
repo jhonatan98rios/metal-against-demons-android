@@ -9,5 +9,7 @@ Body2D {
     public float posY = 0;
     public float width = 0;
     public float height = 0;
-    public void update();
+    public void render();
+    public int getPosY();
+    public int getPosX();
 }

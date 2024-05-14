@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
@@ -56,18 +57,19 @@ public class MAD extends ApplicationAdapter {
 
 		scenario.drawBackground();
 
-		ArrayList<Body2D> body2DList = new ArrayList<>();
-		body2DList.add(player);
-
-//		for (Enemy enemy : enemyManager.getEnemies()) {
-//			body2DList.add(enemy);
-//		}
-
-		RenderStack.update(body2DList);
-		//player.update();
+		player.update();
+		enemyManager.update();
 		camera.update();
 
-		enemyManager.update();
+		Array<Body2D> body2DList = new Array<>();
+		body2DList.add(player);
+
+		for (Enemy enemy : enemyManager.getEnemies()) {
+			body2DList.add(enemy);
+		}
+
+		RenderStack.render(body2DList);
+
 		batch.end();
 		stage.act();
 		stage.draw();

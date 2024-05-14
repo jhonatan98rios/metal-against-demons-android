@@ -1,11 +1,11 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy;
 
+import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 
-public class Enemy {
+public class Enemy implements Body2D {
     private final int velocity, width, height;
-    private int posX, posY;
-
+    private int posX, posY, selectedFrame;
     public AbstractCanvasFacade enemyCanvas;
 
 
@@ -20,14 +20,28 @@ public class Enemy {
         this.posY = posY;
         this.velocity = 1;
         this.enemyCanvas = enemyCanvas;
+        this.selectedFrame = 0;
     }
 
-    public void update(int posX, int posY, float playerPosX) {
+    public void update(float playerPosX) {
         enemyCanvas.animate();
-        enemyCanvas.drawImage(0, getSprite(playerPosX), this.width, this.height, posX, posY, this.width, this.height);
+        this.selectedFrame = getSprite(playerPosX);
     }
 
-    public float getSprite(float playerPosX) {
+    public void render() {
+        enemyCanvas.drawImage(
+                0,
+                selectedFrame,
+                (float) this.width /2,
+                (float) this.height /2,
+                this.posX,
+                this.posY,
+                this.width,
+                this.height
+        );
+    }
+
+    public int getSprite(float playerPosX) {
         return playerPosX > posX ? 0 : 75;
     }
 

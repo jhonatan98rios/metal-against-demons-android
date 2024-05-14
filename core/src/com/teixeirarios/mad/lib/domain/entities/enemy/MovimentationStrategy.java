@@ -1,46 +1,29 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy;
 
 import com.badlogic.gdx.math.Vector2;
-
 import com.badlogic.gdx.utils.Array;
-
 import java.util.Arrays;
 import java.util.Collections;
 
 
 public class MovimentationStrategy {
+    private final int safetyMargin;
 
-    float deltaTime;
-    float safetyMargin;
-
-    public MovimentationStrategy(float deltaTime, float safetyMargin){
-        this.deltaTime = deltaTime;
+    public MovimentationStrategy(int safetyMargin){
         this.safetyMargin = safetyMargin;
     }
 
-    public void updateEnemiesMovement(Array<Enemy> enemies, Vector2 playerPosition, Vector2 cameraPosition) {
+    public void updateEnemiesMovement(Array<Enemy> enemies, Vector2 playerPosition) {
         for (int i = 0; i < enemies.size; i++) {
             Enemy enemy = enemies.get(i);
 
             Vector2 directionToPlayer = getDirection(playerPosition, enemy);
             Vector2 nextPosition = getNextPosition(directionToPlayer, enemy);
+            nextPosition = adjustNextPosition(enemies, nextPosition, enemy);
 
-            boolean isPositionAvailable = validateNextPositionAvailability(enemies, nextPosition, enemy);
+            enemy.setPosX(Math.round(nextPosition.x));
+            enemy.setPosY(Math.round(nextPosition.y));
 
-            if (isPositionAvailable) {
-                // Atualiza a posição do inimigo com base na posição ajustada
-                enemy.setPosX(nextPosition.x);
-                enemy.setPosY(nextPosition.y);
-            }
-//            else {
-//                // Se a próxima posição estiver ocupada, tenta mover-se em uma direção alternativa
-//                Vector2 alternateDirection = getAlternateDirection(enemies, nextPosition, enemy);
-//                if (alternateDirection != null) {
-//                    Vector2 alternatePosition = getNextPosition(alternateDirection, enemy);
-//                    enemy.setPosX(alternatePosition.x + cameraPosition.x);
-//                    enemy.setPosY(alternatePosition.y + cameraPosition.y);
-//                }
-//            }
         }
     }
 
@@ -52,42 +35,32 @@ public class MovimentationStrategy {
     Vector2 getNextPosition(Vector2 directionToPlayer, Enemy enemyPosition) {
         // Calcula a próxima posição do inimigo com base na direção e na velocidade
         return new Vector2(
-                enemyPosition.getPosX() + directionToPlayer.x * enemyPosition.velocity * deltaTime,
-                enemyPosition.getPosY() + directionToPlayer.y * enemyPosition.velocity * deltaTime
+                enemyPosition.getPosX() + directionToPlayer.x * enemyPosition.getVelocity(),
+                enemyPosition.getPosY() + directionToPlayer.y * enemyPosition.getVelocity()
         );
     }
 
-    boolean validateNextPositionAvailability(Array<Enemy> enemies, Vector2 nextPosition, Enemy enemy) {
-        // Verifica se a próxima posição do inimigo está livre de colisões com outros inimigos
-        boolean positionOccupied = false;
+    public Vector2 adjustNextPosition(Array<Enemy> enemies, Vector2 nextPosition, Enemy enemy) {
+        boolean collisionX = false;
+        boolean collisionY = false;
+
         for (Enemy otherEnemy : enemies) {
-            if (otherEnemy != enemy && Math.abs(nextPosition.x - otherEnemy.getPosX()) < safetyMargin && Math.abs(nextPosition.y - otherEnemy.getPosY()) < safetyMargin) {
-                positionOccupied = true;
-                break;
+            if (otherEnemy != enemy) {
+                if (Math.abs(nextPosition.x - otherEnemy.getPosX()) < safetyMargin && Math.abs(enemy.getPosY() - otherEnemy.getPosY()) < safetyMargin) {
+                    collisionX = true;
+                }
+                if (Math.abs(nextPosition.y - otherEnemy.getPosY()) < safetyMargin && Math.abs(enemy.getPosX() - otherEnemy.getPosX()) < safetyMargin) {
+                    collisionY = true;
+                }
+                if (collisionX && collisionY) {
+                    break;
+                }
             }
         }
 
-        return !positionOccupied;
-    }
+        float adjustedX = collisionX ? enemy.getPosX() : nextPosition.x;
+        float adjustedY = collisionY ? enemy.getPosY() : nextPosition.y;
 
-    private Vector2 getAlternateDirection(Array<Enemy> enemies, Vector2 currentPosition, Enemy enemy) {
-        // Se a próxima posição estiver ocupada, tenta mover-se em uma direção alternativa
-        // Lista de direções possíveis (cima, baixo, esquerda, direita)
-        Vector2[] directions = { new Vector2(0, 1), new Vector2(0, -1), new Vector2(-1, 0), new Vector2(1, 0) };
-
-        // Embaralha a lista de direções para evitar padrões de movimento previsíveis
-        Collections.shuffle(Arrays.asList(directions));
-
-        // Tenta encontrar uma direção alternativa que não esteja ocupada por outro inimigo
-        for (Vector2 direction : directions) {
-            Vector2 alternatePosition = getNextPosition(direction, enemy);
-            boolean isPositionAvailable = validateNextPositionAvailability(enemies, alternatePosition, enemy);
-            if (isPositionAvailable) {
-                return direction;
-            }
-        }
-
-        // Se nenhuma direção estiver disponível, retorna null
-        return null;
+        return new Vector2(adjustedX, adjustedY);
     }
 }

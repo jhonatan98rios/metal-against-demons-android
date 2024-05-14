@@ -1,19 +1,14 @@
 package com.teixeirarios.mad.lib.domain.entities.player;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
+import com.teixeirarios.mad.lib.utils.Constants;
 
 public class Player implements Body2D {
     public AbstractCanvasFacade playerCanvas;
     public PlayerController playerController;
-
-    public float posX;
-    public float posY;
-    public float width;
-    public float height;
-    public final float velocity;
+    public float posX, posY;
+    public final int width, height, velocity;
     char posDirection;
 
     public Player(AbstractCanvasFacade playerCanvas, PlayerController playerController, float posX, float posY) {
@@ -25,7 +20,7 @@ public class Player implements Body2D {
         this.height = 100;
         this.width = 50;
         this.posDirection = 'L';
-        this.velocity = 2f;
+        this.velocity = 2;
     }
 
     public void update() {
@@ -49,10 +44,21 @@ public class Player implements Body2D {
             posDirection = 'L';
         }
 
-        if (playerController.getAnalogX() != 0 || playerController.getAnalogY() != 0) {
-            posY += velocity * playerController.getAnalogY();
-            posX += velocity * playerController.getAnalogX();
+        if (playerController.getAnalogX() == 0 && playerController.getAnalogY() == 0) return;
+
+        float nextPosX = posX + (velocity * playerController.getAnalogX());
+        float nextPosY = posY + (velocity * playerController.getAnalogY());
+
+        if (nextPosX < 0 || nextPosX + width > Constants.SCENARIO_WIDTH) {
+            nextPosX = posX;
         }
+
+        if (nextPosY < 0 || nextPosY + height > Constants.SCENARIO_HEIGHT) {
+            nextPosY = posY;
+        }
+
+        posY = nextPosY;
+        posX = nextPosX;
     }
 
     public float getPosX() {

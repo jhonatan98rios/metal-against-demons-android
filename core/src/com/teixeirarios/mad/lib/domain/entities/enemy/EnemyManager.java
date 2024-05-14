@@ -1,29 +1,29 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.utils.Constants;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
 
 public class EnemyManager {
 
     Player player;
     Camera camera;
     private Array<Enemy> enemies;
-    private float spawnInterval;
-    private int maxEnemies;
+    private final int spawnInterval;
+    private final int maxEnemies;
 
     private float spawnTimer;
 
     MovimentationStrategy movimentationStrategy;
 
-    ShapeRenderer shapeRenderer;
+    SpriteBatch batch;
 
-    public EnemyManager(Player player, Camera camera, float spawnInterval, int maxEnemies, MovimentationStrategy movimentationStrategy) {
+    public EnemyManager(SpriteBatch batch, Player player, Camera camera, int spawnInterval, int maxEnemies, MovimentationStrategy movimentationStrategy) {
         this.enemies = new Array<>();
         this.spawnInterval = spawnInterval;
         this.maxEnemies = maxEnemies;
@@ -31,11 +31,7 @@ public class EnemyManager {
         this.movimentationStrategy = movimentationStrategy;
         this.player = player;
         this.camera = camera;
-
-        this.shapeRenderer = new ShapeRenderer();
-
-        System.out.println(this.camera.getPosX());
-        System.out.println(this.camera.getPosY());
+        this.batch = batch;
     }
 
     public void update() {
@@ -48,38 +44,38 @@ public class EnemyManager {
         Vector2 playerPosition = new Vector2(player.getPosX(), player.getPosY());
         Vector2 cameraPosition = new Vector2(camera.getPosX(), camera.getPosY());
 
-        movimentationStrategy.updateEnemiesMovement(enemies, playerPosition, cameraPosition);
+        movimentationStrategy.updateEnemiesMovement(enemies, playerPosition);
         render(cameraPosition);
     }
 
     public void render(Vector2 cameraPosition) {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-
         for (Enemy enemy : enemies) {
-            shapeRenderer.rect(
-                    enemy.getPosX() - cameraPosition.x,
-                    enemy.getPosY() - cameraPosition.y,
-                    enemy.getWidth(),
-                    enemy.getHeight()
+            enemy.update(
+                    enemy.getPosX(),
+                    enemy.getPosY(),
+                    player.posX
             );
         }
-
-        shapeRenderer.end();
     }
 
     private void spawnEnemy() {
         // Definindo uma margem de segurança para evitar que inimigos sejam gerados muito próximos uns dos outros
-        float safetyMargin = 10f;
+        float safetyMargin = 36f;
 
         // Loop até encontrar uma posição adequada para o novo inimigo
         while (true) {
             // Gerar uma posição aleatória para o novo inimigo
-            float posX = MathUtils.random(Constants.SCENARIO_WIDTH);
-            float posY = MathUtils.random(Constants.SCENARIO_HEIGHT);
+            int posX = MathUtils.random(Constants.SCENARIO_WIDTH) - Constants.SCENARIO_WIDTH / 2;
+            int posY = MathUtils.random(Constants.SCENARIO_HEIGHT) - Constants.SCENARIO_HEIGHT / 2;
+
+            // Verificar se a nova posição está dentro do cenário
+            if (posX < 0 || posX > Constants.SCENARIO_WIDTH || posY < 0 || posY > Constants.SCENARIO_HEIGHT) {
+                continue;
+            }
 
             // Verificar se a nova posição está ocupada por outro inimigo
             boolean positionOccupied = false;
+
             for (Enemy enemy : enemies) {
                 if (Math.abs(posX - enemy.getPosX()) < safetyMargin && Math.abs(posY - enemy.getPosY()) < safetyMargin) {
                     positionOccupied = true;
@@ -89,7 +85,7 @@ public class EnemyManager {
 
             // Se a posição não estiver ocupada, criar o novo inimigo e sair do loop
             if (!positionOccupied) {
-                Enemy newEnemy = new Enemy(64, 64, posX, posY);
+                Enemy newEnemy = SpiritFactory.create(batch, posX, posY);
                 enemies.add(newEnemy);
                 break;
             }
@@ -105,11 +101,4 @@ public class EnemyManager {
         return enemies;
     }
 
-    public void setSpawnInterval(float spawnInterval) {
-        this.spawnInterval = spawnInterval;
-    }
-
-    public void setMaxEnemies(int maxEnemies) {
-        this.maxEnemies = maxEnemies;
-    }
 }

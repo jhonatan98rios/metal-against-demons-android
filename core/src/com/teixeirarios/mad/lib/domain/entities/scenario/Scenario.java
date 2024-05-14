@@ -18,8 +18,8 @@ public class Scenario {
     public Scenario(Batch batch) {
         this.scenarioWidth = Constants.SCENARIO_WIDTH;
         this.scenarioHeight = Constants.SCENARIO_HEIGHT;
-        this.scenarioX = Constants.SCENARIO_WIDTH * -0.5f;
-        this.scenarioY = Constants.SCENARIO_HEIGHT * -0.5f;
+        this.scenarioX = 0;
+        this.scenarioY = 0;
 
         this.batch = batch;
         this.backgroundTexture = new Texture("pattern-small.png");

@@ -1,10 +1,10 @@
 package com.teixeirarios.mad.lib.domain.entities.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 import com.teixeirarios.mad.lib.infra.input.VirtualJoystick;
+import com.teixeirarios.mad.lib.utils.Constants;
 
 
 public class PlayerFactory {
@@ -16,8 +16,8 @@ public class PlayerFactory {
         Player player = new Player(
                 playerCanvas,
                 playerController,
-                ((float) Gdx.graphics.getWidth() / 4) - 25,
-                ((float) Gdx.graphics.getHeight() / 4) - 50
+                (Constants.SCENARIO_WIDTH / 2) - 25,
+                (Constants.SCENARIO_HEIGHT / 2) - 50
         );
         return player;
     }

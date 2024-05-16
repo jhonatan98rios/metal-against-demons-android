@@ -3,6 +3,7 @@ package com.teixeirarios.mad;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -11,6 +12,8 @@ import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
+import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
+import com.teixeirarios.mad.lib.domain.entities.game.GameStatusFactory;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.player.PlayerFactory;
 import com.teixeirarios.mad.lib.domain.entities.scenario.Scenario;
@@ -18,19 +21,16 @@ import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.canvas.RenderStack;
 import com.teixeirarios.mad.lib.infra.input.VirtualJoystick;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class MAD extends ApplicationAdapter {
 	SpriteBatch batch;
 	Player player;
-
 	EnemyManager enemyManager;
 	Scenario scenario;
 	Stage stage;
 	VirtualJoystick joystick;
 	Camera camera;
+	GameStatus gameStatus;
 	
 	@Override
 	public void create () {
@@ -47,16 +47,17 @@ public class MAD extends ApplicationAdapter {
 		scenario = new Scenario(batch);
 		camera = new Camera(batch, player);
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
+		gameStatus = GameStatusFactory.create(batch, camera);
 	}
 
 	@Override
 	public void render () {
+		if (!gameStatus.isPlaying()) return;
+
 		ScreenUtils.clear(0, 0, 0, 1);
 
 		batch.begin();
-
 		scenario.drawBackground();
-
 		player.update();
 		enemyManager.update();
 		camera.update();
@@ -70,10 +71,16 @@ public class MAD extends ApplicationAdapter {
 
 		RenderStack.render(body2DList);
 
+		gameStatus.renderPauseButton();
+
 		batch.end();
 		stage.act();
 		stage.draw();
+
+		player.renderHealthBar(camera);
 	}
+
+
 	
 	@Override
 	public void dispose () {

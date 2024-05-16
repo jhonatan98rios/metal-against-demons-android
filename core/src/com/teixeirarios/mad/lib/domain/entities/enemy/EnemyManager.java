@@ -25,14 +25,25 @@ public class EnemyManager {
 
     MovimentationStrategy movimentationStrategy;
 
+    SpawnStrategy spawnStrategy;
+
     SpriteBatch batch;
 
-    public EnemyManager(SpriteBatch batch, Player player, Camera camera, int spawnInterval, int maxEnemies, MovimentationStrategy movimentationStrategy) {
+    public EnemyManager(
+            SpriteBatch batch,
+            Player player,
+            Camera camera,
+            int spawnInterval,
+            int maxEnemies,
+            MovimentationStrategy movimentationStrategy,
+            SpawnStrategy spawnStrategy
+    ) {
         this.enemies = new Array<>();
         this.spawnInterval = spawnInterval;
         this.maxEnemies = maxEnemies;
         this.spawnTimer = 0;
         this.movimentationStrategy = movimentationStrategy;
+        this.spawnStrategy = spawnStrategy;
         this.player = player;
         this.camera = camera;
         this.batch = batch;
@@ -80,7 +91,8 @@ public class EnemyManager {
 
             // Se a posição não estiver ocupada, criar o novo inimigo e sair do loop
             if (!positionOccupied) {
-                Enemy newEnemy = SpiritFactory.create(batch, posX, posY);
+                var strategy = this.spawnStrategy.getRandomEcosystemStrategy();
+                Enemy newEnemy = strategy.create(batch, posX, posY);
                 enemies.add(newEnemy);
                 break;
             }

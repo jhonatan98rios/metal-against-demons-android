@@ -10,7 +10,7 @@ public class Enemy implements Body2D {
 
 
     public Enemy(
-            int width, int height, int posX, int posY,
+            int width, int height, int posX, int posY, int velocity,
             AbstractCanvasFacade enemyCanvas
         ) {
 
@@ -18,7 +18,7 @@ public class Enemy implements Body2D {
         this.height = height;
         this.posX = posX;
         this.posY = posY;
-        this.velocity = 1;
+        this.velocity = velocity;
         this.enemyCanvas = enemyCanvas;
         this.selectedFrame = 0;
     }
@@ -42,7 +42,7 @@ public class Enemy implements Body2D {
     }
 
     public int getSprite(float playerPosX) {
-        return playerPosX > posX ? 0 : 75;
+        return playerPosX > posX ? 0 : this.height /2;
     }
 
     // Getters e setters

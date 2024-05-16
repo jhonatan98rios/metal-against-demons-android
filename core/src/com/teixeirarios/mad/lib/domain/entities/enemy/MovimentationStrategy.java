@@ -2,8 +2,6 @@ package com.teixeirarios.mad.lib.domain.entities.enemy;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import java.util.Arrays;
-import java.util.Collections;
 
 
 public class MovimentationStrategy {

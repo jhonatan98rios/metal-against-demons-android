@@ -1,20 +1,23 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem;
 
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 
 
-public class SpiritFactory {
+public class CrawlerFactory {
 
     public static Enemy create(SpriteBatch batch, int posX, int posY) {
-        CanvasFacade enemyCanvas = new CanvasFacade(batch, "enemies/spirit.png", 4, 0.25f, 36);
+
+        CanvasFacade enemyCanvas = new CanvasFacade(batch, "enemies/crawler.png", 4, 0.25f, 65);
+
         Enemy enemy = new Enemy(
-                72,
-                150,
+                65 * 2,
+                37 * 2,
                 posX,
                 posY,
-                2,
+                1,
                 enemyCanvas
         );
         return enemy;

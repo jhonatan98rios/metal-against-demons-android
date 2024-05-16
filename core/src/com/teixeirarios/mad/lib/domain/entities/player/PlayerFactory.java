@@ -12,10 +12,12 @@ public class PlayerFactory {
     public static Player create (SpriteBatch batch, VirtualJoystick joystick) {
         AbstractCanvasFacade playerCanvas = new CanvasFacade(batch, "spritesheet.png", 4, 0.25F, 50);
         PlayerController playerController = new PlayerController(joystick);
+        PlayerStatus playerStatus = new PlayerStatus();
 
         Player player = new Player(
                 playerCanvas,
                 playerController,
+                playerStatus,
                 (Constants.SCENARIO_WIDTH / 2) - 25,
                 (Constants.SCENARIO_HEIGHT / 2) - 50
         );

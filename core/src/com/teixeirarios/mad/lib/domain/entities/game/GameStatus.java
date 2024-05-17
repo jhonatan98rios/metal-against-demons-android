@@ -1,13 +1,19 @@
 package com.teixeirarios.mad.lib.domain.entities.game;
 
+import com.teixeirarios.mad.lib.infra.events.EventManager;
+
 public class GameStatus {
     private GameStatusOptions status;
     public static GameStatus instance;
     public GameStatusRender render;
 
+    private final EventManager eventManager;
+
     public GameStatus(GameStatusOptions status, GameStatusRender render) {
         this.status = status;
         this.render = render;
+        eventManager = EventManager.getInstance();
+        addEventListeners();
     }
 
     public static GameStatus getInstance(GameStatusRender render) {
@@ -43,4 +49,9 @@ public class GameStatus {
         }
     }
 
+    private void addEventListeners() {
+        eventManager.on("player:die", args -> {
+            setStatus(GameStatusOptions.STOPPED);
+        });
+    }
 }

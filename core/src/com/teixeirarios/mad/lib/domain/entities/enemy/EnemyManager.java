@@ -7,19 +7,22 @@ import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.strategies.CollisionStrategy;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
+import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.utils.Constants;
 
 public class EnemyManager {
 
-    Player player;
-    Camera camera;
+    private final Player player;
+    private final Camera camera;
     private final Array<Enemy> enemies;
     private final int spawnInterval;
     private final int maxEnemies;
     private float spawnTimer;
-    MovimentationStrategy movimentationStrategy;
-    SpawnStrategy spawnStrategy;
-    SpriteBatch batch;
+    private final MovimentationStrategy movimentationStrategy;
+    private final SpawnStrategy spawnStrategy;
+    private final SpriteBatch batch;
+
+    private final EventManager eventManager;
 
     public EnemyManager(
             SpriteBatch batch,
@@ -28,7 +31,8 @@ public class EnemyManager {
             int spawnInterval,
             int maxEnemies,
             MovimentationStrategy movimentationStrategy,
-            SpawnStrategy spawnStrategy
+            SpawnStrategy spawnStrategy,
+            EventManager eventManager
     ) {
         this.enemies = new Array<>();
         this.spawnInterval = spawnInterval;
@@ -39,6 +43,7 @@ public class EnemyManager {
         this.player = player;
         this.camera = camera;
         this.batch = batch;
+        this.eventManager = eventManager;
     }
 
     public void update() {
@@ -54,8 +59,9 @@ public class EnemyManager {
         for (Enemy enemy : enemies) {
             enemy.update(player.posX);
 
-            if (CollisionStrategy.isColliding(enemy, player)) {
+            if (CollisionStrategy.isColliding(enemy, player, 10, 0)) {
                 System.out.println("Colisão com o inimigo");
+                eventManager.emit("enemy:collision", 1);
             }
         }
     }

@@ -78,11 +78,23 @@ public class Player implements Body2D {
         posX = nextPosX;
     }
 
+    @Override
     public int getPosX() {
         return (int) posX;
     }
 
+    @Override
     public int getPosY() {
         return (int) posY;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
     }
 }

@@ -1,8 +1,6 @@
 package com.teixeirarios.mad.lib.domain.abstracts;
 
 
-import com.badlogic.gdx.math.Vector2;
-
 public interface
 Body2D {
     public float posX = 0;
@@ -12,4 +10,7 @@ Body2D {
     public void render();
     public int getPosY();
     public int getPosX();
+    public int getWidth();
+    public int getHeight();
+
 }

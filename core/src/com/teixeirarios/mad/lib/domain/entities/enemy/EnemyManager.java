@@ -4,29 +4,21 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
+import com.teixeirarios.mad.lib.domain.strategies.CollisionStrategy;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.utils.Constants;
-import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
-
-import java.util.Collections;
-import java.util.Comparator;
 
 public class EnemyManager {
 
     Player player;
     Camera camera;
-    private Array<Enemy> enemies;
+    private final Array<Enemy> enemies;
     private final int spawnInterval;
     private final int maxEnemies;
-
     private float spawnTimer;
-
     MovimentationStrategy movimentationStrategy;
-
     SpawnStrategy spawnStrategy;
-
     SpriteBatch batch;
 
     public EnemyManager(
@@ -61,6 +53,10 @@ public class EnemyManager {
 
         for (Enemy enemy : enemies) {
             enemy.update(player.posX);
+
+            if (CollisionStrategy.isColliding(enemy, player)) {
+                System.out.println("Colisão com o inimigo");
+            }
         }
     }
 

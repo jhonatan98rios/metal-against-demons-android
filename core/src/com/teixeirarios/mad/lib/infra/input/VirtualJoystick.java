@@ -34,6 +34,8 @@ public class VirtualJoystick {
         Touchpad.TouchpadStyle style = new Touchpad.TouchpadStyle();
         style.background = backgroundDrawable;
         style.knob = knobDrawable;
+        style.knob.setMinHeight(200);
+        style.knob.setMinWidth(200);
 
         touchpad = new Touchpad(0, style);
         touchpad.setBounds(

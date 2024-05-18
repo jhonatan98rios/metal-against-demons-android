@@ -13,10 +13,10 @@ public class EnemyManagerFactory {
         MovimentationStrategy movimentationStrategy = new MovimentationStrategy(72);
         SpawnStrategy spawnStrategy = new SpawnStrategy();
         EventManager eventManager = EventManager.getInstance();
-
-        return new EnemyManager(
-                batch, player, camera, 30, Constants.MAX_ENEMIES,
-                movimentationStrategy, spawnStrategy, eventManager
+        EnemyManager enemyManager = EnemyManager.getInstance(
+            batch, player, camera, 30, Constants.MAX_ENEMIES,
+            movimentationStrategy, spawnStrategy, eventManager
         );
+        return enemyManager;
     }
 }

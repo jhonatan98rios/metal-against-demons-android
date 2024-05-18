@@ -3,7 +3,6 @@ package com.teixeirarios.mad.lib.infra.camera;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.drivers.camera.AbstractCamera;
 import com.teixeirarios.mad.lib.utils.Constants;
@@ -12,7 +11,6 @@ public class Camera implements AbstractCamera {
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
-
     private Player player;
 
     public Camera(SpriteBatch batch, Player player) {

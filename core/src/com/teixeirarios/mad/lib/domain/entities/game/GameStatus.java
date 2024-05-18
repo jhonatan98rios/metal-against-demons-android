@@ -23,6 +23,13 @@ public class GameStatus {
         return instance;
     }
 
+    public static GameStatus getInstance() {
+        if (instance == null) {
+            throw new RuntimeException("GameStatus not initialized");
+        }
+        return instance;
+    }
+
     public GameStatusOptions getStatus() {
         return status;
     }

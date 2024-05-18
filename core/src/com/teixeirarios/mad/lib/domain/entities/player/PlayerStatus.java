@@ -8,8 +8,8 @@ public class PlayerStatus {
 
     public PlayerStatus() {
         level = 1;
-        maxHealth = 1000;
-        currentHealth = 1000;
+        maxHealth = 300;
+        currentHealth = 300;
         currentXP = 0;
         nextLevelXp = 1;
 

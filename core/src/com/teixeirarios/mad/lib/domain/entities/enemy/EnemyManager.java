@@ -21,8 +21,8 @@ public class EnemyManager {
     private final MovimentationStrategy movimentationStrategy;
     private final SpawnStrategy spawnStrategy;
     private final SpriteBatch batch;
-
     private final EventManager eventManager;
+    public static EnemyManager instance;
 
     public EnemyManager(
             SpriteBatch batch,
@@ -44,6 +44,40 @@ public class EnemyManager {
         this.camera = camera;
         this.batch = batch;
         this.eventManager = eventManager;
+
+        this.addEventListeners();
+    }
+
+    public static EnemyManager getInstance(
+            SpriteBatch batch,
+            Player player,
+            Camera camera,
+            int spawnInterval,
+            int maxEnemies,
+            MovimentationStrategy movimentationStrategy,
+            SpawnStrategy spawnStrategy,
+            EventManager eventManager
+    ) {
+        if (EnemyManager.instance == null) {
+            EnemyManager.instance = new EnemyManager(
+                batch,
+                player,
+                camera,
+                spawnInterval,
+                maxEnemies,
+                movimentationStrategy,
+                spawnStrategy,
+                eventManager
+            );
+        }
+        return EnemyManager.instance;
+    }
+
+    public static EnemyManager getInstance() {
+        if (EnemyManager.instance == null) {
+            throw new IllegalStateException("EnemyManager não inicializado");
+        }
+        return EnemyManager.instance;
     }
 
     public void update() {
@@ -99,6 +133,23 @@ public class EnemyManager {
                 break;
             }
         }
+    }
+
+    private void addEventListeners() {
+        eventManager.on("skill:damage", args -> {
+            Enemy enemy = (Enemy) args[0];
+            int damage = (int) args[1];
+
+            System.out.println("enemy: " + enemy);
+            System.out.println("damage: " + damage);
+
+            removeEnemy(enemy);
+
+//            enemy.health -= damage;
+//            if (enemy.health <= 0) {
+//                removeEnemy(enemy);
+//            }
+        });
     }
 
     public void removeEnemy(Enemy enemy) {

@@ -3,17 +3,19 @@ package com.teixeirarios.mad.lib.domain.entities.enemy;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 
+import java.util.UUID;
+
 public class Enemy implements Body2D {
+    UUID id;
     private final int velocity, width, height;
     private int posX, posY, selectedFrame;
     public AbstractCanvasFacade enemyCanvas;
-
 
     public Enemy(
             int width, int height, int posX, int posY, int velocity,
             AbstractCanvasFacade enemyCanvas
         ) {
-
+        this.id = UUID.randomUUID();
         this.width = width;
         this.height = height;
         this.posX = posX;

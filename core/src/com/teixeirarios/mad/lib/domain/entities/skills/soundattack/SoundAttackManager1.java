@@ -1,15 +1,12 @@
 package com.teixeirarios.mad.lib.domain.entities.skills.soundattack;
 
-import static com.teixeirarios.mad.lib.utils.Calculate.calculateDistance;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
-
-import java.util.Comparator;
+import com.teixeirarios.mad.lib.utils.ListUtils;
 
 public class SoundAttackManager1 extends SoundAttackManagerBase {
     public Boolean isActive;
@@ -91,14 +88,16 @@ public class SoundAttackManager1 extends SoundAttackManagerBase {
         }
 
         if (enemies.size > 1) {
-            enemies.sort(new Comparator<Enemy>() {
-                @Override
-                public int compare(Enemy e1, Enemy e2) {
-                    double distanceToE1 = calculateDistance(player, e1);
-                    double distanceToE2 = calculateDistance(player, e2);
-                    return Double.compare(distanceToE1, distanceToE2);
-                }
-            });
+            sortEnemiesByDistance(enemies, player);
+
+//            enemies.sort(new Comparator<Enemy>() {
+//                @Override
+//                public int compare(Enemy e1, Enemy e2) {
+//                    double distanceToE1 = calculateDistance(player, e1);
+//                    double distanceToE2 = calculateDistance(player, e2);
+//                    return Double.compare(distanceToE1, distanceToE2);
+//                }
+//            });
         }
 
         for (int index = 0; index < enemies.size; index++) {
@@ -112,6 +111,10 @@ public class SoundAttackManager1 extends SoundAttackManagerBase {
             }
         }
         return nearbyEnemies;
+    }
+
+    private void sortEnemiesByDistance(Array<Enemy> enemies, Player player) {
+        ListUtils.bubbleSort(enemies, player);
     }
 
     private static class RangeArea {

@@ -43,7 +43,7 @@ public class MAD extends ApplicationAdapter {
 		player = PlayerFactory.create(batch, joystick);
 
 		scenario = new Scenario(batch);
-		camera = new Camera(batch, player);
+		camera = Camera.getInstance(batch, player);
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
 		gameStatus = GameStatusFactory.create(batch, camera);
 
@@ -79,7 +79,8 @@ public class MAD extends ApplicationAdapter {
 		stage.act();
 		stage.draw();
 
-		player.renderHealthBar(camera);
+		//player.renderHealthBar(camera);
+		RenderStack.renderHealthBar(body2DList, camera);
 	}
 	
 	@Override

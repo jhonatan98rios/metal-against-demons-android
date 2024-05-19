@@ -13,11 +13,27 @@ public class Camera implements AbstractCamera {
     private SpriteBatch batch;
     private Player player;
 
-    public Camera(SpriteBatch batch, Player player) {
+    private static Camera instance;
+
+    private Camera(SpriteBatch batch, Player player) {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.batch = batch;
         this.player = player;
+    }
+
+    public static Camera getInstance(SpriteBatch batch, Player player) {
+        if (instance == null) {
+            instance = new Camera(batch, player);
+        }
+        return instance;
+    }
+
+    public static Camera getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("Camera not initialized");
+        }
+        return instance;
     }
 
     @Override

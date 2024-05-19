@@ -35,7 +35,7 @@ public class SoundAttackManagerBase implements AbstractSkillManager {
         this.width = 26;
         this.height = 26;
         this.speed = 3;
-        this.damage = 10;
+        this.damage = 2;
         this.spritesheet = null;
         this.interval = 1000;
         this.lifeTime = 60 * 5;

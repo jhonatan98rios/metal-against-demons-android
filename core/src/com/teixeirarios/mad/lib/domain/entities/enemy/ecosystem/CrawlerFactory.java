@@ -18,6 +18,8 @@ public class CrawlerFactory {
                 posX,
                 posY,
                 1,
+                5,
+                2,
                 enemyCanvas
         );
         return enemy;

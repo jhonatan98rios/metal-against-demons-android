@@ -95,7 +95,7 @@ public class EnemyManager {
             enemy.update(player.posX);
 
             if (CollisionStrategy.isColliding(enemy, player, 10, 0)) {
-                eventManager.emit("enemy:collision", 1);
+                eventManager.emit("enemy:collision", enemy.status.damage);
             }
         }
     }
@@ -141,13 +141,15 @@ public class EnemyManager {
             Enemy enemy = (Enemy) args[0];
             int damage = (int) args[1];
 
-            removeEnemy(enemy);
-
-//            enemy.health -= damage;
-//            if (enemy.health <= 0) {
-//                removeEnemy(enemy);
-//            }
+            takeDamage(enemy, damage);
         });
+    }
+
+    public void takeDamage(Enemy enemy, int damage) {
+        enemy.status.currentHealth -= damage;
+        if (enemy.status.currentHealth <= 0) {
+            removeEnemy(enemy);
+        }
     }
 
     public void removeEnemy(Enemy enemy) {

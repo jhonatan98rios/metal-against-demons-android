@@ -27,7 +27,7 @@ public class SoundAttackManager1 extends SoundAttackManagerBase {
         this.width = 26;
         this.height = 26;
         this.speed = 3;
-        this.damage = 10;
+        this.damage = 2;
         this.spritesheet = "skills/sound_attack_1.png";
         this.interval = 1000;
         this.lifeTime = 60 * 5; //frames * sec

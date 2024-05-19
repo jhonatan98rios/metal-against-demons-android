@@ -1,7 +1,9 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy;
 
+import com.badlogic.gdx.graphics.Color;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
+import com.teixeirarios.mad.lib.infra.camera.Camera;
 
 import java.util.UUID;
 
@@ -10,10 +12,11 @@ public class Enemy implements Body2D {
     private final int velocity, width, height;
     private int posX, posY, selectedFrame;
     public AbstractCanvasFacade enemyCanvas;
+    public EnemyStatus status;
 
     public Enemy(
             int width, int height, int posX, int posY, int velocity,
-            AbstractCanvasFacade enemyCanvas
+            int maxHealth, int damage, AbstractCanvasFacade enemyCanvas
         ) {
         this.id = UUID.randomUUID();
         this.width = width;
@@ -23,6 +26,7 @@ public class Enemy implements Body2D {
         this.velocity = velocity;
         this.enemyCanvas = enemyCanvas;
         this.selectedFrame = 0;
+        this.status = new EnemyStatus(maxHealth, damage);
     }
 
     public void update(float playerPosX) {
@@ -40,6 +44,19 @@ public class Enemy implements Body2D {
                 this.posY,
                 this.width,
                 this.height
+        );
+        //renderHealthBar();
+    }
+
+    public void renderHealthBar(Camera camera) {
+        float healthPercentage = (float) status.currentHealth / status.maxHealth;
+
+        enemyCanvas.drawShape(
+                healthPercentage < 0.5f ? Color.RED : Color.GREEN,
+                posX + 10 - camera.getPosX(),
+                this.posY + this.height + 10 - camera.getPosY(),
+                healthPercentage * 64,
+                5
         );
     }
 

@@ -65,7 +65,8 @@ public class MAD extends ApplicationAdapter {
 		Array<Body2D> body2DList = new Array<>();
 		body2DList.add(player);
 
-		for (Enemy enemy : enemyManager.getEnemies()) {
+		for (int i = 0; i < enemyManager.getEnemies().size; i++) {
+			Enemy enemy = enemyManager.getEnemies().get(i);
 			body2DList.add(enemy);
 		}
 

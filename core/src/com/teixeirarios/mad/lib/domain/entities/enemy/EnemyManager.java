@@ -90,11 +90,11 @@ public class EnemyManager {
         Vector2 playerPosition = new Vector2(player.getPosX(), player.getPosY());
         movimentationStrategy.updateEnemiesMovement(enemies, playerPosition);
 
-        for (Enemy enemy : enemies) {
+        for (int i = enemies.size - 1; i >= 0; i--) {
+            Enemy enemy = enemies.get(i);
             enemy.update(player.posX);
 
             if (CollisionStrategy.isColliding(enemy, player, 10, 0)) {
-                System.out.println("Colisão com o inimigo");
                 eventManager.emit("enemy:collision", 1);
             }
         }
@@ -118,7 +118,8 @@ public class EnemyManager {
             // Verificar se a nova posição está ocupada por outro inimigo
             boolean positionOccupied = false;
 
-            for (Enemy enemy : enemies) {
+            for (int i = 0; i < enemies.size; i++) {
+                Enemy enemy = enemies.get(i);
                 if (Math.abs(posX - enemy.getPosX()) < safetyMargin && Math.abs(posY - enemy.getPosY()) < safetyMargin) {
                     positionOccupied = true;
                     break;
@@ -139,9 +140,6 @@ public class EnemyManager {
         eventManager.on("skill:damage", args -> {
             Enemy enemy = (Enemy) args[0];
             int damage = (int) args[1];
-
-            System.out.println("enemy: " + enemy);
-            System.out.println("damage: " + damage);
 
             removeEnemy(enemy);
 

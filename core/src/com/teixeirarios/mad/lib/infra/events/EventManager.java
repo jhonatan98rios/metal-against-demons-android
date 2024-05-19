@@ -31,7 +31,8 @@ public class EventManager {
     public void emit(String event, Object... args) {
         List<EventListener> callbacks = listeners.get(event);
         if (callbacks != null) {
-            for (EventListener listener : callbacks) {
+            for (int i = 0; i < callbacks.size(); i++) {
+                EventListener listener = callbacks.get(i);
                 listener.handle(args);
             }
         }

@@ -42,7 +42,8 @@ public class MovimentationStrategy {
         boolean collisionX = false;
         boolean collisionY = false;
 
-        for (Enemy otherEnemy : enemies) {
+        for (int i = 0; i < enemies.size; i++) {
+            Enemy otherEnemy = enemies.get(i);
             if (otherEnemy != enemy) {
                 if (Math.abs(nextPosition.x - otherEnemy.getPosX()) < safetyMargin && Math.abs(enemy.getPosY() - otherEnemy.getPosY()) < safetyMargin) {
                     collisionX = true;

@@ -11,6 +11,7 @@ import com.teixeirarios.mad.lib.infra.events.EventManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -20,13 +21,8 @@ public class SoundAttackManagerBase implements AbstractSkillManager {
     static String category;
     Boolean isActive;
     String name;
-    int width;
-    int height;
-    int speed;
-    int damage;
+    int width, height, speed, damage, interval, lifeTime;
     Texture spritesheet;
-    int interval;
-    int lifeTime;
     ArrayList<SoundAttackUnit> activeSkills;
     GameStatus gameStatus;
 
@@ -35,14 +31,14 @@ public class SoundAttackManagerBase implements AbstractSkillManager {
     public SoundAttackManagerBase() {
         this.isActive = true;
         this.name = "Basic Sound Attack";
-        this.category = "Sound Attack";
+        category = "Sound Attack";
         this.width = 26;
         this.height = 26;
         this.speed = 3;
         this.damage = 10;
         this.spritesheet = null;
-        this.interval = 500;
-        this.lifeTime = 1000;
+        this.interval = 1000;
+        this.lifeTime = 60 * 5;
         this.activeSkills = new ArrayList<>();
         this.gameStatus = GameStatus.getInstance();
         this.eventManager = EventManager.getInstance();
@@ -54,12 +50,9 @@ public class SoundAttackManagerBase implements AbstractSkillManager {
     }
 
     public void intervaledSpawn(Player player, EnemyManager enemyManager) {
-
         if (this.isActive) {
-
             if (this.gameStatus.isPlaying()) {
                 this.spawn(player, enemyManager);
-                System.out.println("Spawn");
             }
 
             new Timer().schedule(new TimerTask() {
@@ -72,7 +65,7 @@ public class SoundAttackManagerBase implements AbstractSkillManager {
     }
 
     public void spawn(Player player, EnemyManager enemyManager) {
-        return;
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
@@ -118,13 +111,19 @@ public class SoundAttackManagerBase implements AbstractSkillManager {
     }
 
     public void checkLifeTime() {
-        Iterator<SoundAttackUnit> iterator = activeSkills.iterator();
-        while (iterator.hasNext()) {
-            SoundAttackUnit skill = iterator.next();
-            if (skill.lifeTime <= 0) {
-                iterator.remove();
+        List<SoundAttackUnit> toRemove = new ArrayList<>();
+
+        // Atualize a vida útil dos objetos
+        for (int i = 0; i < this.activeSkills.size(); i++) {
+            SoundAttackUnit skill = this.activeSkills.get(i);
+            skill.updateLifeTime();
+            if (skill.getLifeTime() <= 0) {
+                toRemove.add(skill);
             }
         }
+
+        // Remova os objetos cuja vida útil chegou a zero
+        activeSkills.removeAll(toRemove);
     }
 
     public void remove(UUID id) {

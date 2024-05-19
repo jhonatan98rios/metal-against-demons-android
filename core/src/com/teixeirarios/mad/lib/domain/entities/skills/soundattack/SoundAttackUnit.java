@@ -138,4 +138,8 @@ public class SoundAttackUnit implements AbstractSkill {
     public void spawn(Player player, EnemyManager enemyManager) {
         throw new RuntimeException("Not implemented");
     }
+
+    public int getLifeTime() {
+        return lifeTime;
+    }
 }

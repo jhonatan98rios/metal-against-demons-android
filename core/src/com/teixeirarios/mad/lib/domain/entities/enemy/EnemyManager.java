@@ -161,4 +161,11 @@ public class EnemyManager {
         return enemies;
     }
 
+    public void dispose() {
+        for (int i=0; i < enemies.size; i++) {
+               Enemy enemy = enemies.get(i);
+               if (enemy == null) return;
+               enemy.enemyCanvas.dispose();
+        }
+    }
 }

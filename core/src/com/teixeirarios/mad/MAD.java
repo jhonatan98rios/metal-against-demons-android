@@ -20,6 +20,7 @@ import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.canvas.RenderStack;
 import com.teixeirarios.mad.lib.infra.input.ControllerFactory;
 import com.teixeirarios.mad.lib.infra.input.VirtualJoystick;
+import com.teixeirarios.mad.lib.infra.sound.BackgroundSound;
 
 
 public class MAD extends ApplicationAdapter {
@@ -48,6 +49,8 @@ public class MAD extends ApplicationAdapter {
 		gameStatus = GameStatusFactory.create(batch, camera);
 
 		skillManager = SkillManagerFactory.create(player, batch);
+		BackgroundSound.init();
+		BackgroundSound.play();
 	}
 
 	@Override
@@ -76,15 +79,18 @@ public class MAD extends ApplicationAdapter {
 		gameStatus.renderPauseButton();
 
 		batch.end();
+
+		RenderStack.renderHealthBar(body2DList, camera);
+
 		stage.act();
 		stage.draw();
-
-		//player.renderHealthBar(camera);
-		RenderStack.renderHealthBar(body2DList, camera);
 	}
 	
 	@Override
 	public void dispose () {
 		batch.dispose();
+		BackgroundSound.dispose();
+		player.playerCanvas.dispose();
+		enemyManager.dispose();
 	}
 }

@@ -60,5 +60,13 @@ public class GameStatus {
         eventManager.on("player:die", args -> {
             setStatus(GameStatusOptions.STOPPED);
         });
+
+        eventManager.on("status:pause", args -> {
+            setStatus(GameStatusOptions.PAUSED);
+        });
+
+        eventManager.on("status:play", args -> {
+            setStatus(GameStatusOptions.PLAYING);
+        });
     }
 }

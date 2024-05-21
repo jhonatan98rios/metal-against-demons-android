@@ -25,7 +25,7 @@ public class PlayerStatus {
     }
 
     public void takeDamage(int damage) {
-        this.currentHealth -= damage;
+        //this.currentHealth -= damage;
 
         if (this.currentHealth <= 0) {
             die();

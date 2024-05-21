@@ -18,6 +18,7 @@ import com.teixeirarios.mad.lib.domain.entities.skills.SkillManager;
 import com.teixeirarios.mad.lib.domain.entities.skills.SkillManagerFactory;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.canvas.RenderStack;
+import com.teixeirarios.mad.lib.infra.canvas.UserInterface;
 import com.teixeirarios.mad.lib.infra.input.ControllerFactory;
 import com.teixeirarios.mad.lib.infra.input.VirtualJoystick;
 import com.teixeirarios.mad.lib.infra.sound.BackgroundSound;
@@ -32,6 +33,8 @@ public class MAD extends ApplicationAdapter {
 	VirtualJoystick joystick;
 	Camera camera;
 	GameStatus gameStatus;
+
+	UserInterface userInterface;
 	SkillManager skillManager;
 
 	
@@ -47,18 +50,21 @@ public class MAD extends ApplicationAdapter {
 		camera = Camera.getInstance(batch, player);
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
 		gameStatus = GameStatusFactory.create(batch, camera);
+		userInterface = new UserInterface(stage, gameStatus);
 
 		skillManager = SkillManagerFactory.create(player, batch);
 		BackgroundSound.init();
-		BackgroundSound.play();
+		//BackgroundSound.play();
+
+		userInterface.drawPauseAndPlay();
 	}
 
 	@Override
 	public void render () {
+
 		if (!gameStatus.isPlaying()) return;
 
 		ScreenUtils.clear(0, 0, 0, 1);
-
 		batch.begin();
 		scenario.drawBackground();
 		player.update();
@@ -76,10 +82,9 @@ public class MAD extends ApplicationAdapter {
 		RenderStack.render(body2DList);
 
 		skillManager.update(enemyManager);
-		gameStatus.renderPauseButton();
+		//gameStatus.renderPauseButton();
 
 		batch.end();
-
 		RenderStack.renderHealthBar(body2DList, camera);
 
 		stage.act();

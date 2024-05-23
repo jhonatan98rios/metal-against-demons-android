@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class EventManager {
 
-    private Map<String, List<EventListener>> listeners = new HashMap<>();
+    private final Map<String, List<EventListener>> listeners = new HashMap<>();
     private static EventManager instance;
 
     private EventManager() {}

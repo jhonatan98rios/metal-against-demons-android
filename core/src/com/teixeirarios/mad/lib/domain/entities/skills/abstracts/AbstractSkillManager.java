@@ -10,6 +10,5 @@ public interface AbstractSkillManager {
     void update(EnemyManager enemyManager);
     AbstractSkillManager upgrade();
     void stop();
-
     String getCategory();
 }

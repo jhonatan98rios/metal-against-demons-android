@@ -88,8 +88,9 @@ public class SoundAttackUnit implements AbstractSkill {
         // Refatorar essa caralha
         Texture texture = new Texture(this.spritesheet);
         TextureRegion region = new TextureRegion(texture, srcX, srcY, width, height);
-        batch.draw(region, posX, posY, width*2, height*2);
-
+        if (batch.isDrawing()) {
+            batch.draw(region, posX, posY, width*2, height*2);
+        }
 
         //skillCanvas.drawImage(this.posX, this.posY, this.width, this.height, this.srcX, this.srcY, this.width, this.height);
 

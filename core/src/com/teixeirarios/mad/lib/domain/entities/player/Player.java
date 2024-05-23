@@ -28,7 +28,7 @@ public class Player implements Body2D {
     }
 
     public void update() {
-        moveTouch();
+        move();
         playerCanvas.animate();
     }
 
@@ -56,7 +56,7 @@ public class Player implements Body2D {
         return sprite;
     }
 
-    public void moveTouch() {
+    public void move() {
         if(playerController.getAnalogX() > 0) {
             posDirection = 'R';
         } else if(playerController.getAnalogX() < 0) {
@@ -78,6 +78,10 @@ public class Player implements Body2D {
 
         posY = nextPosY;
         posX = nextPosX;
+    }
+
+    public void dispose() {
+        playerCanvas.dispose();
     }
 
     @Override

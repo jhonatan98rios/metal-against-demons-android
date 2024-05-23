@@ -29,5 +29,9 @@ public class Scenario {
     public void drawBackground() {
         tiledBackground.draw(batch, scenarioX, scenarioY, scenarioWidth, scenarioHeight);
     }
+
+    public void dispose() {
+        backgroundTexture.dispose();
+    }
 }
 

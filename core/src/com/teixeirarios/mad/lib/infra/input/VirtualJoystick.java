@@ -2,7 +2,6 @@ package com.teixeirarios.mad.lib.infra.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -82,10 +81,15 @@ public class VirtualJoystick {
         });
     }
 
+    public void dispose() {
+        touchpad.remove();
+    }
+
     public float getKnobX() {
         return touchpad.getKnobPercentX();
     }
     public float getKnobY() {
         return touchpad.getKnobPercentY();
     }
+
 }

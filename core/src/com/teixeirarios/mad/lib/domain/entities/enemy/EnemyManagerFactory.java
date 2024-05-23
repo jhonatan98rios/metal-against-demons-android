@@ -10,12 +10,12 @@ import com.teixeirarios.mad.lib.utils.Constants;
 public class EnemyManagerFactory {
     public static EnemyManager create (SpriteBatch batch, Player player, Camera camera) {
 
-        MovimentationStrategy movimentationStrategy = new MovimentationStrategy(72);
+        MovimentationStrategy movimentationStrategy = new MovimentationStrategy(32);
         SpawnStrategy spawnStrategy = new SpawnStrategy();
         EventManager eventManager = EventManager.getInstance();
 
         return EnemyManager.getInstance(
-            batch, player, camera, 30, Constants.MAX_ENEMIES,
+            batch, player, camera, 10, Constants.MAX_ENEMIES,
             movimentationStrategy, spawnStrategy, eventManager
         );
     }

@@ -1,5 +1,6 @@
 package com.teixeirarios.mad.lib.domain.entities.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
@@ -63,11 +64,29 @@ public class Player implements Body2D {
 
         playerCanvas.drawShape(
             healthPercentage < 0.5f ? Color.RED : Color.GREEN,
-            posX + 10 - camera.getPosX(),
-            this.posY + this.height + 10 - camera.getPosY(),
-            healthPercentage * 64,
-            5
+            24,
+            Gdx.graphics.getHeight() - 80,
+            healthPercentage * 128,
+            16
         );
+
+        renderXpBar();
+    }
+
+    public void renderXpBar() {
+        float xpPercentage = playerStatus.currentXP / playerStatus.nextLevelXp;
+
+        playerCanvas.drawShape(
+                xpPercentage < 0.5f ? Color.SKY : Color.CYAN,
+                24,
+                Gdx.graphics.getHeight() - 100,
+                xpPercentage * 128,
+                16
+        );
+    }
+
+    public void renderLevel() {
+
     }
 
     public float getSprite() {

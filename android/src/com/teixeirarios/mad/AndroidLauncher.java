@@ -1,5 +1,8 @@
 package com.teixeirarios.mad;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -32,6 +35,18 @@ public class AndroidLauncher extends AndroidApplication implements Navigator {
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 		finish();
+	}
+
+	@Override
+	public void restartApp() {
+		Intent intent = new Intent(getApplicationContext(), AndroidLauncher.class);
+		int pendingIntentId = 123456;
+		PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), pendingIntentId, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent);
+
+		System.exit(0);
 	}
 
 	@Override

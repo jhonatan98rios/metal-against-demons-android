@@ -5,6 +5,7 @@ import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
+import com.teixeirarios.mad.lib.utils.Intersection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +53,23 @@ public class OrbManager {
                 return Double.compare(distanceToA, distanceToB);
             }
         });
+    }
+
+    public void checkOrbsCollection(Player p) {
+
+        if (orbs.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i <= orbs.size()-1; i++) {
+            Orb orb = orbs.get(i);
+
+            if (Intersection.check(orb, p)) {
+                System.out.println("Player and orb collided!");
+                p.playerStatus.takeXp(orb.value);
+                remove(orb.id);
+            }
+        }
     }
 
     public void remove(UUID id) {

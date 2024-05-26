@@ -3,7 +3,8 @@ package com.teixeirarios.mad.lib.domain.entities.player;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 
 public class PlayerStatus {
-    public int level, maxHealth, currentHealth, currentXP, nextLevelXp, totalXP;
+    public int level;
+    public float maxHealth, currentHealth, totalXP, nextLevelXp, currentXP;
     private final EventManager eventManager;
 
     public PlayerStatus() {
@@ -39,8 +40,8 @@ public class PlayerStatus {
 //        }, 1000)
     }
 
-    public void takeXp(int xp) {
-        int updateCurrentXP = this.currentXP + xp;
+    public void takeXp(float xp) {
+        float updateCurrentXP = this.currentXP + xp;
 
         if (updateCurrentXP >= this.nextLevelXp) {
             this.levelup(this.nextLevelXp - updateCurrentXP);
@@ -51,9 +52,9 @@ public class PlayerStatus {
         this.totalXP += xp;
     }
 
-    public void levelup(int remainingXp) {
+    public void levelup(float remainingXp) {
         this.level += 1;
-        this.nextLevelXp += (int) (this.nextLevelXp * 0.2);
+        this.nextLevelXp = (float) (this.nextLevelXp * 1.2);
         this.currentXP = remainingXp;
         this.maxHealth += 1;
         this.currentHealth += 1;

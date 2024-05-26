@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,7 +26,6 @@ public class UserInterface {
     private ImageButton pauseButton;
     private Group menuModal;
     private Navigator navigator;
-
     private EventManager eventManager;
 
     public UserInterface(Stage stage, GameStatus gameStatus, Navigator navigator) {
@@ -58,12 +58,13 @@ public class UserInterface {
         if (pauseButton != null) pauseButton.remove();
         if (!gameStatus.isPlaying()) return;
 
-        pauseButton = drawButton("ui/pause.png", 32, Gdx.graphics.getHeight() - 80, 48, 48, new Runnable() {
-            @Override
-            public void run() {
-                eventManager.emit("status:pause");
-            }
-        });
+        String url = "ui/pause.png";
+        float posX = Gdx.graphics.getWidth() - 80;
+        float posY = Gdx.graphics.getHeight() - 80;
+        float width = 48;
+        float height = 48;
+
+        pauseButton = drawButton(url, posX, posY, width, height, () -> eventManager.emit("status:pause"));
     }
 
     public void showMenuModal() {
@@ -108,22 +109,33 @@ public class UserInterface {
     }
 
     public ImageButton drawExitButton() {
-        return drawButton("ui/back.png", (menuModal.getWidth() - 300) / 2, (menuModal.getHeight() / 3), 300, 36, new Runnable() {
-            @Override
-            public void run() {
-                navigator.navigateToMenu();
-            }
+        String url = "ui/back.png";
+        float posX = (menuModal.getWidth() - 300) / 2;
+        float posY = (menuModal.getHeight() / 3);
+        float width = 300;
+        float height = 36;
+        return drawButton(url, posX, posY , width, height, () -> {
+            navigator.navigateToMenu();
         });
     }
 
     public ImageButton drawContinueButton(Group menuModal) {
-        return drawButton("ui/continue.png", (menuModal.getWidth() - 300) / 2, (menuModal.getHeight() / 2), 300, 36, new Runnable() {
-            @Override
-            public void run() {
-                menuModal.remove();
-                EventManager.getInstance().emit("status:play");
-            }
+        String url = "ui/continue.png";
+        float posX = (menuModal.getWidth() - 300) / 2;
+        float posY = (menuModal.getHeight() / 3) * 1.5f;
+        float width = 300;
+        float height = 36;
+
+        return drawButton(url, posX, posY, width, height, () -> {
+            menuModal.remove();
+            EventManager.getInstance().emit("status:play");
         });
+    }
+
+    public void drawLevel(String content, float posX, float posY, SpriteBatch batch) {
+        BitmapFont font = new BitmapFont();
+        font.getData().setScale(2.4f);
+        font.draw(batch, content, posX, posY);
     }
 
     public void dispose() {

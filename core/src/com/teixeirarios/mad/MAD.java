@@ -67,6 +67,7 @@ public class MAD extends ApplicationAdapter {
 		//BackgroundSound.play();
 
 		userInterface.drawPauseButton();
+
 	}
 
 	@Override
@@ -90,11 +91,19 @@ public class MAD extends ApplicationAdapter {
 
 			RenderStack.render(body2DList);
 			skillManager.update(enemyManager);
+			userInterface.drawLevel(
+				"Level: " + player.playerStatus.level,
+				24 + camera.getPosX(),
+				Gdx.graphics.getHeight() - 24 + camera.getPosY(),
+				batch
+			);
 
 			if (batch.isDrawing()) {
 				batch.end();
 			}
 			RenderStack.renderHealthBar(body2DList, camera);
+
+			orbManager.checkOrbsCollection(player);
 			orbManager.renderOrbs();
 		}
 

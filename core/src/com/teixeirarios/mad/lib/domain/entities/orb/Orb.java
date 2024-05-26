@@ -1,12 +1,14 @@
 package com.teixeirarios.mad.lib.domain.entities.orb;
 
 import com.badlogic.gdx.graphics.Color;
+import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
+import com.teixeirarios.mad.lib.infra.camera.Camera;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-public class Orb {
+public class Orb implements Body2D {
     UUID id;
     int posX;
     int posY;
@@ -19,8 +21,8 @@ public class Orb {
         this.id = UUID.randomUUID();
         this.posX = posX;
         this.posY = posY;
-        this.width = 5;
-        this.height = 10;
+        this.width = 10;
+        this.height = 20;
         this.value = value;
         this.color = Color.SKY;
 
@@ -58,5 +60,25 @@ public class Orb {
 
     public int getValue() {
         return this.value;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public void render() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void renderHealthBar(Camera camera) {
+        throw new UnsupportedOperationException();
     }
 }

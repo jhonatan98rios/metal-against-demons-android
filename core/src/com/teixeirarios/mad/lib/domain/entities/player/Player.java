@@ -13,8 +13,9 @@ public class Player implements Body2D {
     public float posX, posY;
     public final int width, height, velocity;
     char posDirection;
+    static Player instance;
 
-    public Player(AbstractCanvasFacade playerCanvas, PlayerController playerController, PlayerStatus playerStatus, float posX, float posY) {
+    private Player(AbstractCanvasFacade playerCanvas, PlayerController playerController, PlayerStatus playerStatus, float posX, float posY) {
         this.playerCanvas = playerCanvas;
         this.playerController = playerController;
         this.playerStatus = playerStatus;
@@ -25,6 +26,27 @@ public class Player implements Body2D {
         this.width = 100;
         this.posDirection = 'L';
         this.velocity = 3;
+    }
+
+    public static Player getInstance(AbstractCanvasFacade playerCanvas, PlayerController playerController, PlayerStatus playerStatus, float posX, float posY) {
+        if (Player.instance == null) {
+            Player.instance = new Player(
+                playerCanvas,
+                playerController,
+                playerStatus,
+                posX,
+                posY
+            );
+        }
+        return Player.instance;
+    }
+
+    public static Player getInstance() {
+        if (Player.instance == null) {
+            throw new IllegalStateException("Player not initialized");
+        } else {
+            return Player.instance;
+        }
     }
 
     public void update() {

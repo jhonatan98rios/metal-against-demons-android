@@ -13,6 +13,8 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatusFactory;
+import com.teixeirarios.mad.lib.domain.entities.orb.OrbManager;
+import com.teixeirarios.mad.lib.domain.entities.orb.OrbManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.player.PlayerFactory;
 import com.teixeirarios.mad.lib.domain.entities.scenario.Scenario;
@@ -37,6 +39,7 @@ public class MAD extends ApplicationAdapter {
 	GameStatus gameStatus;
 	UserInterface userInterface;
 	SkillManager skillManager;
+	OrbManager orbManager;
 	Navigator navigator;
 
 	public MAD (Navigator navigator) {
@@ -57,6 +60,7 @@ public class MAD extends ApplicationAdapter {
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
 		gameStatus = GameStatusFactory.create();
 		skillManager = SkillManagerFactory.create(player, batch);
+		orbManager = OrbManagerFactory.create();
 
 		userInterface = new UserInterface(stage, gameStatus, navigator);
 		BackgroundSound.init();
@@ -91,6 +95,7 @@ public class MAD extends ApplicationAdapter {
 				batch.end();
 			}
 			RenderStack.renderHealthBar(body2DList, camera);
+			orbManager.renderOrbs();
 		}
 
 		stage.act(Gdx.graphics.getDeltaTime());

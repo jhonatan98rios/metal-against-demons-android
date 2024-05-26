@@ -154,6 +154,13 @@ public class EnemyManager {
 
     public void removeEnemy(Enemy enemy) {
         enemies.removeValue(enemy, true);
+
+        this.eventManager.emit(
+                "orb:spawn",
+                enemy.getPosX() + (enemy.getWidth() / 2),
+                enemy.getPosY() + (enemy.getHeight() / 2),
+                enemy.status.maxHealth
+        );
     }
 
     // Getters e setters

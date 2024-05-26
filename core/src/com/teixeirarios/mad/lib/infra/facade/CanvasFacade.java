@@ -11,7 +11,7 @@ import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 
 public class CanvasFacade implements AbstractCanvasFacade {
 
-    private final SpriteBatch batch;
+    private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
     private float posX;
     private Texture sprite;
@@ -27,6 +27,10 @@ public class CanvasFacade implements AbstractCanvasFacade {
         this.numFramesX = numFramesX;
         this.frameDuration = frameDuration;
         this.frameWidth = frameWidth;
+        this.shapeRenderer = new ShapeRenderer();
+    }
+
+    public CanvasFacade() {
         this.shapeRenderer = new ShapeRenderer();
     }
 

@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
-import com.teixeirarios.mad.lib.domain.entities.skills.soundattack.SoundAttackManagerBase.CollisionCallback;
+import com.teixeirarios.mad.lib.domain.entities.skills.soundattack.SoundAttackManager.CollisionCallback;
 
 import java.util.UUID;
 

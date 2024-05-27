@@ -54,7 +54,7 @@ public class PlayerStatus {
 
     public void levelup(float remainingXp) {
         this.level += 1;
-        this.nextLevelXp = (float) (this.nextLevelXp * 1.2);
+        this.nextLevelXp = (float) (this.nextLevelXp * 1.5);
         this.currentXP = remainingXp;
         this.maxHealth += 1;
         this.currentHealth += 1;

@@ -5,7 +5,7 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkill;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
-import com.teixeirarios.mad.lib.domain.entities.skills.soundattack.SoundAttackManager1;
+import com.teixeirarios.mad.lib.domain.entities.skills.soundattack.SoundAttackManager;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class SkillManager {
         this.activeSkills = new ArrayList<>();
         this.availableSkills = new ArrayList<>();
         this.availableSkills.add(
-                new SoundAttackManager1(batch)
+                new SoundAttackManager(batch)
         );
     }
 

@@ -9,8 +9,8 @@ public class PlayerStatus {
 
     public PlayerStatus() {
         level = 1;
-        maxHealth = 500;
-        currentHealth = 500;
+        maxHealth = 1000;
+        currentHealth = 1000;
         currentXP = 0;
         nextLevelXp = 20;
         totalXP = 0;
@@ -30,14 +30,7 @@ public class PlayerStatus {
 
         if (this.currentHealth <= 0) {
             die();
-            return;
         }
-
-//        if (!this.vulnerable) return;
-//        this.vulnerable = false;
-//        setTimeout(() => {
-//                this.vulnerable = true
-//        }, 1000)
     }
 
     public void takeXp(float xp) {

@@ -1,45 +1,41 @@
 package com.teixeirarios.mad.lib.domain.entities.skills.forcefield;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
-import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
-import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkill;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class ForceFieldManager implements AbstractSkillManager {
 
     private static String category;
-    private Boolean isActive, isAnimated;
-    private int level, width, height, speed, interval, lifeTime, frame_amount;
+    private int level, width, height, frame_amount;
     private int damage;
     private String spritesheet;
+    private Texture texture;
     private ArrayList<ForceFieldUnit> activeSkills;
-    private GameStatus gameStatus;
     private EventManager eventManager;
     private EnemyManager enemyManager;
     private SpriteBatch batch;
 
     public ForceFieldManager(SpriteBatch batch) {
         category = "Force Field";
-        this.isActive = true;
         this.level = 1;
-        this.width = 152*2;
-        this.height = 152*2;
-        this.speed = 0;
+        this.width = 240;
+        this.height = 240;
         this.damage = 1;
+
         this.spritesheet = "skills/force_field_1.png";
-        this.interval = 100;
+        this.texture = new Texture(this.spritesheet);
 
         this.activeSkills = new ArrayList<>();
-        this.gameStatus = GameStatus.getInstance();
         this.batch = batch;
-        this.isAnimated = true;
         this.frame_amount = 4;
 
         this.enemyManager = EnemyManager.getInstance();
@@ -56,18 +52,13 @@ public class ForceFieldManager implements AbstractSkillManager {
     public void spawn(Player player, EnemyManager enemyManager) {
 
         ForceFieldUnit forceFieldUnit = new ForceFieldUnit(
-            player.getPosX() - (width / 2),
-            player.getPosY() + (height / 2),
-            player.getPosX() - (width / 2),
-            player.getPosY() + (height / 2),
+            player.getPosX() - width,
+            player.getPosY() + height,
             width,
             height,
             damage,
-            speed,
-            isAnimated,
-            spritesheet,
+            texture,
             frame_amount,
-            lifeTime,
             batch
         );
 
@@ -87,13 +78,14 @@ public class ForceFieldManager implements AbstractSkillManager {
 
         if (level <= 5) {
             this.spritesheet = "skills/force_field_" + level + ".png";
+            this.texture = new Texture(this.spritesheet);
         }
 
         HashMap<Integer, int[]> dimensions = new HashMap<>();
-        dimensions.put(2, new int[]{180*2, 180*2});
-        dimensions.put(3, new int[]{200*2, 200*2});
-        dimensions.put(4, new int[]{250*2, 250*2});
-        dimensions.put(5, new int[]{300*2, 300*2});
+        dimensions.put(2, new int[]{320, 320});
+        dimensions.put(3, new int[]{400, 400});
+        dimensions.put(4, new int[]{480, 480});
+        dimensions.put(5, new int[]{560, 560});
 
         if (dimensions.containsKey(level)) {
             int[] size = dimensions.get(level);
@@ -103,11 +95,6 @@ public class ForceFieldManager implements AbstractSkillManager {
 
         activeSkills.clear();
         startSpawn(Player.getInstance(), enemyManager);
-    }
-
-    @Override
-    public void stop() {
-        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -133,11 +120,7 @@ public class ForceFieldManager implements AbstractSkillManager {
         }
     }
 
-    public interface CollisionCallback {
-        void collision(AbstractSkill skill, Enemy enemy);
-    }
-
-    private void collision(AbstractSkill skill, Enemy enemy) {
+    private void collision(UUID id, Enemy enemy) {
         this.eventManager.emit("skill:damage", enemy, this.damage);
     }
 

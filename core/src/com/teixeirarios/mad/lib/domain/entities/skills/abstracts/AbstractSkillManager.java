@@ -9,6 +9,5 @@ public interface AbstractSkillManager {
     void spawn(Player player, EnemyManager enemyManager);
     void update(EnemyManager enemyManager);
     void upgrade();
-    void stop();
     String getCategory();
 }

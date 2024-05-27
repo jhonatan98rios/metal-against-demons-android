@@ -60,7 +60,7 @@ public class Player implements Body2D {
     }
 
     public void renderHealthBar(Camera camera) {
-        float healthPercentage = (float) playerStatus.currentHealth / playerStatus.maxHealth;
+        float healthPercentage = playerStatus.currentHealth / playerStatus.maxHealth;
 
         playerCanvas.drawShape(
             healthPercentage < 0.5f ? Color.RED : Color.GREEN,
@@ -83,10 +83,6 @@ public class Player implements Body2D {
             xpPercentage * 128,
             16
         );
-    }
-
-    public void renderLevel() {
-
     }
 
     public float getSprite() {

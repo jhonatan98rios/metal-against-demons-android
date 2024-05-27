@@ -9,7 +9,7 @@ public class SkillManagerFactory {
     public static SkillManager create(Player player, SpriteBatch batch) {
         SkillManager skillManager = SkillManager.getInstance(batch);
         EnemyManager enemyManager = EnemyManager.getInstance();
-        skillManager.startSpawn(player, enemyManager, null);
+        skillManager.startSpawn(player, enemyManager);
         return skillManager;
     }
 }

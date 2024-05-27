@@ -1,12 +1,12 @@
 package com.teixeirarios.mad.lib.domain.entities.skills.soundattack;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
-import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkill;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.utils.ListUtils;
@@ -22,30 +22,33 @@ import java.util.UUID;
 public class SoundAttackManager implements AbstractSkillManager {
 
     private static String category;
-    private Boolean isActive, isAnimated;
-    private int level, width, height, speed, damage, interval, lifeTime, frame_amount;
+    private final int lifeTime, frame_amount, speed;
+    private final ArrayList<SoundAttackUnit> activeSkills;
+    private final GameStatus gameStatus;
+    private final EventManager eventManager;
+    private final EnemyManager enemyManager;
+    private final SpriteBatch batch;
+    private int level, width, height, damage, interval, range;
     private String spritesheet;
-    private ArrayList<SoundAttackUnit> activeSkills;
-    private GameStatus gameStatus;
-    private EventManager eventManager;
-    private EnemyManager enemyManager;
-    private SpriteBatch batch;
+    private Texture texture;
 
     public SoundAttackManager(SpriteBatch batch) {
         category = "Sound Attack";
-        this.isActive = true;
         this.level = 1;
         this.width = 26;
         this.height = 26;
         this.speed = 3;
-        this.damage = 20;
+        this.damage = 100;
+        this.range = 500;
+
         this.spritesheet = "skills/sound_attack_1.png";
+        this.texture = new Texture(this.spritesheet);
+
         this.interval = 1000;
         this.lifeTime = 60 * 5;
         this.activeSkills = new ArrayList<>();
         this.gameStatus = GameStatus.getInstance();
         this.batch = batch;
-        this.isAnimated = true;
         this.frame_amount = 4;
 
         this.enemyManager = EnemyManager.getInstance();
@@ -59,18 +62,16 @@ public class SoundAttackManager implements AbstractSkillManager {
     }
 
     private void intervaledSpawn(Player player, EnemyManager enemyManager) {
-        if (this.isActive) {
-            if (this.gameStatus.isPlaying()) {
-                this.spawn(player, enemyManager);
-            }
-
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    intervaledSpawn(player, enemyManager);
-                }
-            }, this.interval);
+        if (this.gameStatus.isPlaying()) {
+            this.spawn(player, enemyManager);
         }
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                intervaledSpawn(player, enemyManager);
+            }
+        }, this.interval);
     }
 
     @Override
@@ -91,8 +92,7 @@ public class SoundAttackManager implements AbstractSkillManager {
                     height,
                     damage,
                     speed,
-                    isAnimated,
-                    spritesheet,
+                    texture,
                     frame_amount,
                     lifeTime,
                     batch
@@ -104,10 +104,10 @@ public class SoundAttackManager implements AbstractSkillManager {
 
     private Array<Enemy> getNearbyEnemies(Player player, EnemyManager enemyManager) {
         SoundAttackManager.RangeArea rangeArea = new SoundAttackManager.RangeArea(
-                player.getPosX() - 500,
-                player.getPosY() - 500,
-                player.getPosX() + 500,
-                player.getPosY() + 500
+                player.getPosX() - range,
+                player.getPosY() - range,
+                player.getPosX() + range,
+                player.getPosY() + range
         );
 
         Array<Enemy> nearbyEnemies = new Array<>();
@@ -183,12 +183,8 @@ public class SoundAttackManager implements AbstractSkillManager {
         }
     }
 
-    public interface CollisionCallback {
-        void collision(AbstractSkill skill, Enemy enemy);
-    }
-
-    private void collision(AbstractSkill skill, Enemy enemy) {
-        this.remove(skill.getId());
+    private void collision(UUID id, Enemy enemy) {
+        this.remove(id);
         this.eventManager.emit("skill:damage", enemy, this.damage);
     }
 
@@ -217,22 +213,20 @@ public class SoundAttackManager implements AbstractSkillManager {
         }
     }
 
-    public void stop() {
-        this.isActive = false;
-    }
-
     @Override
     public void upgrade() {
-        damage += 10;
+        damage += 50;
         interval -= 50;
         level += 1;
+        range += 100;
 
         if (level <= 5) {
             this.spritesheet = "skills/sound_attack_" + level + ".png";
+            this.texture = new Texture(this.spritesheet);
         }
 
         HashMap<Integer, int[]> dimensions = new HashMap<>();
-        dimensions.put(2, new int[]{35, 35});
+        dimensions.put(2, new int[]{34, 35});
         dimensions.put(3, new int[]{47, 47});
         dimensions.put(4, new int[]{47, 47});
         dimensions.put(5, new int[]{48, 48});
@@ -247,10 +241,6 @@ public class SoundAttackManager implements AbstractSkillManager {
     @Override
     public String getCategory() {
         return category;
-    }
-
-    public ArrayList<SoundAttackUnit> getActiveSkills() {
-        return activeSkills;
     }
 
     public void addActiveSkills(SoundAttackUnit activeSkill) {

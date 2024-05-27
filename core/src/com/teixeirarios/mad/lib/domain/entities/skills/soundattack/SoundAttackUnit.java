@@ -8,20 +8,19 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkill;
-import com.teixeirarios.mad.lib.domain.entities.skills.soundattack.SoundAttackManager.CollisionCallback;
 
 import java.util.UUID;
 
 public class SoundAttackUnit implements AbstractSkill {
-    public UUID id;
-    public int width, height, initialX, initialY, targetX, targetY, posX, posY, srcX, srcY, countAnim, frame_amount, speed, damage, lifeTime;
-    public Boolean isAnimated;
-    public String spritesheet;
+    private final UUID id;
+    private final int width, height, initialX, initialY, targetX, targetY,  frame_amount, speed, srcY, damage;
+    private int posX, posY, srcX, countAnim, lifeTime;
+    private Texture texture;
     private SpriteBatch batch;
 
     public SoundAttackUnit(
-            int initialX, int initialY, int targetX, int targetY, int width, int height, int damage, int speed, Boolean isAnimated,
-            String spritesheet, int frame_amount, int lifeTime, SpriteBatch batch
+            int initialX, int initialY, int targetX, int targetY, int width, int height, int damage, int speed,
+            Texture texture, int frame_amount, int lifeTime, SpriteBatch batch
     ) {
 
         this.id = UUID.randomUUID();
@@ -42,9 +41,8 @@ public class SoundAttackUnit implements AbstractSkill {
         this.countAnim = 0;
         this.frame_amount = frame_amount;
 
-        this.isAnimated = isAnimated;
         this.lifeTime = lifeTime;
-        this.spritesheet = spritesheet;
+        this.texture = texture;
         this.batch = batch;
     }
 
@@ -68,17 +66,13 @@ public class SoundAttackUnit implements AbstractSkill {
         this.posY = (int) newPosY;
 
         // Refatorar essa caralha
-        Texture texture = new Texture(this.spritesheet);
         TextureRegion region = new TextureRegion(texture, srcX, srcY, width, height);
         if (batch.isDrawing()) {
             batch.draw(region, posX, posY, width*2, height*2);
         }
 
         //skillCanvas.drawImage(this.posX, this.posY, this.width, this.height, this.srcX, this.srcY, this.width, this.height);
-
-        if (this.isAnimated) {
-            this.spriteAnimation();
-        }
+        this.spriteAnimation();
     }
 
     public void updateLifeTime() {
@@ -93,7 +87,7 @@ public class SoundAttackUnit implements AbstractSkill {
                     (this.posX + this.width >= enemy.getPosX()) &&
                     (this.posY <= enemy.getPosY() + enemy.getHeight()) &&
                     (this.posY + this.height >= enemy.getPosY())) {
-                callback.collision(this, enemy);
+                callback.collision(this.getId(), enemy);
             }
         }
     }
@@ -101,7 +95,7 @@ public class SoundAttackUnit implements AbstractSkill {
     public void spriteAnimation() {
         int ANIMATION_SPEED = 3;
         int TIME_TO_RESTART = 60 / ANIMATION_SPEED;
-        int SELECTED_FRAME = (int) Math.floor(this.countAnim / (TIME_TO_RESTART / this.frame_amount));
+        int SELECTED_FRAME = (int) Math.floor((float) this.countAnim / ((float) TIME_TO_RESTART / this.frame_amount));
 
         this.countAnim++;
 

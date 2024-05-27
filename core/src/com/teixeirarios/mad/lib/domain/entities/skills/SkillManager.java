@@ -9,7 +9,6 @@ import com.teixeirarios.mad.lib.domain.entities.skills.forcefield.ForceFieldMana
 import com.teixeirarios.mad.lib.domain.entities.skills.soundattack.SoundAttackManager;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class SkillManager {
     private static SkillManager instance;
@@ -30,12 +29,9 @@ public class SkillManager {
         return SkillManager.instance;
     }
 
-    public void startSpawn(Player player, EnemyManager enemyService, Optional<String> category) {
+    public void startSpawn(Player player, EnemyManager enemyService) {
         for (int i = 0; i < availableSkills.size(); i++) {
             AbstractSkillManager availableSkill = availableSkills.get(i);
-//            if (category != null && !availableSkill.getCategory().equals(category)) {
-//                continue;
-//            }
             availableSkill.startSpawn(player, enemyService);
             System.out.println(availableSkill.getCategory() + " started");
         }

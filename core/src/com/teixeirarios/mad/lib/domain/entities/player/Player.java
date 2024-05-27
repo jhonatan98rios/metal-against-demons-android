@@ -77,11 +77,11 @@ public class Player implements Body2D {
         float xpPercentage = playerStatus.currentXP / playerStatus.nextLevelXp;
 
         playerCanvas.drawShape(
-                xpPercentage < 0.5f ? Color.SKY : Color.CYAN,
-                24,
-                Gdx.graphics.getHeight() - 100,
-                xpPercentage * 128,
-                16
+            xpPercentage < 0.5f ? Color.SKY : Color.CYAN,
+            24,
+            Gdx.graphics.getHeight() - 100,
+            xpPercentage * 128,
+            16
         );
     }
 

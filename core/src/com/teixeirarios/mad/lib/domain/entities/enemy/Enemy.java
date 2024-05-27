@@ -49,6 +49,8 @@ public class Enemy implements Body2D {
     }
 
     public void renderHealthBar(Camera camera) {
+        if (status.currentHealth <= 0) {return;}
+
         float healthPercentage = (float) status.currentHealth / status.maxHealth;
 
         enemyCanvas.drawShape(

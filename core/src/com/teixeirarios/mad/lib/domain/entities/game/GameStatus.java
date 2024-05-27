@@ -40,9 +40,17 @@ public class GameStatus {
         return status == GameStatusOptions.STOPPED;
     }
 
+    public boolean isLevelUp() {
+        return status == GameStatusOptions.LEVELUP;
+    }
+
     private void addEventListeners() {
         eventManager.on("player:die", args -> {
             setStatus(GameStatusOptions.STOPPED);
+        });
+
+        eventManager.on("player:levelup", args -> {
+            setStatus(GameStatusOptions.LEVELUP);
         });
 
         eventManager.on("status:pause", args -> {

@@ -42,6 +42,7 @@ public class SoundAttackManagerBase implements AbstractSkillManager {
         this.activeSkills = new ArrayList<>();
         this.gameStatus = GameStatus.getInstance();
         this.eventManager = EventManager.getInstance();
+        addEventListeners();
     }
 
     @Override
@@ -136,18 +137,23 @@ public class SoundAttackManagerBase implements AbstractSkillManager {
         }
     }
 
-    @Override
     public void stop() {
         this.isActive = false;
     }
 
-    @Override
-    public AbstractSkillManager upgrade() {
-        throw new RuntimeException("Not implemented");
+    public void upgrade() {
+        damage += 1;
+        interval -= 50;
     }
 
     @Override
     public String getCategory() {
         return category;
+    }
+
+    private void addEventListeners() {
+        eventManager.on("player:levelup:sound", args -> {
+            upgrade();
+        });
     }
 }

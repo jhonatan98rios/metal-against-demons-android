@@ -15,7 +15,6 @@ public class SkillManager {
     public ArrayList<AbstractSkill> activeSkills;
     public ArrayList<AbstractSkillManager> availableSkills;
 
-
     private SkillManager(SpriteBatch batch) {
         this.activeSkills = new ArrayList<>();
         this.availableSkills = new ArrayList<>();

@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
-import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
 import com.teixeirarios.mad.lib.utils.ListUtils;
 
 public class SoundAttackManager1 extends SoundAttackManagerBase {
@@ -32,14 +31,6 @@ public class SoundAttackManager1 extends SoundAttackManagerBase {
         this.interval = 1000;
         this.lifeTime = 60 * 5; //frames * sec
         this.batch = batch;
-    }
-
-    @Override
-    public AbstractSkillManager upgrade() {
-        SoundAttackManager1 skill = new SoundAttackManager1(batch);
-        skill.damage += 1;
-        skill.interval -= 50;
-        return skill;
     }
 
     public void spawn(Player player, EnemyManager enemyManager) {
@@ -89,15 +80,6 @@ public class SoundAttackManager1 extends SoundAttackManagerBase {
 
         if (enemies.size > 1) {
             sortEnemiesByDistance(enemies, player);
-
-//            enemies.sort(new Comparator<Enemy>() {
-//                @Override
-//                public int compare(Enemy e1, Enemy e2) {
-//                    double distanceToE1 = calculateDistance(player, e1);
-//                    double distanceToE2 = calculateDistance(player, e2);
-//                    return Double.compare(distanceToE1, distanceToE2);
-//                }
-//            });
         }
 
         for (int index = 0; index < enemies.size; index++) {

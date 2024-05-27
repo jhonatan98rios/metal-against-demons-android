@@ -77,6 +77,7 @@ public class MAD extends ApplicationAdapter {
 		if (gameStatus.isPlaying()) {
 			batch.begin();
 			scenario.drawBackground();
+
 			player.update();
 			enemyManager.update();
 			camera.update();

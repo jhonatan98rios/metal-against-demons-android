@@ -118,7 +118,7 @@ public class UserInterface {
 
     public void showLevelUpModal() {
         menuModal = new Group();
-        menuModal.setSize(500, 500);
+        menuModal.setSize(500, 300);
         menuModal.setPosition(
             (((float) Constants.SCENARIO_WIDTH / 2) - menuModal.getWidth()) / 2,
             ((((float) Constants.SCENARIO_HEIGHT / 2) - menuModal.getHeight()) / 2) + 50
@@ -127,6 +127,7 @@ public class UserInterface {
         // Background e Title do modal
         setBackgroundModal();
         drawSoundLevelUpButton();
+        drawForcefieldLevelUpButton();
 
         stage.addActor(menuModal);
     }
@@ -134,13 +135,29 @@ public class UserInterface {
     public void drawSoundLevelUpButton() {
         String url = "ui/sound-levelup.png";
         float posX = (menuModal.getWidth() - 300) / 2;
-        float posY = (menuModal.getHeight() / 3) * 1.7f;
+        float posY = (menuModal.getHeight() / 3) * 2f;
         float width = 300;
         float height = 56;
 
         ImageButton btn = drawButton(url, posX, posY, width, height, () -> {
             menuModal.remove();
             eventManager.emit("player:levelup:sound");
+            eventManager.emit("status:play");
+        });
+
+        menuModal.addActor(btn);
+    }
+
+    public void drawForcefieldLevelUpButton() {
+        String url = "ui/forcefield-levelup.png";
+        float posX = (menuModal.getWidth() - 300) / 2;
+        float posY = (menuModal.getHeight() / 3) * 1.2f;
+        float width = 300;
+        float height = 56;
+
+        ImageButton btn = drawButton(url, posX, posY, width, height, () -> {
+            menuModal.remove();
+            eventManager.emit("player:levelup:forcefield");
             eventManager.emit("status:play");
         });
 

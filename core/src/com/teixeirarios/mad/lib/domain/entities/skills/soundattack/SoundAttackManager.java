@@ -23,23 +23,22 @@ public class SoundAttackManager implements AbstractSkillManager {
 
     private static String category;
     private Boolean isActive, isAnimated;
-    private String name;
     private int level, width, height, speed, damage, interval, lifeTime, frame_amount;
     private String spritesheet;
     private ArrayList<SoundAttackUnit> activeSkills;
     private GameStatus gameStatus;
     private EventManager eventManager;
+    private EnemyManager enemyManager;
     private SpriteBatch batch;
 
     public SoundAttackManager(SpriteBatch batch) {
         category = "Sound Attack";
-        this.name = "Basic Sound Attack";
         this.isActive = true;
         this.level = 1;
         this.width = 26;
         this.height = 26;
         this.speed = 3;
-        this.damage = 2;
+        this.damage = 20;
         this.spritesheet = "skills/sound_attack_1.png";
         this.interval = 1000;
         this.lifeTime = 60 * 5;
@@ -49,6 +48,7 @@ public class SoundAttackManager implements AbstractSkillManager {
         this.isAnimated = true;
         this.frame_amount = 4;
 
+        this.enemyManager = EnemyManager.getInstance();
         this.eventManager = EventManager.getInstance();
         addEventListeners();
     }
@@ -154,7 +154,7 @@ public class SoundAttackManager implements AbstractSkillManager {
     public void update(EnemyManager enemyManager) {
         this.move();
         this.updateLifeTime();
-        this.checkSkillsCollision(enemyManager);
+        this.checkSkillsCollision();
         this.checkLifeTime();
     }
 
@@ -172,7 +172,7 @@ public class SoundAttackManager implements AbstractSkillManager {
         }
     }
 
-    private void checkSkillsCollision(EnemyManager enemyManager) {
+    private void checkSkillsCollision() {
         if (this.activeSkills.isEmpty()) return;
         for (int i = 0; i < this.activeSkills.size(); i++) {
             SoundAttackUnit activeSkill = this.activeSkills.get(i);
@@ -223,7 +223,7 @@ public class SoundAttackManager implements AbstractSkillManager {
 
     @Override
     public void upgrade() {
-        damage += 1;
+        damage += 10;
         interval -= 50;
         level += 1;
 
@@ -232,7 +232,7 @@ public class SoundAttackManager implements AbstractSkillManager {
         }
 
         HashMap<Integer, int[]> dimensions = new HashMap<>();
-        dimensions.put(2, new int[]{38, 38});
+        dimensions.put(2, new int[]{35, 35});
         dimensions.put(3, new int[]{47, 47});
         dimensions.put(4, new int[]{47, 47});
         dimensions.put(5, new int[]{48, 48});

@@ -156,10 +156,10 @@ public class EnemyManager {
         enemies.removeValue(enemy, true);
 
         this.eventManager.emit(
-                "orb:spawn",
-                enemy.getPosX() + (enemy.getWidth() / 2),
-                enemy.getPosY() + (enemy.getHeight() / 2),
-                enemy.status.maxHealth
+            "orb:spawn",
+            enemy.getPosX() + (enemy.getWidth() / 2),
+            enemy.getPosY() + (enemy.getHeight() / 2),
+            enemy.status.maxHealth / 50
         );
     }
 

@@ -18,7 +18,7 @@ public class CrawlerFactory {
                 posX,
                 posY,
                 1,
-                15,
+                500,
                 2,
                 enemyCanvas
         );

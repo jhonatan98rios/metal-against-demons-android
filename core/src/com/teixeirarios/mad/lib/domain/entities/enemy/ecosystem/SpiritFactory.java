@@ -15,7 +15,7 @@ public class SpiritFactory {
                 posX,
                 posY,
                 2,
-                5,
+                200,
                 1,
                 enemyCanvas
         );

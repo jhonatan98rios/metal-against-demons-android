@@ -67,7 +67,6 @@ public class MAD extends ApplicationAdapter {
 		//BackgroundSound.play();
 
 		userInterface.drawPauseButton();
-
 	}
 
 	@Override

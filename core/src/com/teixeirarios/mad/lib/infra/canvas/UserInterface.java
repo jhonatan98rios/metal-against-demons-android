@@ -128,6 +128,7 @@ public class UserInterface {
         setBackgroundModal();
         drawSoundLevelUpButton();
         drawForcefieldLevelUpButton();
+        drawVampireLevelUpButton();
 
         stage.addActor(menuModal);
     }
@@ -158,6 +159,22 @@ public class UserInterface {
         ImageButton btn = drawButton(url, posX, posY, width, height, () -> {
             menuModal.remove();
             eventManager.emit("player:levelup:forcefield");
+            eventManager.emit("status:play");
+        });
+
+        menuModal.addActor(btn);
+    }
+
+    public void drawVampireLevelUpButton() {
+        String url = "ui/vampire-levelup.png";
+        float posX = (menuModal.getWidth() - 300) / 2;
+        float posY = (menuModal.getHeight() / 3) * 0.4f;
+        float width = 300;
+        float height = 56;
+
+        ImageButton btn = drawButton(url, posX, posY, width, height, () -> {
+            menuModal.remove();
+            eventManager.emit("player:levelup:vampires");
             eventManager.emit("status:play");
         });
 

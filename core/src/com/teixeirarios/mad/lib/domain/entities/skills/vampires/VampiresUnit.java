@@ -1,4 +1,4 @@
-package com.teixeirarios.mad.lib.domain.entities.skills.soundattack;
+package com.teixeirarios.mad.lib.domain.entities.skills.vampires;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,18 +11,19 @@ import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkill;
 
 import java.util.UUID;
 
-public class SoundAttackUnit implements AbstractSkill {
+public class VampiresUnit implements AbstractSkill {
+
     private final UUID id;
-    private final int width, height, initialX, initialY, targetX, targetY,  frame_amount, speed, srcY, damage;
+    private final int width, height, initialX, initialY, targetX, targetY,  frame_amount, srcY, damage;
     private int posX, posY, srcX, countAnim, lifeTime;
+    private float speed, angle, radius;
     private Texture texture;
     private SpriteBatch batch;
 
-    public SoundAttackUnit(
-            int initialX, int initialY, int targetX, int targetY, int width, int height, int damage, int speed,
+    public VampiresUnit(
+            int initialX, int initialY, int targetX, int targetY, int width, int height, int damage, float speed,
             Texture texture, int frame_amount, int lifeTime, SpriteBatch batch
     ) {
-
         this.id = UUID.randomUUID();
         this.posX = initialX;
         this.posY = initialY;
@@ -30,6 +31,9 @@ public class SoundAttackUnit implements AbstractSkill {
         this.initialY = initialY;
         this.targetX = targetX;
         this.targetY = targetY;
+
+        this.angle = 0;
+        this.radius = 20;
 
         this.width = width;
         this.height = height;
@@ -47,33 +51,40 @@ public class SoundAttackUnit implements AbstractSkill {
     }
 
     @Override
-    public UUID getId() {
-        return id;
-    }
-
-    @Override
     public void move() {
-        int deltaX = this.targetX - this.initialX;
-        int deltaY = this.targetY - this.initialY;
+        Player player = Player.getInstance();
 
-        float distance =(float) Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
-        float directionX = deltaX / distance;
-        float directionY = deltaY / distance;
-        float velocityX = directionX * this.speed;
-        float velocityY = directionY * this.speed;
-        float newPosX = this.posX + velocityX;
-        float newPosY = this.posY + velocityY;
-        this.posX = (int) newPosX;
-        this.posY = (int) newPosY;
+        double offsetX = Math.cos(this.angle) * this.radius;
+        double offsetY = Math.sin(this.angle) * this.radius;
+
+        this.posX = (int) ((player.getPosX() + (player.getWidth() / 4)) + offsetX);
+        this.posY = (int) ((player.getPosY() + (player.getHeight() / 2)) + offsetY);
+
+        this.angle += this.speed;
+        this.speed -= 0.00005f;
+        this.radius += 0.7f;
 
         // Refatorar essa caralha
         TextureRegion region = new TextureRegion(texture, srcX, srcY, width, height);
         if (batch.isDrawing()) {
-            batch.draw(region, posX, posY, width*2, height*2);
+            batch.draw(region, posX, posY, width, height);
         }
 
-        //skillCanvas.drawImage(this.posX, this.posY, this.width, this.height, this.srcX, this.srcY, this.width, this.height);
         this.spriteAnimation();
+    }
+
+    public void spriteAnimation() {
+        int ANIMATION_SPEED = 3;
+        int TIME_TO_RESTART = 60 / ANIMATION_SPEED;
+        int SELECTED_FRAME = (int) Math.floor((float) this.countAnim / ((float) TIME_TO_RESTART / this.frame_amount));
+
+        this.countAnim++;
+
+        if (this.countAnim >= TIME_TO_RESTART) {
+            this.countAnim = 0;
+        }
+
+        this.srcX = SELECTED_FRAME * this.width;
     }
 
     public void updateLifeTime() {
@@ -93,20 +104,6 @@ public class SoundAttackUnit implements AbstractSkill {
         }
     }
 
-    public void spriteAnimation() {
-        int ANIMATION_SPEED = 3;
-        int TIME_TO_RESTART = 60 / ANIMATION_SPEED;
-        int SELECTED_FRAME = (int) Math.floor((float) this.countAnim / ((float) TIME_TO_RESTART / this.frame_amount));
-
-        this.countAnim++;
-
-        if (this.countAnim >= TIME_TO_RESTART) {
-            this.countAnim = 0;
-        }
-
-        this.srcX = SELECTED_FRAME * this.width;
-    }
-
     @Override
     public void startSpawn(Player player, EnemyManager enemyManager) {
         throw new RuntimeException("Not implemented");
@@ -115,6 +112,11 @@ public class SoundAttackUnit implements AbstractSkill {
     @Override
     public void spawn(Player player, EnemyManager enemyManager) {
         throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public UUID getId() {
+        return id;
     }
 
     public int getLifeTime() {

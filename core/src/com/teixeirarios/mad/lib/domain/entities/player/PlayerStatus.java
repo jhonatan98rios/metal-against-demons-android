@@ -12,7 +12,7 @@ public class PlayerStatus {
         maxHealth = 1000;
         currentHealth = 1000;
         currentXP = 0;
-        nextLevelXp = 20;
+        nextLevelXp = 100;
         totalXP = 0;
 
         eventManager = EventManager.getInstance();
@@ -37,18 +37,17 @@ public class PlayerStatus {
         float updateCurrentXP = this.currentXP + xp;
 
         if (updateCurrentXP >= this.nextLevelXp) {
-            this.levelup(this.nextLevelXp - updateCurrentXP);
-            return;
+            updateCurrentXP -= this.nextLevelXp;
+            this.levelup();
         }
 
-        this.currentXP += xp;
+        this.currentXP = updateCurrentXP;
         this.totalXP += xp;
     }
 
-    public void levelup(float remainingXp) {
+    public void levelup() {
         this.level += 1;
         this.nextLevelXp = (float) (this.nextLevelXp * 1.5);
-        this.currentXP = remainingXp;
         this.maxHealth += 1;
         this.currentHealth += 1;
         this.eventManager.emit("player:levelup");

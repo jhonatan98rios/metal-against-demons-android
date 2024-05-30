@@ -1,6 +1,8 @@
 package com.teixeirarios.mad
 
+import VideoBackground
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -15,18 +17,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,10 +38,12 @@ class MenuActivity : AppCompatActivity() {
         setFullscreen()
 
         setContent {
-            MenuScreen(onButtonClick = {
-                val intent = Intent(this, AndroidLauncher::class.java)
-                startActivity(intent)
-            })
+            MenuScreen(
+                onButtonClick = {
+                    val intent = Intent(this, AndroidLauncher::class.java)
+                    startActivity(intent)
+                }
+            )
         }
     }
 
@@ -78,13 +77,11 @@ class MenuActivity : AppCompatActivity() {
 
 @Composable
 fun MenuScreen(onButtonClick: () -> Unit) {
+
     Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.background_image),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
-        )
+        VideoBackground()
+
+        // Foreground content
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -110,3 +107,6 @@ fun MenuScreen(onButtonClick: () -> Unit) {
         }
     }
 }
+
+
+

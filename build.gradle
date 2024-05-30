@@ -58,9 +58,16 @@ project(":android") {
         implementation 'androidx.compose.ui:ui:1.6.7'
         implementation 'androidx.compose.material:material:1.6.7'
         implementation 'androidx.compose.ui:ui-tooling:1.6.7'
-        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1" // Dont update
         implementation 'androidx.activity:activity-compose:1.9.0'
-        implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
+        implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0' // Dont update
+
+        // dependency for exoplayer
+        //implementation 'com.google.android.exoplayer:exoplayer-core:2.19.1'
+        //implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'
+        implementation 'androidx.media3:media3-exoplayer:1.2.1' // Dont update
+        implementation 'androidx.media3:media3-ui:1.2.1' // Dont update
+        implementation 'androidx.media3:media3-common:1.2.1' // Dont update
 
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"

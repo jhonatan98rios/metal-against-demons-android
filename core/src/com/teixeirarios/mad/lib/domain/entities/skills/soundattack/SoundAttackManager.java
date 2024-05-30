@@ -215,6 +215,8 @@ public class SoundAttackManager implements AbstractSkillManager {
 
     @Override
     public void upgrade() {
+        activeSkills.clear();
+
         damage += 50;
         interval -= 50;
         level += 1;
@@ -247,7 +249,8 @@ public class SoundAttackManager implements AbstractSkillManager {
         this.activeSkills.add(activeSkill);
     }
 
-    private void addEventListeners() {
+    @Override
+    public void addEventListeners() {
         eventManager.on("player:levelup:sound", args -> {
             upgrade();
         });

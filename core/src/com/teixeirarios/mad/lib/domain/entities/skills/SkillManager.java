@@ -7,6 +7,7 @@ import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkill;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
 import com.teixeirarios.mad.lib.domain.entities.skills.forcefield.ForceFieldManager;
 import com.teixeirarios.mad.lib.domain.entities.skills.soundattack.SoundAttackManager;
+import com.teixeirarios.mad.lib.domain.entities.skills.vampires.VampiresManager;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class SkillManager {
         this.availableSkills = new ArrayList<>();
         this.availableSkills.add(new ForceFieldManager(batch));
         this.availableSkills.add(new SoundAttackManager(batch));
+        this.availableSkills.add(new VampiresManager(batch));
     }
 
     public static SkillManager getInstance(SpriteBatch batch) {

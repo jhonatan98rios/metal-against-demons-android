@@ -51,7 +51,7 @@ public class ForceFieldManager implements AbstractSkillManager {
     @Override
     public void spawn(Player player, EnemyManager enemyManager) {
 
-        ForceFieldUnit forceFieldUnit = new ForceFieldUnit(
+        ForceFieldUnit unit = new ForceFieldUnit(
             player.getPosX() - width,
             player.getPosY() + height,
             width,
@@ -62,7 +62,7 @@ public class ForceFieldManager implements AbstractSkillManager {
             batch
         );
 
-        activeSkills.add(forceFieldUnit);
+        activeSkills.add(unit);
     }
 
     @Override
@@ -124,7 +124,8 @@ public class ForceFieldManager implements AbstractSkillManager {
         this.eventManager.emit("skill:damage", enemy, this.damage);
     }
 
-    private void addEventListeners() {
+    @Override
+    public void addEventListeners() {
         eventManager.on("player:levelup:forcefield", args -> {
             upgrade();
         });

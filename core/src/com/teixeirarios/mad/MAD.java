@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
@@ -26,6 +25,8 @@ import com.teixeirarios.mad.lib.infra.canvas.UserInterface;
 import com.teixeirarios.mad.lib.infra.input.ControllerFactory;
 import com.teixeirarios.mad.lib.infra.input.VirtualJoystick;
 import com.teixeirarios.mad.lib.infra.sound.BackgroundSound;
+
+import java.util.ArrayList;
 
 
 public class MAD extends ApplicationAdapter {
@@ -81,10 +82,10 @@ public class MAD extends ApplicationAdapter {
 			enemyManager.update();
 			camera.update();
 
-			Array<Body2D> body2DList = new Array<>();
+			ArrayList<Body2D> body2DList = new ArrayList<>();
 			body2DList.add(player);
 
-			for (int i = 0; i < enemyManager.getEnemies().size; i++) {
+			for (int i = 0; i < enemyManager.getEnemies().size(); i++) {
 				Enemy enemy = enemyManager.getEnemies().get(i);
 				body2DList.add(enemy);
 			}

@@ -2,13 +2,14 @@ package com.teixeirarios.mad.lib.utils;
 
 import static com.teixeirarios.mad.lib.utils.Calculate.calculateDistance;
 
-import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 
+import java.util.ArrayList;
+
 public class ListUtils {
-    public static void bubbleSort(Array<Enemy> enemies, Player player) {
-        int n = enemies.size;
+    public static void bubbleSort(ArrayList<Enemy> enemies, Player player) {
+        int n = enemies.size();
         for (int i = 0; i < n - 1; i++) {
             for (int j = 0; j < n - i - 1; j++) {
                 if (calculateDistance(player, enemies.get(j)) > calculateDistance(player, enemies.get(j + 1))) {

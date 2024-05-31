@@ -3,18 +3,20 @@ package com.teixeirarios.mad.lib.domain.entities.enemy;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.strategies.CollisionStrategy;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class EnemyManager {
 
     private final Player player;
     private final Camera camera;
-    private final Array<Enemy> enemies;
+    private final ArrayList<Enemy> enemies;
     private final int spawnInterval;
     private final int maxEnemies;
     private float spawnTimer;
@@ -34,7 +36,7 @@ public class EnemyManager {
             SpawnStrategy spawnStrategy,
             EventManager eventManager
     ) {
-        this.enemies = new Array<>();
+        this.enemies = new ArrayList<>();
         this.spawnInterval = spawnInterval;
         this.maxEnemies = maxEnemies;
         this.spawnTimer = 0;
@@ -82,7 +84,7 @@ public class EnemyManager {
 
     public void update() {
         spawnTimer += 1;
-        if (spawnTimer >= spawnInterval && enemies.size < maxEnemies) {
+        if (spawnTimer >= spawnInterval && enemies.size() < maxEnemies) {
             spawnEnemy();
             spawnTimer = 0;
         }
@@ -90,7 +92,7 @@ public class EnemyManager {
         Vector2 playerPosition = new Vector2(player.getPosX(), player.getPosY());
         movimentationStrategy.updateEnemiesMovement(enemies, playerPosition);
 
-        for (int i = enemies.size - 1; i >= 0; i--) {
+        for (int i = enemies.size() - 1; i >= 0; i--) {
             Enemy enemy = enemies.get(i);
             enemy.update(player.posX);
 
@@ -118,7 +120,7 @@ public class EnemyManager {
             // Verificar se a nova posição está ocupada por outro inimigo
             boolean positionOccupied = false;
 
-            for (int i = 0; i < enemies.size; i++) {
+            for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy = enemies.get(i);
                 if (Math.abs(posX - enemy.getPosX()) < safetyMargin && Math.abs(posY - enemy.getPosY()) < safetyMargin) {
                     positionOccupied = true;
@@ -153,7 +155,13 @@ public class EnemyManager {
     }
 
     public void removeEnemy(Enemy enemy) {
-        enemies.removeValue(enemy, true);
+        Iterator<Enemy> iterator = enemies.iterator();
+        while (iterator.hasNext()) {
+            Enemy e = iterator.next();
+            if (e.id == enemy.id) {
+                iterator.remove();
+            }
+        }
 
         this.eventManager.emit(
             "orb:spawn",
@@ -164,12 +172,12 @@ public class EnemyManager {
     }
 
     // Getters e setters
-    public Array<Enemy> getEnemies() {
+    public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 
     public void dispose() {
-        for (int i=0; i < enemies.size; i++) {
+        for (int i=0; i < enemies.size(); i++) {
                Enemy enemy = enemies.get(i);
                if (enemy == null) return;
                enemy.enemyCanvas.dispose();

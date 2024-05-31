@@ -15,7 +15,7 @@ public class EnemyManagerFactory {
         EventManager eventManager = EventManager.getInstance();
 
         return EnemyManager.getInstance(
-            batch, player, camera, 10, Constants.MAX_ENEMIES,
+            batch, player, camera, Constants.ENEMIES_SPAWN_INTERVAL, Constants.MAX_ENEMIES,
             movimentationStrategy, spawnStrategy, eventManager
         );
     }

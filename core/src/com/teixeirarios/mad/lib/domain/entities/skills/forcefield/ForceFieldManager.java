@@ -67,8 +67,17 @@ public class ForceFieldManager implements AbstractSkillManager {
 
     @Override
     public void update(EnemyManager enemyManager) {
-        move();
-        checkSkillsCollision();
+        if (this.activeSkills.isEmpty()) return;
+
+        for (int i = 0; i < this.activeSkills.size(); i++) {
+            ForceFieldUnit unit = this.activeSkills.get(i);
+
+            unit.move();
+            unit.checkCollision(
+                enemyManager.getEnemies(),
+                this::collision
+            );
+        }
     }
 
     @Override
@@ -100,24 +109,6 @@ public class ForceFieldManager implements AbstractSkillManager {
     @Override
     public String getCategory() {
         return category;
-    }
-
-    private void move() {
-        for (int i = 0; i < activeSkills.size(); i++) {
-            ForceFieldUnit activeSkill = activeSkills.get(i);
-            activeSkill.move();
-        }
-    }
-
-    private void checkSkillsCollision() {
-        if (this.activeSkills.isEmpty()) return;
-        for (int i = 0; i < this.activeSkills.size(); i++) {
-            ForceFieldUnit activeSkill = this.activeSkills.get(i);
-            activeSkill.checkCollision(
-                    enemyManager.getEnemies(),
-                    this::collision
-            );
-        }
     }
 
     private void collision(UUID id, Enemy enemy) {

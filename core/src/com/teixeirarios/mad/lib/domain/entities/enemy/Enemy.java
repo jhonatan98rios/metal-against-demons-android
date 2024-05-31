@@ -54,11 +54,11 @@ public class Enemy implements Body2D {
         float healthPercentage = (float) status.currentHealth / status.maxHealth;
 
         enemyCanvas.drawShape(
-                healthPercentage < 0.5f ? Color.RED : Color.GREEN,
-                posX + 10 - camera.getPosX(),
-                this.posY + this.height + 10 - camera.getPosY(),
-                healthPercentage * 64,
-                5
+            healthPercentage < 0.5f ? Color.RED : Color.GREEN,
+            posX + 10 - camera.getPosX(),
+            this.posY + this.height + 10 - camera.getPosY(),
+            healthPercentage * 64,
+            5
         );
     }
 

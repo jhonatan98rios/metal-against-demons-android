@@ -3,12 +3,12 @@ package com.teixeirarios.mad.lib.domain.entities.skills.forcefield;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkill;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class ForceFieldUnit implements AbstractSkill {
@@ -53,8 +53,8 @@ public class ForceFieldUnit implements AbstractSkill {
     }
 
     @Override
-    public void checkCollision(Array<Enemy> enemies, CollisionCallback callback) {
-        for (int i = 0; i < enemies.size; i++) {
+    public void checkCollision(ArrayList<Enemy> enemies, CollisionCallback callback) {
+        for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
             if ((this.posX <= enemy.getPosX() + enemy.getWidth()) &&
                     (this.posX + this.width >= enemy.getPosX()) &&

@@ -1,7 +1,8 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
 
 
 public class MovimentationStrategy {
@@ -11,8 +12,8 @@ public class MovimentationStrategy {
         this.safetyMargin = safetyMargin;
     }
 
-    public void updateEnemiesMovement(Array<Enemy> enemies, Vector2 playerPosition) {
-        for (int i = 0; i < enemies.size; i++) {
+    public void updateEnemiesMovement(ArrayList<Enemy> enemies, Vector2 playerPosition) {
+        for (int i = 0; i < enemies.size(); i++) {
             Enemy enemy = enemies.get(i);
 
             Vector2 directionToPlayer = getDirection(playerPosition, enemy);
@@ -38,11 +39,11 @@ public class MovimentationStrategy {
         );
     }
 
-    public Vector2 adjustNextPosition(Array<Enemy> enemies, Vector2 nextPosition, Enemy enemy) {
+    public Vector2 adjustNextPosition(ArrayList<Enemy> enemies, Vector2 nextPosition, Enemy enemy) {
         boolean collisionX = false;
         boolean collisionY = false;
 
-        for (int i = 0; i < enemies.size; i++) {
+        for (int i = 0; i < enemies.size(); i++) {
             Enemy otherEnemy = enemies.get(i);
             if (otherEnemy != enemy) {
                 if (Math.abs(nextPosition.x - otherEnemy.getPosX()) < safetyMargin && Math.abs(enemy.getPosY() - otherEnemy.getPosY()) < safetyMargin) {

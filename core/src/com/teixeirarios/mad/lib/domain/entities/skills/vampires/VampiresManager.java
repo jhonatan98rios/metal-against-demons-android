@@ -2,7 +2,6 @@ package com.teixeirarios.mad.lib.domain.entities.skills.vampires;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
@@ -13,7 +12,6 @@ import com.teixeirarios.mad.lib.infra.events.EventManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -28,7 +26,7 @@ public class VampiresManager implements AbstractSkillManager {
     private final EnemyManager enemyManager;
     private final SpriteBatch batch;
     private int level, width, height, damage, interval, lifeTime;
-    private float speed;
+    private final float speed;
     private String spritesheet;
     private Texture texture;
 
@@ -75,18 +73,15 @@ public class VampiresManager implements AbstractSkillManager {
     @Override
     public void spawn(Player player, EnemyManager enemyManager) {
 
-        Array<Enemy> enemies = enemyManager.getEnemies();
+        ArrayList<Enemy> enemies = enemyManager.getEnemies();
 
         if (player == null || enemies.isEmpty()) return;
 
         VampiresUnit unit = new VampiresUnit(
-            player.getPosX() + (player.getWidth() / 2),
-            player.getPosY() + (player.getHeight() / 2),
-            enemies.get(0).getPosX(),
-            enemies.get(0).getPosY(),
+            player.getPosX(),
+            player.getPosY(),
             width,
             height,
-            damage,
             speed,
             texture,
             frame_amount,
@@ -99,33 +94,15 @@ public class VampiresManager implements AbstractSkillManager {
 
     @Override
     public void update(EnemyManager enemyManager) {
-        move();
-        updateLifeTime();
-        checkSkillsCollision();
+        if (this.activeSkills.isEmpty()) return;
         checkLifeTime();
-    }
-
-    private void move() {
         for (int i = 0; i < this.activeSkills.size(); i++) {
             VampiresUnit unit = this.activeSkills.get(i);
             unit.move();
-        }
-    }
-
-    private void updateLifeTime() {
-        for (int i = 0; i < this.activeSkills.size(); i++) {
-            VampiresUnit unit = this.activeSkills.get(i);
             unit.updateLifeTime();
-        }
-    }
-
-    private void checkSkillsCollision() {
-        if (this.activeSkills.isEmpty()) return;
-        for (int i = 0; i < this.activeSkills.size(); i++) {
-            VampiresUnit unit = this.activeSkills.get(i);
             unit.checkCollision(
-                    enemyManager.getEnemies(),
-                    this::collision
+                enemyManager.getEnemies(),
+                this::collision
             );
         }
     }
@@ -135,25 +112,11 @@ public class VampiresManager implements AbstractSkillManager {
     }
 
     private void checkLifeTime() {
-        List<VampiresUnit> toRemove = new ArrayList<>();
-
-        // Atualize a vida útil dos objetos
-        for (int i = 0; i < this.activeSkills.size(); i++) {
-            VampiresUnit skill = this.activeSkills.get(i);
-            skill.updateLifeTime();
-            if (skill.getLifeTime() <= 0) {
-                toRemove.add(skill);
-            }
-        }
-
-        activeSkills.removeAll(toRemove);
-    }
-
-    private void remove(UUID id) {
         Iterator<VampiresUnit> iterator = activeSkills.iterator();
         while (iterator.hasNext()) {
             VampiresUnit skill = iterator.next();
-            if (skill.getId().equals(id)) {
+            skill.updateLifeTime();
+            if (skill.getLifeTime() <= 0) {
                 iterator.remove();
             }
         }

@@ -55,13 +55,15 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun setFullscreen() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        val isAndroid11OrHigher = false // Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+
+        if (isAndroid11OrHigher) {
             // Para Android 11 (API 30) e acima
-            window.setDecorFitsSystemWindows(false)
-            window.insetsController?.let { controller ->
-                controller.hide(WindowInsets.Type.systemBars())
-                controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
+//            window.setDecorFitsSystemWindows(false)
+//            window.insetsController?.let { controller ->
+//                controller.hide(WindowInsets.Type.systemBars())
+//                controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//            }
         } else {
             // Para versões anteriores do Android
             window.decorView.systemUiVisibility = (

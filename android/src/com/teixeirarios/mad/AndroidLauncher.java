@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
+import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 
 public class AndroidLauncher extends AndroidApplication implements Navigator {
@@ -51,7 +52,9 @@ public class AndroidLauncher extends AndroidApplication implements Navigator {
 
 	@Override
 	public void onBackPressed() {
-		this.eventManager.emit("status:pause");
+		if (GameStatus.getInstance().isPlaying()) {
+			this.eventManager.emit("status:pause");
+		}
 	}
 
 	@Override

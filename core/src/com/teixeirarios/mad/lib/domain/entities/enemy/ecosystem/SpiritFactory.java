@@ -7,8 +7,14 @@ import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 
 public class SpiritFactory {
 
+    public static CanvasFacade enemyCanvas;
+
     public static Enemy create(SpriteBatch batch, int posX, int posY) {
-        CanvasFacade enemyCanvas = new CanvasFacade(batch, "enemies/spirit.png", 4, 0.25f, 36);
+
+        if (enemyCanvas == null) {
+            enemyCanvas = new CanvasFacade(batch, "enemies/spirit.png", 4, 0.25f, 36);
+        }
+
         Enemy enemy = new Enemy(
                 72,
                 150,

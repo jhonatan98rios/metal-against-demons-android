@@ -30,7 +30,7 @@ public class Enemy implements Body2D {
     }
 
     public void update(float playerPosX) {
-        enemyCanvas.animate();
+        //enemyCanvas.animate();
         this.selectedFrame = getSprite(playerPosX);
     }
 
@@ -45,7 +45,6 @@ public class Enemy implements Body2D {
                 this.width,
                 this.height
         );
-        //renderHealthBar();
     }
 
     public void renderHealthBar(Camera camera) {

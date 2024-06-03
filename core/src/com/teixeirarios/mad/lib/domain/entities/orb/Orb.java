@@ -4,18 +4,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 public class Orb implements Body2D {
-    UUID id;
-    int posX;
-    int posY;
-    int width;
-    int height;
-    int value;
-    Color color;
+    private final UUID id;
+    private final int posX;
+    private int posY;
+    private final int width;
+    private final int height;
+    private final int value;
+    private Color color;
+    private boolean goingUp;
+    private float accumulatedTime;
+    private static final float ANIMATION_INTERVAL = 0.3f; // 300ms
 
     public Orb(int posX, int posY, int value){
         this.id = UUID.randomUUID();
@@ -25,11 +26,19 @@ public class Orb implements Body2D {
         this.height = 20;
         this.value = value;
         this.color = Color.SKY;
-
-        this.animate(true);
+        this.accumulatedTime = 0;
     }
 
-    public void animate(boolean goingUp) {
+    public void update(float deltaTime) {
+        accumulatedTime += deltaTime;
+
+        if (accumulatedTime >= ANIMATION_INTERVAL) {
+            animate();
+            accumulatedTime = 0;
+        }
+    }
+
+    private void animate() {
         if (goingUp) {
             this.color = Color.CYAN;
             this.posY += 5;
@@ -37,15 +46,8 @@ public class Orb implements Body2D {
             this.color = Color.SKY;
             this.posY -= 5;
         }
-
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                animate(!goingUp);
-            }
-        }, 300);
+        goingUp = !goingUp;
     }
-
     public UUID getId(){
         return this.id;
     }
@@ -80,5 +82,9 @@ public class Orb implements Body2D {
     @Override
     public void renderHealthBar(Camera camera) {
         throw new UnsupportedOperationException();
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

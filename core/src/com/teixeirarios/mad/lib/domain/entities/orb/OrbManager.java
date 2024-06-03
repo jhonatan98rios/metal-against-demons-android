@@ -9,34 +9,25 @@ import com.teixeirarios.mad.lib.utils.Intersection;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.UUID;
 
 public class OrbManager {
-
-    private static OrbManager instance;
     EventManager eventManager;
     ArrayList<Orb> orbs;
     Player player;
     Camera camera;
     AbstractCanvasFacade canvas;
 
-    public OrbManager(AbstractCanvasFacade canvas) {
-        this.player = Player.getInstance();
-        this.camera = Camera.getInstance();
-        this.orbs = new ArrayList<>();
+    public OrbManager(AbstractCanvasFacade canvas, Camera camera) {
         this.canvas = canvas;
+        this.camera = camera;
+
+        this.player = Player.getInstance();
+        this.orbs = new ArrayList<>();
 
         eventManager = EventManager.getInstance();
         addEventListeners();
-    }
-
-    public static OrbManager getInstance(AbstractCanvasFacade canvas) {
-        if (instance == null) {
-            instance = new OrbManager(canvas);
-        }
-        return instance;
     }
 
    private void spawnXpOrb(Orb orb)  {
@@ -45,17 +36,14 @@ public class OrbManager {
     }
 
     public void sortOrbs() {
-        Collections.sort(orbs, new Comparator<Orb>() {
-            @Override
-            public int compare(Orb a, Orb b) {
-                double distanceToA = Math.sqrt(Math.pow(player.getPosX() - a.getPosX(), 2) + Math.pow(player.getPosY() - a.getPosY(), 2));
-                double distanceToB = Math.sqrt(Math.pow(player.getPosX() - b.getPosX(), 2) + Math.pow(player.getPosY() - b.getPosY(), 2));
-                return Double.compare(distanceToA, distanceToB);
-            }
+        Collections.sort(orbs, (a, b) -> {
+            double distanceToA = Math.sqrt(Math.pow(player.getPosX() - a.getPosX(), 2) + Math.pow(player.getPosY() - a.getPosY(), 2));
+            double distanceToB = Math.sqrt(Math.pow(player.getPosX() - b.getPosX(), 2) + Math.pow(player.getPosY() - b.getPosY(), 2));
+            return Double.compare(distanceToA, distanceToB);
         });
     }
 
-    public void checkOrbsCollection(Player p) {
+    public void checkOrbsCollection(Player player) {
 
         if (orbs.isEmpty()) {
             return;
@@ -64,10 +52,9 @@ public class OrbManager {
         for (int i = 0; i <= orbs.size()-1; i++) {
             Orb orb = orbs.get(i);
 
-            if (Intersection.check(orb, p)) {
-                System.out.println("Player and orb collided!");
-                p.playerStatus.takeXp(orb.value);
-                remove(orb.id);
+            if (Intersection.check(orb, player)) {
+                player.playerStatus.takeXp(orb.getValue());
+                remove(orb.getId());
             }
         }
     }
@@ -82,7 +69,7 @@ public class OrbManager {
         }
     }
 
-    public void renderOrbs() {
+    public void renderOrbs(float deltaTime) {
         if (orbs.isEmpty()) {
             return;
         }
@@ -90,12 +77,14 @@ public class OrbManager {
         for (int i = 0; i <= orbs.size()-1; i++) {
             Orb orb = orbs.get(i);
 
+            orb.update(deltaTime);
+
             canvas.drawShape(
-                orb.color,
+                orb.getColor(),
                 orb.getPosX() - camera.getPosX(),
                 orb.getPosY() - camera.getPosY(),
-                orb.width,
-                orb.height
+                orb.getWidth(),
+                orb.getHeight()
             );
         }
     }

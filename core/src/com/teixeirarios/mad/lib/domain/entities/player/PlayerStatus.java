@@ -2,9 +2,13 @@ package com.teixeirarios.mad.lib.domain.entities.player;
 
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 
+import java.math.BigInteger;
+
 public class PlayerStatus {
     public int level;
-    public float maxHealth, currentHealth, totalXP, nextLevelXp, currentXP;
+    public float maxHealth, currentHealth, nextLevelXp, currentXP;
+
+    public BigInteger totalXP;
     private final EventManager eventManager;
 
     public PlayerStatus() {
@@ -13,7 +17,7 @@ public class PlayerStatus {
         currentHealth = 1000;
         currentXP = 0;
         nextLevelXp = 100;
-        totalXP = 0;
+        totalXP = BigInteger.valueOf(0);
 
         eventManager = EventManager.getInstance();
         addEventListeners();
@@ -42,15 +46,16 @@ public class PlayerStatus {
         }
 
         this.currentXP = updateCurrentXP;
-        this.totalXP += xp;
+        this.totalXP = this.totalXP.add(BigInteger.valueOf((long) xp));
     }
 
     public void levelup() {
         this.level += 1;
-        this.nextLevelXp = (float) (this.nextLevelXp * 1.5);
+        this.nextLevelXp = this.nextLevelXp * 1.5f;
         this.maxHealth += 1;
         this.currentHealth += 1;
         this.eventManager.emit("player:levelup");
+        //eventManager.emit("player:levelup:forcefield");
     }
 
     public void die() {

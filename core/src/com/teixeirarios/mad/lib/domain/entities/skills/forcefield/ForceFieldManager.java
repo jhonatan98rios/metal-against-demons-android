@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class ForceFieldManager implements AbstractSkillManager {
 
-    private static String category;
+    private String category;
     private int level, width, height, frame_amount;
     private int damage;
     private String spritesheet;
@@ -24,8 +24,8 @@ public class ForceFieldManager implements AbstractSkillManager {
     private EnemyManager enemyManager;
     private SpriteBatch batch;
 
-    public ForceFieldManager(SpriteBatch batch) {
-        category = "Force Field";
+    public ForceFieldManager(SpriteBatch batch, EnemyManager enemyManager) {
+        this.category = "Force Field";
         this.level = 1;
         this.width = 240;
         this.height = 240;
@@ -38,18 +38,13 @@ public class ForceFieldManager implements AbstractSkillManager {
         this.batch = batch;
         this.frame_amount = 4;
 
-        this.enemyManager = EnemyManager.getInstance();
+        this.enemyManager = enemyManager;
         this.eventManager = EventManager.getInstance();
         addEventListeners();
     }
 
     @Override
-    public void startSpawn(Player player, EnemyManager enemyManager) {
-        spawn(player, enemyManager);
-    }
-
-    @Override
-    public void spawn(Player player, EnemyManager enemyManager) {
+    public void spawn(Player player) {
 
         ForceFieldUnit unit = new ForceFieldUnit(
             player.getPosX() - width,
@@ -66,7 +61,7 @@ public class ForceFieldManager implements AbstractSkillManager {
     }
 
     @Override
-    public void update(EnemyManager enemyManager) {
+    public void update() {
         if (this.activeSkills.isEmpty()) return;
 
         for (int i = 0; i < this.activeSkills.size(); i++) {
@@ -82,6 +77,8 @@ public class ForceFieldManager implements AbstractSkillManager {
 
     @Override
     public void upgrade() {
+        activeSkills.clear();
+
         damage += 1;
         level += 1;
 
@@ -102,8 +99,7 @@ public class ForceFieldManager implements AbstractSkillManager {
             height = size[1];
         }
 
-        activeSkills.clear();
-        startSpawn(Player.getInstance(), enemyManager);
+        spawn(Player.getInstance());
     }
 
     @Override

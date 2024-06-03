@@ -1,5 +1,6 @@
 package com.teixeirarios.mad.lib.domain.entities.skills.soundattack;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
@@ -13,25 +14,25 @@ import com.teixeirarios.mad.lib.utils.ListUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 public class SoundAttackManager implements AbstractSkillManager {
 
-    private static String category;
+    private String category;
     private final int lifeTime, frame_amount, speed;
     private final ArrayList<SoundAttackUnit> activeSkills;
     private final GameStatus gameStatus;
     private final EventManager eventManager;
     private final EnemyManager enemyManager;
+    private final Player player;
     private final SpriteBatch batch;
-    private int level, width, height, damage, interval, range;
+    private int level, width, height, damage, range;
     private String spritesheet;
     private Texture texture;
+    private float accumulatedTime, interval;
 
-    public SoundAttackManager(SpriteBatch batch) {
-        category = "Sound Attack";
+    public SoundAttackManager(SpriteBatch batch, EnemyManager enemyManager) {
+        this.category = "Sound Attack";
         this.level = 1;
         this.width = 26;
         this.height = 26;
@@ -39,73 +40,67 @@ public class SoundAttackManager implements AbstractSkillManager {
         this.damage = 100;
         this.range = 500;
 
+        this.player = Player.getInstance();
+
         this.spritesheet = "skills/sound_attack_1.png";
         this.texture = new Texture(this.spritesheet);
 
-        this.interval = 1000;
-        this.lifeTime = 60 * 5;
+        this.interval = 1f;
+        this.lifeTime = 300;
+        this.accumulatedTime = 0;
+
         this.activeSkills = new ArrayList<>();
         this.gameStatus = GameStatus.getInstance();
         this.batch = batch;
         this.frame_amount = 4;
 
-        this.enemyManager = EnemyManager.getInstance();
+        this.enemyManager = enemyManager;
         this.eventManager = EventManager.getInstance();
         addEventListeners();
     }
 
-    @Override
-    public void startSpawn(Player player , EnemyManager enemyManager) {
-        this.intervaledSpawn(player, enemyManager);
-    }
-
-    private void intervaledSpawn(Player player, EnemyManager enemyManager) {
+    private void intervaledSpawn(float deltaTime) {
         if (this.gameStatus.isPlaying()) {
-            this.spawn(player, enemyManager);
-        }
-
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                intervaledSpawn(player, enemyManager);
+            accumulatedTime += deltaTime;
+            if (accumulatedTime >= interval) {
+                spawn(player);
+                accumulatedTime = 0; // Reset the accumulated time
             }
-        }, this.interval);
+        }
     }
 
     @Override
-    public void spawn(Player player, EnemyManager enemyManager) {
+    public void spawn(Player player) {
         if (player == null || enemyManager == null || enemyManager.getEnemies().isEmpty()) return;
 
-        ArrayList<Enemy> nearbyEnemies = getNearbyEnemies(player, enemyManager);
+        ArrayList<Enemy> nearbyEnemies = getNearbyEnemies(enemyManager);
+        if (nearbyEnemies.isEmpty()) return;
 
-        if (!nearbyEnemies.isEmpty()) {
-            Enemy targetEnemy = nearbyEnemies.get(0);
+        Enemy targetEnemy = nearbyEnemies.get(0);
+        SoundAttackUnit soundAttackUnit = new SoundAttackUnit(
+                player.getPosX() + (player.getWidth() / 2) - width,
+                player.getPosY() + (player.getHeight() / 2) - height,
+                targetEnemy.getPosX() + (targetEnemy.getWidth() / 2),
+                targetEnemy.getPosY() + (targetEnemy.getHeight() / 2),
+                width,
+                height,
+                damage,
+                speed,
+                texture,
+                frame_amount,
+                lifeTime,
+                batch
+        );
 
-            SoundAttackUnit soundAttackUnit = new SoundAttackUnit(
-                    player.getPosX() + (player.getWidth() / 2),
-                    player.getPosY() + (player.getHeight() / 2),
-                    targetEnemy.getPosX() + (targetEnemy.getWidth() / 2),
-                    targetEnemy.getPosY() + (targetEnemy.getHeight() / 2),
-                    width,
-                    height,
-                    damage,
-                    speed,
-                    texture,
-                    frame_amount,
-                    lifeTime,
-                    batch
-            );
-
-            this.addActiveSkills(soundAttackUnit);
-        }
+        this.addActiveSkills(soundAttackUnit);
     }
 
-    private ArrayList<Enemy> getNearbyEnemies(Player player, EnemyManager enemyManager) {
+    private ArrayList<Enemy> getNearbyEnemies(EnemyManager enemyManager) {
         SoundAttackManager.RangeArea rangeArea = new SoundAttackManager.RangeArea(
-                player.getPosX() - range,
-                player.getPosY() - range,
-                player.getPosX() + range,
-                player.getPosY() + range
+            player.getPosX() - range,
+            player.getPosY() - range,
+            player.getPosX() + range,
+            player.getPosY() + range
         );
 
         ArrayList<Enemy> nearbyEnemies = new ArrayList<>();
@@ -117,23 +112,23 @@ public class SoundAttackManager implements AbstractSkillManager {
         }
 
         if (enemies.size() > 1) {
-            sortEnemiesByDistance(enemies, player);
+            sortEnemiesByDistance(enemies);
         }
 
         for (int index = 0; index < enemies.size(); index++) {
             Enemy enemy = enemies.get(index);
 
-            if (enemy.getPosX() >= rangeArea.left &&
+            if (enemy.getPosX() + enemy.getWidth() >= rangeArea.left &&
                     enemy.getPosX() <= rangeArea.right &&
                     enemy.getPosY() >= rangeArea.top &&
-                    enemy.getPosY() <= rangeArea.bottom) {
+                    enemy.getPosY() + enemy.getHeight() <= rangeArea.bottom) {
                 nearbyEnemies.add(enemy);
             }
         }
         return nearbyEnemies;
     }
 
-    private void sortEnemiesByDistance(ArrayList<Enemy> enemies, Player player) {
+    private void sortEnemiesByDistance(ArrayList<Enemy> enemies) {
         ListUtils.bubbleSort(enemies, player);
     }
 
@@ -149,9 +144,10 @@ public class SoundAttackManager implements AbstractSkillManager {
     }
 
     @Override
-    public void update(EnemyManager enemyManager) {
+    public void update() {
+        intervaledSpawn(Gdx.graphics.getDeltaTime());
+
         if (this.activeSkills.isEmpty()) return;
-        checkLifeTime();
 
         for (int i = 0; i < this.activeSkills.size(); i++) {
             SoundAttackUnit unit = this.activeSkills.get(i);
@@ -162,6 +158,8 @@ public class SoundAttackManager implements AbstractSkillManager {
                 this::collision
             );
         }
+
+        checkLifeTime();
     }
 
     private void collision(UUID id, Enemy enemy) {
@@ -195,7 +193,7 @@ public class SoundAttackManager implements AbstractSkillManager {
         activeSkills.clear();
 
         damage += 50;
-        interval -= 50;
+        interval -= 0.05f;
         level += 1;
         range += 100;
 

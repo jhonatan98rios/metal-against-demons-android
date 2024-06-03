@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
-import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
@@ -57,15 +56,15 @@ public class MAD extends ApplicationAdapter {
 		player = PlayerFactory.create(batch, joystick);
 
 		scenario = new Scenario(batch);
-		camera = Camera.getInstance(batch, player);
+		camera = new Camera(player);
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
 		gameStatus = GameStatusFactory.create();
-		skillManager = SkillManagerFactory.create(player, batch);
-		orbManager = OrbManagerFactory.create();
+		skillManager = SkillManagerFactory.create(player, batch, enemyManager);
+		orbManager = OrbManagerFactory.create(camera);
 
-		userInterface = new UserInterface(stage, gameStatus, navigator);
+		userInterface = new UserInterface(stage, gameStatus, navigator, batch);
 		BackgroundSound.init();
-		//BackgroundSound.play();
+		BackgroundSound.play();
 
 		userInterface.drawPauseButton();
 	}
@@ -80,23 +79,18 @@ public class MAD extends ApplicationAdapter {
 
 			player.update();
 			enemyManager.update();
-			camera.update();
+			camera.update(batch);
 
 			ArrayList<Body2D> body2DList = new ArrayList<>();
 			body2DList.add(player);
+			body2DList.addAll(enemyManager.getEnemies());
 
-			for (int i = 0; i < enemyManager.getEnemies().size(); i++) {
-				Enemy enemy = enemyManager.getEnemies().get(i);
-				body2DList.add(enemy);
-			}
-
-			RenderStack.render(body2DList);
-			skillManager.update(enemyManager);
+			RenderStack.render(body2DList, camera);
+			skillManager.update();
 			userInterface.drawLevel(
 				"Level: " + player.playerStatus.level,
 				24 + camera.getPosX(),
-				Gdx.graphics.getHeight() - 24 + camera.getPosY(),
-				batch
+				Gdx.graphics.getHeight() - 24 + camera.getPosY()
 			);
 
 			if (batch.isDrawing()) {
@@ -105,7 +99,7 @@ public class MAD extends ApplicationAdapter {
 			RenderStack.renderHealthBar(body2DList, camera);
 
 			orbManager.checkOrbsCollection(player);
-			orbManager.renderOrbs();
+			orbManager.renderOrbs(Gdx.graphics.getDeltaTime());
 		}
 
 		stage.act(Gdx.graphics.getDeltaTime());

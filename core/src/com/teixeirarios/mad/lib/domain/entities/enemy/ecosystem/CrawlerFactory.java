@@ -8,9 +8,13 @@ import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 
 public class CrawlerFactory {
 
+    public static CanvasFacade enemyCanvas;
+
     public static Enemy create(SpriteBatch batch, int posX, int posY) {
 
-        CanvasFacade enemyCanvas = new CanvasFacade(batch, "enemies/crawler.png", 4, 0.25f, 65);
+        if (enemyCanvas == null) {
+            enemyCanvas = new CanvasFacade(batch, "enemies/crawler.png", 4, 0.25f, 65);
+        }
 
         Enemy enemy = new Enemy(
                 65 * 2,

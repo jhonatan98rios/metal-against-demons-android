@@ -21,16 +21,23 @@ public class UserInterface {
 
     public GameStatus gameStatus;
     public Stage stage;
-    private ImageButton pauseButton;
+    public ImageButton pauseButton;
     private Group menuModal;
     private Navigator navigator;
+    SpriteBatch batch;
     private EventManager eventManager;
+    BitmapFont font;
 
-    public UserInterface(Stage stage, GameStatus gameStatus, Navigator navigator) {
+
+
+    public UserInterface(Stage stage, GameStatus gameStatus, Navigator navigator, SpriteBatch batch) {
         this.stage = stage;
+        this.batch = batch;
         this.gameStatus = gameStatus;
         this.navigator = navigator;
         this.eventManager = EventManager.getInstance();
+        this.font = new BitmapFont();
+        font.getData().setScale(2.4f);
         addEventListeners();
     }
 
@@ -73,27 +80,18 @@ public class UserInterface {
             ((((float) Constants.SCENARIO_HEIGHT / 2) - menuModal.getHeight()) / 2) + 50
         );
 
-        setBackgroundModal();
         drawContinueButton();
         drawExitButton();
 
         stage.addActor(menuModal);
     }
 
-    public void setBackgroundModal() {
-        Texture bgTexture = new Texture("ui/modal_bg.png");
-        Drawable bgDrawable = new TextureRegionDrawable(new TextureRegion(bgTexture));
-        ImageButton bgImage = new ImageButton(bgDrawable);
-        bgImage.setSize(menuModal.getWidth(), menuModal.getHeight());
-        menuModal.addActor(bgImage);
-    }
-
     public void drawExitButton() {
         String url = "ui/back.png";
-        float posX = (menuModal.getWidth() - 300) / 2;
+        float width = Gdx.graphics.getWidth() * 0.9f;
+        float height = 72;
+        float posX = (menuModal.getWidth() - width) / 2;
         float posY = (menuModal.getHeight() / 3);
-        float width = 300;
-        float height = 36;
         ImageButton btn = drawButton(url, posX, posY , width, height, () -> {
             //navigator.navigateToMenu();
         });
@@ -103,10 +101,10 @@ public class UserInterface {
 
     public void drawContinueButton() {
         String url = "ui/continue.png";
-        float posX = (menuModal.getWidth() - 300) / 2;
-        float posY = (menuModal.getHeight() / 3) * 1.5f;
-        float width = 300;
-        float height = 36;
+        float width = Gdx.graphics.getWidth() * 0.9f;
+        float height = 72;
+        float posX = (menuModal.getWidth() - width) / 2;
+        float posY = (menuModal.getHeight() / 3) * 1.7f;
 
         ImageButton btn = drawButton(url, posX, posY, width, height, () -> {
             menuModal.remove();
@@ -118,14 +116,12 @@ public class UserInterface {
 
     public void showLevelUpModal() {
         menuModal = new Group();
-        menuModal.setSize(500, 300);
+        menuModal.setSize(Gdx.graphics.getWidth() * 0.9f, 400);
         menuModal.setPosition(
             (((float) Constants.SCENARIO_WIDTH / 2) - menuModal.getWidth()) / 2,
             ((((float) Constants.SCENARIO_HEIGHT / 2) - menuModal.getHeight()) / 2) + 50
         );
 
-        // Background e Title do modal
-        setBackgroundModal();
         drawSoundLevelUpButton();
         drawForcefieldLevelUpButton();
         drawVampireLevelUpButton();
@@ -135,10 +131,10 @@ public class UserInterface {
 
     public void drawSoundLevelUpButton() {
         String url = "ui/sound-levelup.png";
-        float posX = (menuModal.getWidth() - 300) / 2;
-        float posY = (menuModal.getHeight() / 3) * 2f;
-        float width = 300;
-        float height = 56;
+        float width = Gdx.graphics.getWidth() * 0.9f;
+        float height = 112;
+        float posX = (menuModal.getWidth() - width) / 2;
+        float posY = (menuModal.getHeight() / 3) * 2.2f;
 
         ImageButton btn = drawButton(url, posX, posY, width, height, () -> {
             menuModal.remove();
@@ -151,10 +147,10 @@ public class UserInterface {
 
     public void drawForcefieldLevelUpButton() {
         String url = "ui/forcefield-levelup.png";
-        float posX = (menuModal.getWidth() - 300) / 2;
+        float width = Gdx.graphics.getWidth() * 0.9f;
+        float height = 112;
+        float posX = (menuModal.getWidth() - width) / 2;
         float posY = (menuModal.getHeight() / 3) * 1.2f;
-        float width = 300;
-        float height = 56;
 
         ImageButton btn = drawButton(url, posX, posY, width, height, () -> {
             menuModal.remove();
@@ -167,10 +163,10 @@ public class UserInterface {
 
     public void drawVampireLevelUpButton() {
         String url = "ui/vampire-levelup.png";
-        float posX = (menuModal.getWidth() - 300) / 2;
-        float posY = (menuModal.getHeight() / 3) * 0.4f;
-        float width = 300;
-        float height = 56;
+        float width = Gdx.graphics.getWidth() * 0.9f;
+        float height = 112;
+        float posX = (menuModal.getWidth() - width) / 2;
+        float posY = (menuModal.getHeight() / 3) * 0.2f;
 
         ImageButton btn = drawButton(url, posX, posY, width, height, () -> {
             menuModal.remove();
@@ -181,9 +177,7 @@ public class UserInterface {
         menuModal.addActor(btn);
     }
 
-    public void drawLevel(String content, float posX, float posY, SpriteBatch batch) {
-        BitmapFont font = new BitmapFont();
-        font.getData().setScale(2.4f);
+    public void drawLevel(String content, float posX, float posY) {
         font.draw(batch, content, posX, posY);
     }
 
@@ -195,6 +189,12 @@ public class UserInterface {
     private void addEventListeners() {
         eventManager.on("status:pause", args -> {
             showMenuModal();
+            pauseButton.remove();
+        });
+
+        eventManager.on("status:play", args -> {
+            menuModal.remove();
+            drawPauseButton();
         });
 
         eventManager.on("player:levelup", args -> {

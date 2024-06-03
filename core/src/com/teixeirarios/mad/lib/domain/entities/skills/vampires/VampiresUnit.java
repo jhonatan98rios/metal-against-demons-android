@@ -67,19 +67,6 @@ public class VampiresUnit implements AbstractSkill {
         this.spriteAnimation();
     }
 
-    public void spriteAnimation() {
-        int ANIMATION_SPEED = 3;
-        int TIME_TO_RESTART = 60 / ANIMATION_SPEED;
-        int SELECTED_FRAME = (int) Math.floor((float) this.countAnim / ((float) TIME_TO_RESTART / this.frame_amount));
-        this.countAnim++;
-
-        if (this.countAnim >= TIME_TO_RESTART) {
-            this.countAnim = 0;
-        }
-
-        this.srcX = SELECTED_FRAME * this.width;
-    }
-
     public void updateLifeTime() {
         this.lifeTime -= 1;
     }
@@ -95,6 +82,20 @@ public class VampiresUnit implements AbstractSkill {
                 callback.collision(this.getId(), enemy);
             }
         }
+    }
+
+    public void spriteAnimation() {
+        int ANIMATION_SPEED = 3;
+        int TIME_TO_RESTART = 60 / ANIMATION_SPEED;
+        int SELECTED_FRAME = (int) Math.floor((float) this.countAnim / ((float) TIME_TO_RESTART / this.frame_amount));
+
+        this.countAnim++;
+
+        if (this.countAnim >= TIME_TO_RESTART) {
+            this.countAnim = 0;
+        }
+
+        this.srcX = SELECTED_FRAME * this.width;
     }
 
     @Override

@@ -12,37 +12,28 @@ import com.teixeirarios.mad.lib.domain.entities.skills.vampires.VampiresManager;
 import java.util.ArrayList;
 
 public class SkillManager {
-    private static SkillManager instance;
     public ArrayList<AbstractSkill> activeSkills;
     public ArrayList<AbstractSkillManager> availableSkills;
 
-    private SkillManager(SpriteBatch batch) {
+    public SkillManager(SpriteBatch batch, EnemyManager enemyManager) {
         this.activeSkills = new ArrayList<>();
         this.availableSkills = new ArrayList<>();
-        this.availableSkills.add(new ForceFieldManager(batch));
-        this.availableSkills.add(new SoundAttackManager(batch));
-        this.availableSkills.add(new VampiresManager(batch));
+        this.availableSkills.add(new SoundAttackManager(batch, enemyManager));
+        this.availableSkills.add(new ForceFieldManager(batch, enemyManager));
+        this.availableSkills.add(new VampiresManager(batch, enemyManager));
     }
 
-    public static SkillManager getInstance(SpriteBatch batch) {
-        if (SkillManager.instance == null) {
-            SkillManager.instance = new SkillManager(batch);
-        }
-        return SkillManager.instance;
-    }
-
-    public void startSpawn(Player player, EnemyManager enemyService) {
+    public void startSpawn(Player player) {
         for (int i = 0; i < availableSkills.size(); i++) {
             AbstractSkillManager availableSkill = availableSkills.get(i);
-            availableSkill.startSpawn(player, enemyService);
-            System.out.println(availableSkill.getCategory() + " started");
+            availableSkill.spawn(player);
         }
     }
 
-    public void update(EnemyManager enemyManager) {
+    public void update() {
         for (int i = 0; i < availableSkills.size(); i++) {
             AbstractSkillManager availableSkill = availableSkills.get(i);
-            availableSkill.update(enemyManager);
+            availableSkill.update();
         }
     }
 

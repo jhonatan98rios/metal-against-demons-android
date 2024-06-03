@@ -1,5 +1,6 @@
 package com.teixeirarios.mad.lib.domain.entities.skills.vampires;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
@@ -12,33 +13,35 @@ import com.teixeirarios.mad.lib.infra.events.EventManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 public class VampiresManager implements AbstractSkillManager {
 
-    private static String category;
+    private String category;
     private final int frame_amount;
     private final ArrayList<VampiresUnit> activeSkills;
     private final GameStatus gameStatus;
     private final EventManager eventManager;
     private final EnemyManager enemyManager;
+    private final Player player;
     private final SpriteBatch batch;
-    private int level, width, height, damage, interval, lifeTime;
+    private int level, width, height, damage, lifeTime;
     private final float speed;
     private String spritesheet;
     private Texture texture;
+    private float accumulatedTime, interval;
 
-    public VampiresManager(SpriteBatch batch) {
-        category = "Vampires Horde";
+    public VampiresManager(SpriteBatch batch, EnemyManager enemyManager) {
+        this.category = "Vampires Horde";
         this.level = 1;
         this.width = 48;
         this.height = 48;
         this.speed = 0.05f;
         this.damage = 5;
-        this.interval = 7000;
+        this.interval = 3f;
         this.lifeTime = 600;
+        this.accumulatedTime = 0;
+        this.player = Player.getInstance();
 
         this.spritesheet = "skills/bat_attack_1.png";
         this.texture = new Texture(this.spritesheet);
@@ -47,39 +50,29 @@ public class VampiresManager implements AbstractSkillManager {
         this.batch = batch;
         this.frame_amount = 2;
 
-        this.enemyManager = EnemyManager.getInstance();
+        this.enemyManager = enemyManager;
         this.eventManager = EventManager.getInstance();
         addEventListeners();
     }
 
-    @Override
-    public void startSpawn(Player player, EnemyManager enemyManager) {
-        this.intervaledSpawn(player, enemyManager);
-    }
-
-    private void intervaledSpawn(Player player, EnemyManager enemyManager) {
-        if (gameStatus.isPlaying()) {
-            spawn(player, enemyManager);
-        }
-
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                intervaledSpawn(player, enemyManager);
+    private void intervaledSpawn(float deltaTime) {
+        if (this.gameStatus.isPlaying()) {
+            accumulatedTime += deltaTime;
+            if (accumulatedTime >= interval) {
+                spawn(player);
+                accumulatedTime = 0; // Reset the accumulated time
             }
-        }, interval);
+        }
     }
 
     @Override
-    public void spawn(Player player, EnemyManager enemyManager) {
-
+    public void spawn(Player player) {
         ArrayList<Enemy> enemies = enemyManager.getEnemies();
-
         if (player == null || enemies.isEmpty()) return;
 
         VampiresUnit unit = new VampiresUnit(
-            player.getPosX(),
-            player.getPosY(),
+            player.getPosX() + (player.getWidth() / 2) - width,
+            player.getPosY() + (player.getHeight() / 2) - height,
             width,
             height,
             speed,
@@ -93,9 +86,11 @@ public class VampiresManager implements AbstractSkillManager {
     }
 
     @Override
-    public void update(EnemyManager enemyManager) {
+    public void update() {
+        intervaledSpawn(Gdx.graphics.getDeltaTime());
+
         if (this.activeSkills.isEmpty()) return;
-        checkLifeTime();
+
         for (int i = 0; i < this.activeSkills.size(); i++) {
             VampiresUnit unit = this.activeSkills.get(i);
             unit.move();
@@ -105,6 +100,8 @@ public class VampiresManager implements AbstractSkillManager {
                 this::collision
             );
         }
+
+        checkLifeTime();
     }
 
     private void collision(UUID id, Enemy enemy) {
@@ -129,7 +126,7 @@ public class VampiresManager implements AbstractSkillManager {
 
         level += 1;
         damage += 1;
-        interval -= 50;
+        interval -= 0.05f;
         lifeTime += 100;
 
         if (level <= 5) {

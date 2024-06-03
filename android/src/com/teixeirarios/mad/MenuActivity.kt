@@ -2,12 +2,8 @@ package com.teixeirarios.mad
 
 import VideoBackground
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsetsController
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
@@ -24,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,6 +37,7 @@ class MenuActivity : AppCompatActivity() {
                 onButtonClick = {
                     val intent = Intent(this, AndroidLauncher::class.java)
                     startActivity(intent)
+                    finish()
                 }
             )
         }

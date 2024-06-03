@@ -1,7 +1,6 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy;
 
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.ArrayList;
 
 
@@ -13,16 +12,28 @@ public class MovimentationStrategy {
     }
 
     public void updateEnemiesMovement(ArrayList<Enemy> enemies, Vector2 playerPosition) {
-        for (int i = 0; i < enemies.size(); i++) {
+        int enemyCount = enemies.size();
+
+        // Precompute directions and next positions to avoid recalculations
+        Vector2[] directionsToPlayer = new Vector2[enemyCount];
+        Vector2[] nextPositions = new Vector2[enemyCount];
+
+        for (int i = 0; i < enemyCount; i++) {
             Enemy enemy = enemies.get(i);
 
             Vector2 directionToPlayer = getDirection(playerPosition, enemy);
+            directionsToPlayer[i] = directionToPlayer;
+
             Vector2 nextPosition = getNextPosition(directionToPlayer, enemy);
-            nextPosition = adjustNextPosition(enemies, nextPosition, enemy);
+            nextPositions[i] = nextPosition;
+        }
+
+        for (int i = 0; i < enemyCount; i++) {
+            Enemy enemy = enemies.get(i);
+            Vector2 nextPosition = adjustNextPosition(enemies, nextPositions[i], enemy);
 
             enemy.setPosX(Math.round(nextPosition.x));
             enemy.setPosY(Math.round(nextPosition.y));
-
         }
     }
 
@@ -43,13 +54,20 @@ public class MovimentationStrategy {
         boolean collisionX = false;
         boolean collisionY = false;
 
-        for (int i = 0; i < enemies.size(); i++) {
+        int enemyCount = enemies.size();
+        float enemyPosX = enemy.getPosX();
+        float enemyPosY = enemy.getPosY();
+
+        for (int i = 0; i < enemyCount; i++) {
             Enemy otherEnemy = enemies.get(i);
             if (otherEnemy != enemy) {
-                if (Math.abs(nextPosition.x - otherEnemy.getPosX()) < safetyMargin && Math.abs(enemy.getPosY() - otherEnemy.getPosY()) < safetyMargin) {
+                float otherEnemyPosX = otherEnemy.getPosX();
+                float otherEnemyPosY = otherEnemy.getPosY();
+
+                if (Math.abs(nextPosition.x - otherEnemyPosX) < safetyMargin && Math.abs(enemyPosY - otherEnemyPosY) < safetyMargin) {
                     collisionX = true;
                 }
-                if (Math.abs(nextPosition.y - otherEnemy.getPosY()) < safetyMargin && Math.abs(enemy.getPosX() - otherEnemy.getPosX()) < safetyMargin) {
+                if (Math.abs(nextPosition.y - otherEnemyPosY) < safetyMargin && Math.abs(enemyPosX - otherEnemyPosX) < safetyMargin) {
                     collisionY = true;
                 }
                 if (collisionX && collisionY) {
@@ -58,8 +76,8 @@ public class MovimentationStrategy {
             }
         }
 
-        float adjustedX = collisionX ? enemy.getPosX() : nextPosition.x;
-        float adjustedY = collisionY ? enemy.getPosY() : nextPosition.y;
+        float adjustedX = collisionX ? enemyPosX : nextPosition.x;
+        float adjustedY = collisionY ? enemyPosY : nextPosition.y;
 
         return new Vector2(adjustedX, adjustedY);
     }

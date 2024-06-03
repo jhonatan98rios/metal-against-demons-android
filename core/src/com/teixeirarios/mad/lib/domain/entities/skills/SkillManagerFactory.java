@@ -6,10 +6,9 @@ import com.teixeirarios.mad.lib.domain.entities.player.Player;
 
 public class SkillManagerFactory {
 
-    public static SkillManager create(Player player, SpriteBatch batch) {
-        SkillManager skillManager = SkillManager.getInstance(batch);
-        EnemyManager enemyManager = EnemyManager.getInstance();
-        skillManager.startSpawn(player, enemyManager);
+    public static SkillManager create(Player player, SpriteBatch batch, EnemyManager enemyManager) {
+        SkillManager skillManager = new SkillManager(batch, enemyManager);
+        skillManager.startSpawn(player);
         return skillManager;
     }
 }

@@ -24,7 +24,6 @@ public class EnemyManager {
     private final SpawnStrategy spawnStrategy;
     private final SpriteBatch batch;
     private final EventManager eventManager;
-    public static EnemyManager instance;
 
     public EnemyManager(
             SpriteBatch batch,
@@ -50,38 +49,6 @@ public class EnemyManager {
         this.addEventListeners();
     }
 
-    public static EnemyManager getInstance(
-            SpriteBatch batch,
-            Player player,
-            Camera camera,
-            int spawnInterval,
-            int maxEnemies,
-            MovimentationStrategy movimentationStrategy,
-            SpawnStrategy spawnStrategy,
-            EventManager eventManager
-    ) {
-        if (EnemyManager.instance == null) {
-            EnemyManager.instance = new EnemyManager(
-                batch,
-                player,
-                camera,
-                spawnInterval,
-                maxEnemies,
-                movimentationStrategy,
-                spawnStrategy,
-                eventManager
-            );
-        }
-        return EnemyManager.instance;
-    }
-
-    public static EnemyManager getInstance() {
-        if (EnemyManager.instance == null) {
-            throw new IllegalStateException("EnemyManager não inicializado");
-        }
-        return EnemyManager.instance;
-    }
-
     public void update() {
         spawnTimer += 1;
         if (spawnTimer >= spawnInterval && enemies.size() < maxEnemies) {
@@ -91,6 +58,10 @@ public class EnemyManager {
 
         Vector2 playerPosition = new Vector2(player.getPosX(), player.getPosY());
         movimentationStrategy.updateEnemiesMovement(enemies, playerPosition);
+
+        if (!enemies.isEmpty()) {
+            enemies.get(0).enemyCanvas.animate();
+        }
 
         for (int i = enemies.size() - 1; i >= 0; i--) {
             Enemy enemy = enemies.get(i);

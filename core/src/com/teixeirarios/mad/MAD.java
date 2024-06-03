@@ -63,10 +63,10 @@ public class MAD extends ApplicationAdapter {
 		orbManager = OrbManagerFactory.create(camera);
 
 		userInterface = new UserInterface(stage, gameStatus, navigator, batch);
+		userInterface.drawPauseButton();
+
 		BackgroundSound.init();
 		BackgroundSound.play();
-
-		userInterface.drawPauseButton();
 	}
 
 	@Override

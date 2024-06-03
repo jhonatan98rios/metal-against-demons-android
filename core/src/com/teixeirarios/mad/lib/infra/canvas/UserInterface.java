@@ -193,12 +193,13 @@ public class UserInterface {
         });
 
         eventManager.on("status:play", args -> {
-            menuModal.remove();
             drawPauseButton();
+            menuModal.remove();
         });
 
         eventManager.on("player:levelup", args -> {
             showLevelUpModal();
+            pauseButton.remove();
         });
     }
 }

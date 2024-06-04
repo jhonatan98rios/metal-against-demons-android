@@ -1,6 +1,5 @@
 package com.teixeirarios.mad
 
-import VideoBackground
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -25,20 +24,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+import VideoBackground
+import com.teixeirarios.mad.lib.domain.entities.stage.StageManager
+import com.teixeirarios.mad.lib.domain.entities.stage.StageModel
+
 
 class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setFullscreen()
+
+        val stageManager = StageManager.getInstance()
+        //val stageList = stageManager.allStagesData.values.toList()
+
+        val stageData = stageManager.getStageData("1")
 
         setContent {
             MenuScreen(
                 onButtonClick = {
                     val intent = Intent(this, AndroidLauncher::class.java)
+                    intent.putExtra("stageId", stageData.id)
                     startActivity(intent)
                     finish()
-                }
+                },
+                stageData.id
             )
         }
     }
@@ -74,7 +83,7 @@ class MenuActivity : AppCompatActivity() {
 }
 
 @Composable
-fun MenuScreen(onButtonClick: () -> Unit) {
+fun MenuScreen(onButtonClick: () -> Unit, stageId: String) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         VideoBackground()
@@ -93,7 +102,7 @@ fun MenuScreen(onButtonClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(128.dp))
             Text(
-                text = "Stage 1",
+                text = "Stage $stageId",
                 modifier = Modifier.padding(bottom = 16.dp),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Black,

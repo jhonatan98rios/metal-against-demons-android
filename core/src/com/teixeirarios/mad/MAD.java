@@ -10,7 +10,6 @@ import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
-import com.teixeirarios.mad.lib.domain.entities.game.GameStatusFactory;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManager;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
@@ -52,13 +51,13 @@ public class MAD extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		stage = new Stage();
 
+		gameStatus = GameStatus.getInstance();
 		joystick = ControllerFactory.create(stage);
 		player = PlayerFactory.create(batch, joystick);
 
 		scenario = new Scenario(batch);
 		camera = new Camera(player);
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
-		gameStatus = GameStatusFactory.create();
 		skillManager = SkillManagerFactory.create(player, batch, enemyManager);
 		orbManager = OrbManagerFactory.create(camera);
 

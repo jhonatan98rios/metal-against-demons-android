@@ -14,7 +14,7 @@ public class Player implements Body2D {
     public float posX, posY;
     public final int width, height, velocity;
     char posDirection;
-    static Player instance;
+    public static Player instance;
 
     private Player(AbstractCanvasFacade playerCanvas, PlayerController playerController, PlayerStatus playerStatus, float posX, float posY) {
         this.playerCanvas = playerCanvas;

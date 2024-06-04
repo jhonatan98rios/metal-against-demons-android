@@ -129,7 +129,7 @@ public class EnemyManager {
         Iterator<Enemy> iterator = enemies.iterator();
         while (iterator.hasNext()) {
             Enemy e = iterator.next();
-            if (e.id == enemy.id) {
+            if (e.getId() == enemy.getId()) {
                 iterator.remove();
             }
         }

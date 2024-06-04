@@ -93,11 +93,25 @@ public class UserInterface {
         float posX = (menuModal.getWidth() - width) / 2;
         float posY = (menuModal.getHeight() / 3);
         ImageButton btn = drawButton(url, posX, posY , width, height, () -> {
-            //navigator.navigateToMenu();
+            navigator.navigateToMenu();
         });
 
         menuModal.addActor(btn);
     }
+
+    public void showGameOverModal() {
+        menuModal = new Group();
+        menuModal.setSize(500, 300);
+        menuModal.setPosition(
+                (((float) Constants.SCENARIO_WIDTH / 2) - menuModal.getWidth()) / 2,
+                ((((float) Constants.SCENARIO_HEIGHT / 2) - menuModal.getHeight()) / 2) + 50
+        );
+
+        drawExitButton();
+
+        stage.addActor(menuModal);
+    }
+
 
     public void drawContinueButton() {
         String url = "ui/continue.png";
@@ -199,6 +213,11 @@ public class UserInterface {
 
         eventManager.on("player:levelup", args -> {
             showLevelUpModal();
+            pauseButton.remove();
+        });
+
+        eventManager.on("player:die", args -> {
+            showGameOverModal();
             pauseButton.remove();
         });
     }

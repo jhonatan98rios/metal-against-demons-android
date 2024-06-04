@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import VideoBackground
+import com.teixeirarios.mad.lib.components.home.StageSelector
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager
 import com.teixeirarios.mad.lib.domain.entities.stage.StageModel
-
 
 class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,19 +35,17 @@ class MenuActivity : AppCompatActivity() {
         setFullscreen()
 
         val stageManager = StageManager.getInstance()
-        //val stageList = stageManager.allStagesData.values.toList()
-
-        val stageData = stageManager.getStageData("1")
+        val stageList = stageManager.allStagesData.values.toList()
 
         setContent {
             MenuScreen(
-                onButtonClick = {
+                onButtonClick = { stageId ->
                     val intent = Intent(this, AndroidLauncher::class.java)
-                    intent.putExtra("stageId", stageData.id)
+                    intent.putExtra("stageId", stageId)
                     startActivity(intent)
                     finish()
                 },
-                stageData.id
+                stageList
             )
         }
     }
@@ -83,7 +81,7 @@ class MenuActivity : AppCompatActivity() {
 }
 
 @Composable
-fun MenuScreen(onButtonClick: () -> Unit, stageId: String) {
+fun MenuScreen(onButtonClick: (String) -> Unit,  stageList: List<StageModel>) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         VideoBackground()
@@ -100,17 +98,9 @@ fun MenuScreen(onButtonClick: () -> Unit, stageId: String) {
                 modifier = Modifier
                     .padding(top = 16.dp)
             )
-            Spacer(modifier = Modifier.height(128.dp))
-            Text(
-                text = "Stage $stageId",
-                modifier = Modifier.padding(bottom = 16.dp),
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Black,
-                color = Color.White
-            )
-            Button(onClick = { onButtonClick() }) {
-                Text(text = "Start")
-            }
+            Spacer(modifier = Modifier.height(64.dp))
+
+            StageSelector(stageList, onButtonClick)
         }
     }
 }

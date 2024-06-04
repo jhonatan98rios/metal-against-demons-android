@@ -9,6 +9,8 @@ import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CrawlerFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManager;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManagerFactory;
@@ -17,9 +19,11 @@ import com.teixeirarios.mad.lib.domain.entities.player.PlayerFactory;
 import com.teixeirarios.mad.lib.domain.entities.scenario.Scenario;
 import com.teixeirarios.mad.lib.domain.entities.skills.SkillManager;
 import com.teixeirarios.mad.lib.domain.entities.skills.SkillManagerFactory;
+import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.canvas.RenderStack;
 import com.teixeirarios.mad.lib.infra.canvas.UserInterface;
+import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.infra.input.ControllerFactory;
 import com.teixeirarios.mad.lib.infra.input.VirtualJoystick;
 import com.teixeirarios.mad.lib.infra.sound.BackgroundSound;
@@ -114,7 +118,14 @@ public class MAD extends ApplicationAdapter {
 		joystick.dispose();
 		scenario.dispose();
 		userInterface.dispose();
+		SpiritFactory.enemyCanvas.dispose();
+		CrawlerFactory.enemyCanvas.dispose();
 
 		GameStatus.instance = null;
+		StageManager.instance = null;
+		Player.instance = null;
+		EventManager.instance = null;
+		SpiritFactory.enemyCanvas = null;
+		CrawlerFactory.enemyCanvas = null;
 	}
 }

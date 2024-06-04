@@ -3,15 +3,20 @@ package com.teixeirarios.mad.lib.domain.entities.stage;
 import java.util.HashMap;
 
 public class StageManager {
-    private static final StageManager instance = new StageManager();
+    public static StageManager instance;
     private final HashMap<String, StageModel> stagesDataMap = new HashMap<>();
     private StageModel currentStage;
 
     private StageManager() {
-        addStageData(new StageModel("1", 5, 10, 1f, 1f));
+        addStageData(new StageModel("1", 10, 10, 1f, 1f));
+        addStageData(new StageModel("2", 25, 10, 1f, 1f));
+        addStageData(new StageModel("3", 50, 10, 1f, 1f));
     }
 
     public static StageManager getInstance() {
+        if (instance == null) {
+            instance = new StageManager();
+        }
         return instance;
     }
     public void addStageData(StageModel gameData) {

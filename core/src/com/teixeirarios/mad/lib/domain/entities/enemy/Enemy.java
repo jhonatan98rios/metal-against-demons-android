@@ -2,21 +2,21 @@ package com.teixeirarios.mad.lib.domain.entities.enemy;
 
 import com.badlogic.gdx.graphics.Color;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
-import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
+import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 
 import java.util.UUID;
 
 public class Enemy implements Body2D {
-    UUID id;
+    private UUID id;
     private final int velocity, width, height;
     private int posX, posY, selectedFrame;
-    public AbstractCanvasFacade enemyCanvas;
+    public CanvasFacade enemyCanvas;
     public EnemyStatus status;
 
     public Enemy(
             int width, int height, int posX, int posY, int velocity,
-            int maxHealth, int damage, AbstractCanvasFacade enemyCanvas
+            int maxHealth, int damage, CanvasFacade enemyCanvas
         ) {
         this.id = UUID.randomUUID();
         this.width = width;
@@ -66,6 +66,10 @@ public class Enemy implements Body2D {
     }
 
     // Getters e setters
+
+    public UUID getId() {
+        return id;
+    }
 
     public int getWidth() {
         return width;

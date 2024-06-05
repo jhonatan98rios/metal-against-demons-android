@@ -1,13 +1,15 @@
 package com.teixeirarios.mad.lib.domain.entities.stage;
 
+
 public class StageModel {
-    private String id;
+    private int id;
     private int maxEnemies;
     private int spawnInterval;
     private float baseDamage;
     private float baseHealth;
 
-    public StageModel(String id, int maxEnemies, int spawnInterval, float baseDamage, float baseHealth) {
+
+    public StageModel(int id, int maxEnemies, int spawnInterval, float baseDamage, float baseHealth) {
         this.id = id;
         this.maxEnemies = maxEnemies;
         this.spawnInterval = spawnInterval;
@@ -16,7 +18,7 @@ public class StageModel {
     }
 
     // Getters
-    public String getId() { return id; }
+    public int getId() { return id; }
     public int getMaxEnemies() { return maxEnemies; }
     public int getSpawnInterval() { return spawnInterval; }
     public float getBaseDamage() { return baseDamage; }

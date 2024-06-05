@@ -14,28 +14,25 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 import VideoBackground
+import androidx.compose.foundation.layout.Arrangement
+import com.teixeirarios.mad.lib.components.home.StageManager
+import com.teixeirarios.mad.lib.components.home.StageModel
 import com.teixeirarios.mad.lib.components.home.StageSelector
-import com.teixeirarios.mad.lib.domain.entities.stage.StageManager
-import com.teixeirarios.mad.lib.domain.entities.stage.StageModel
+
 
 class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFullscreen()
 
-        val stageManager = StageManager.getInstance()
-        val stageList = stageManager.allStagesData.values.toList()
+        val stageList = StageManager.getStageList()
 
         setContent {
             MenuScreen(
@@ -81,7 +78,7 @@ class MenuActivity : AppCompatActivity() {
 }
 
 @Composable
-fun MenuScreen(onButtonClick: (String) -> Unit,  stageList: List<StageModel>) {
+fun MenuScreen(onButtonClick: (Int) -> Unit,  stageList: List<StageModel>) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         VideoBackground()
@@ -90,11 +87,11 @@ fun MenuScreen(onButtonClick: (String) -> Unit,  stageList: List<StageModel>) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Top
+            verticalArrangement = Arrangement.Top
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logo),
-                contentDescription = "Metal Against Demons logo",
+                contentDescription = "Metal Against Demons",
                 modifier = Modifier
                     .padding(top = 16.dp)
             )

@@ -26,21 +26,16 @@ public class AndroidLauncher extends AndroidApplication implements Navigator {
 
 		// Recuperar o ID passado pela Activity Kotlin
 		Intent intent = getIntent();
-		String stageId = intent.getStringExtra("stageId");
-
-		if (stageId == null) {
-			throw new RuntimeException("stageId não pode ser nulo");
-		}
+		int stageId = intent.getIntExtra("stageId", 0);
 
 		StageManager stageManager = StageManager.getInstance();
 		StageModel stageData = stageManager.getStageData(stageId);
 
 		if (stageData == null) {
-			throw new RuntimeException("StageModel não pode ser nulo");
+			throw new RuntimeException("Stage not found!");
 		}
 
 		stageManager.setCurrentStage(stageData);
-		System.out.println("\n\n >>> StageModel: " + stageData.getId());
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		game = new MAD(this);

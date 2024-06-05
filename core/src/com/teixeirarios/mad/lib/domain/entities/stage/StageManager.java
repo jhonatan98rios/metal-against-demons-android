@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 public class StageManager {
     public static StageManager instance;
-    private final HashMap<String, StageModel> stagesDataMap = new HashMap<>();
+    private final HashMap<Integer, StageModel> stagesDataMap = new HashMap<>();
     private StageModel currentStage;
 
     private StageManager() {
-        addStageData(new StageModel("1", 10, 10, 1f, 1f));
-        addStageData(new StageModel("2", 25, 10, 1f, 1f));
-        addStageData(new StageModel("3", 50, 10, 1f, 1f));
+        addStageData(new StageModel(0, 10, 10, 1f, 1f));
+        addStageData(new StageModel(1, 25, 10, 1f, 1f));
+        addStageData(new StageModel(2, 50, 10, 1f, 1f));
     }
 
     public static StageManager getInstance() {
@@ -19,14 +19,11 @@ public class StageManager {
         }
         return instance;
     }
-    public void addStageData(StageModel gameData) {
-        stagesDataMap.put(gameData.getId(), gameData);
+    public void addStageData(StageModel stageModel) {
+        stagesDataMap.put(stageModel.getId(), stageModel);
     }
-    public StageModel getStageData(String id) {
+    public StageModel getStageData(int id) {
         return stagesDataMap.get(id);
-    }
-    public HashMap<String, StageModel> getAllStagesData() {
-        return stagesDataMap;
     }
     public void setCurrentStage(StageModel currentStage) {
         this.currentStage = currentStage;

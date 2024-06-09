@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.teixeirarios.mad.R
 
 @Composable
 fun StageSelectorCard (
@@ -36,7 +35,7 @@ fun StageSelectorCard (
         shape = RoundedCornerShape(16.dp),
         backgroundColor = Color.White,
         modifier = Modifier
-            .height(230.dp)
+            .height(250.dp)
             .width(250.dp)
             .shadow(
                 elevation = 10.dp,

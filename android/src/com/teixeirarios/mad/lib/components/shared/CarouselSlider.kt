@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.teixeirarios.mad.lib.components.home.StageModel
 import com.teixeirarios.mad.lib.components.home.StageSelectorCard
 
@@ -30,7 +31,9 @@ fun CarouselSlider(
             itemSpacing = 24.dp,
             modifier = Modifier.height(250.dp)
         ) {
-            index -> StageSelectorCard(
+            index ->
+
+            StageSelectorCard(
                 stageModel = stageList[index],
                 onButtonClick = onButtonClick
             )

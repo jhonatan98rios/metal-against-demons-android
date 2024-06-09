@@ -1,8 +1,8 @@
 buildscript {
-    
 
     ext {
         kotlin_version = '1.7.20'
+        objectbox_version = "4.0.1"
     }
     repositories {
         mavenLocal()
@@ -13,9 +13,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.4.0'
+        classpath "io.objectbox:objectbox-gradle-plugin:$objectbox_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-
-
     }
 }
 
@@ -46,6 +45,9 @@ allprojects {
 
 project(":android") {
     apply plugin: "com.android.application"
+    apply plugin: "kotlin-android"
+    apply plugin: "kotlin-kapt"
+    apply plugin: "io.objectbox"
 
     configurations { natives }
 
@@ -71,7 +73,6 @@ project(":android") {
 
         // dependencies for carousel
         implementation 'com.google.accompanist:accompanist-pager:0.20.0'
-        //implementation 'androidx.compose.ui:ui-utils:1.6.7'
 
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
@@ -84,10 +85,9 @@ project(":android") {
 
 project(":core") {
     apply plugin: "java-library"
-
+    apply plugin: "io.objectbox"
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        
     }
 }

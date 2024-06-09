@@ -15,7 +15,7 @@
         tools:ignore="UnusedAttribute">
 
         <activity
-            android:name=".MenuActivity"
+            android:name=".AppActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

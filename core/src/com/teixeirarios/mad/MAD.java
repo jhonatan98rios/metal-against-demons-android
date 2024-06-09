@@ -46,6 +46,7 @@ public class MAD extends ApplicationAdapter {
 	Navigator navigator;
 
 	public MAD (Navigator navigator) {
+		// Remover o navigator como "this"
 		this.navigator = navigator;
 	}
 

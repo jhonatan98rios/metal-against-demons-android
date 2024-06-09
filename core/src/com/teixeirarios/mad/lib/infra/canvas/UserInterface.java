@@ -19,14 +19,14 @@ import com.teixeirarios.mad.lib.utils.Constants;
 
 public class UserInterface {
 
-    public GameStatus gameStatus;
-    public Stage stage;
-    public ImageButton pauseButton;
+    private final GameStatus gameStatus;
+    private final Stage stage;
+    private ImageButton pauseButton;
     private Group menuModal;
-    private Navigator navigator;
-    SpriteBatch batch;
-    private EventManager eventManager;
-    BitmapFont font;
+    private final Navigator navigator;
+    private final SpriteBatch batch;
+    private final EventManager eventManager;
+    private final BitmapFont font;
 
 
 
@@ -92,9 +92,7 @@ public class UserInterface {
         float height = 72;
         float posX = (menuModal.getWidth() - width) / 2;
         float posY = (menuModal.getHeight() / 3);
-        ImageButton btn = drawButton(url, posX, posY , width, height, () -> {
-            navigator.navigateToMenu();
-        });
+        ImageButton btn = drawButton(url, posX, posY , width, height, navigator::navigateToMenu);
 
         menuModal.addActor(btn);
     }
@@ -108,10 +106,8 @@ public class UserInterface {
         );
 
         drawExitButton();
-
         stage.addActor(menuModal);
     }
-
 
     public void drawContinueButton() {
         String url = "ui/continue.png";

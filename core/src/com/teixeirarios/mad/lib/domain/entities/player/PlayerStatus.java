@@ -1,14 +1,14 @@
 package com.teixeirarios.mad.lib.domain.entities.player;
 
+import com.teixeirarios.mad.lib.infra.database.models.UserState;
+import com.teixeirarios.mad.lib.infra.database.repository.UserRepository;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
-
-import java.math.BigInteger;
 
 public class PlayerStatus {
     public int level;
     public float maxHealth, currentHealth, nextLevelXp, currentXP;
 
-    public BigInteger totalXP;
+    public Long totalXP;
     private final EventManager eventManager;
 
     public PlayerStatus() {
@@ -17,7 +17,7 @@ public class PlayerStatus {
         currentHealth = 1000;
         currentXP = 0;
         nextLevelXp = 100;
-        totalXP = BigInteger.valueOf(0);
+        totalXP = 0L;
 
         eventManager = EventManager.getInstance();
         addEventListeners();
@@ -46,7 +46,7 @@ public class PlayerStatus {
         }
 
         this.currentXP = updateCurrentXP;
-        this.totalXP = this.totalXP.add(BigInteger.valueOf((long) xp));
+        this.totalXP = (long) (this.totalXP + xp);
     }
 
     public void levelup() {
@@ -60,5 +60,9 @@ public class PlayerStatus {
 
     public void die() {
         this.eventManager.emit("player:die");
+        UserRepository userRepository = UserRepository.getInstance();
+        UserState userState = userRepository.getUserState();
+        userState.money += totalXP / 10;
+        UserRepository.getInstance().setUserState(userState);
     }
 }

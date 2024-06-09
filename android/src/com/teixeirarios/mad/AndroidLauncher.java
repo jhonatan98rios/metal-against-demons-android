@@ -10,12 +10,13 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
-import com.teixeirarios.mad.lib.infra.events.EventManager;
-
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
 import com.teixeirarios.mad.lib.domain.entities.stage.StageModel;
+import com.teixeirarios.mad.lib.infra.database.repository.AppContext;
+import com.teixeirarios.mad.lib.infra.database.repository.UserRepository;
+import com.teixeirarios.mad.lib.infra.events.EventManager;
 
-public class AndroidLauncher extends AndroidApplication implements Navigator {
+public class AndroidLauncher extends AndroidApplication implements Navigator, AppContext {
 
 	MAD game;
 	private EventManager eventManager;
@@ -35,9 +36,13 @@ public class AndroidLauncher extends AndroidApplication implements Navigator {
 			throw new RuntimeException("Stage not found!");
 		}
 
+		UserRepository.getInstance(this);
+
 		stageManager.setCurrentStage(stageData);
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+
+		// Remover o navigator como "this"
 		game = new MAD(this);
 		eventManager = EventManager.getInstance();
 		initialize(game, config);
@@ -50,7 +55,7 @@ public class AndroidLauncher extends AndroidApplication implements Navigator {
 			game.dispose();
 		}
 
-		Intent intent = new Intent(this, MenuActivity.class);
+		Intent intent = new Intent(this, AppActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(intent);
 		finish();

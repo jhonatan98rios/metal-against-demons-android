@@ -1,5 +1,6 @@
 package com.teixeirarios.mad.lib.components.upgrade
 
+import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -83,9 +84,47 @@ fun UpgradeScreen() {
                         .height(448.dp)
                         .clip(RoundedCornerShape(16.dp))
                         .background(Color.Black)
+                        .padding(8.dp)
                 ) {
+                    Text(
+                        text = "Level up",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Black,
+                        color = Color.White,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(bottom = 16.dp)
+                    )
 
+                    UpgradeItem(
+                        title = "Strength",
+                        description = "Increase the damage base of all attacks.",
+                        runnable = {}
+                    )
 
+                    UpgradeItem(
+                        title = "Dexterity",
+                        description = "Decrease the interval between spells",
+                        runnable = {}
+                    )
+
+                    UpgradeItem(
+                        title = "Speed",
+                        description = "Increase the movement speed",
+                        runnable = {}
+                    )
+
+                    UpgradeItem(
+                        title = "Health",
+                        description = "Increase the max health",
+                        runnable = {}
+                    )
+
+                    UpgradeItem(
+                        title = "Luck",
+                        description = "Increase the acquired when fights",
+                        runnable = {}
+                    )
                 }
             }
         }

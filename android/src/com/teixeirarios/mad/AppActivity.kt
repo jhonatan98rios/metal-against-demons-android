@@ -22,7 +22,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.teixeirarios.mad.lib.components.battle.BattleScreen
 import com.teixeirarios.mad.lib.components.home.StageManager
+import com.teixeirarios.mad.lib.components.quests.QuestScreen
 import com.teixeirarios.mad.lib.components.shared.NavigationBar
+import com.teixeirarios.mad.lib.components.upgrade.UpgradeScreen
 import com.teixeirarios.mad.lib.infra.database.repository.AppContext
 import com.teixeirarios.mad.lib.store.userstate.UserState
 
@@ -72,6 +74,7 @@ class AppActivity : AppCompatActivity(), AppContext {
 fun MainScreen() {
     val navController = rememberNavController()
     val context = LocalContext.current
+    val intent = Intent(context, AndroidLauncher::class.java)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -94,15 +97,11 @@ fun MainScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("Upgrade") {
-                Box(modifier = Modifier
-                    .background(Color.Transparent)
-                    .fillMaxSize()
-                )
+                UpgradeScreen()
             }
             composable("Battle") {
                 BattleScreen(
                     onButtonClick = { stageId ->
-                        val intent = Intent(context, AndroidLauncher::class.java)
                         intent.putExtra("stageId", stageId)
                         context.startActivity(intent)
                     },
@@ -110,10 +109,7 @@ fun MainScreen() {
                 )
             }
             composable("Quests") {
-                Box(modifier = Modifier
-                    .background(Color.Transparent)
-                    .fillMaxSize()
-                )
+                QuestScreen()
             }
         }
     }

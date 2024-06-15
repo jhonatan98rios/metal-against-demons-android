@@ -76,7 +76,7 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val (scale, offsetX, offsetY) = when (currentRoute) {
-        "Player" -> Triple(1.7f, 240f, -300f) // Zoom no player
+        "Upgrade" -> Triple(1.7f, 240f, -300f) // Zoom no player
         "Battle" -> Triple(1.0f, 0f, 0f) // Sem zoom
         "Quests" -> Triple(2.5f, 0f, -400f) // Zoom na fogueira
         else -> Triple(1.0f, 0f, 0f)
@@ -93,7 +93,7 @@ fun MainScreen() {
             startDestination = "Battle",
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable("Player") {
+            composable("Upgrade") {
                 Box(modifier = Modifier
                     .background(Color.Transparent)
                     .fillMaxSize()

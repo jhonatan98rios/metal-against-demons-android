@@ -24,6 +24,7 @@ import com.teixeirarios.mad.lib.components.battle.BattleScreen
 import com.teixeirarios.mad.lib.components.home.StageManager
 import com.teixeirarios.mad.lib.components.quests.QuestScreen
 import com.teixeirarios.mad.lib.components.shared.NavigationBar
+import com.teixeirarios.mad.lib.components.shared.TopBar
 import com.teixeirarios.mad.lib.components.upgrade.UpgradeScreen
 import com.teixeirarios.mad.lib.infra.database.repository.AppContext
 import com.teixeirarios.mad.lib.store.userstate.UserState
@@ -88,6 +89,7 @@ fun MainScreen() {
     VideoBackground(scale, offsetX, offsetY)
 
     Scaffold(
+        topBar = { TopBar() },
         bottomBar = { NavigationBar(navController = navController) },
         backgroundColor = Color.Transparent
     ) { innerPadding ->
@@ -108,9 +110,9 @@ fun MainScreen() {
                     StageManager.getStageList()
                 )
             }
-            composable("Quests") {
-                QuestScreen()
-            }
+//            composable("Quests") {
+//                QuestScreen()
+//            }
         }
     }
 }

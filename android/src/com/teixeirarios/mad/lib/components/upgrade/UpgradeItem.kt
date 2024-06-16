@@ -19,13 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun UpgradeItem (title: String, description: String, runnable: () -> Unit) {
+fun UpgradeItem (title: String, description: String, value: String, runnable: () -> Unit) {
 
     Row (
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
-            .padding(8.dp)
+            .padding(6.dp)
             .fillMaxWidth()
             .height(56.dp)
     ) {
@@ -35,22 +35,23 @@ fun UpgradeItem (title: String, description: String, runnable: () -> Unit) {
                 text = description,
                 fontSize = 12.sp,
                 color = Color.White,
-                modifier = Modifier.width(152.dp)
+                modifier = Modifier.width(144.dp)
             )
         }
 
         Row (
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.End,
             modifier = Modifier
-                .width(64.dp)
+                .width(80.dp)
                 .clickable { runnable() }
         ) {
 
             Text(
-                text = "LV ${1}",
+                text = value,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
+                modifier = Modifier.padding(end = 8.dp, top = 4.dp)
             )
 
             Text(

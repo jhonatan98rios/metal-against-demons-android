@@ -1,6 +1,5 @@
 package com.teixeirarios.mad.lib.components.upgrade
 
-import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,11 +16,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,31 +32,10 @@ fun UpgradeScreen() {
         modifier = Modifier.fillMaxSize()
     ) {
         Box(
-            contentAlignment = Alignment.TopEnd,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = "R$${userState.money}",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Black,
-                style = TextStyle(
-                    shadow = Shadow(
-                        color = Color.Black,
-                        offset = Offset(4f, 4f),
-                        blurRadius = 6f
-                    )
-                )
-            )
-        }
-
-        Box(
            modifier = Modifier
                .fillMaxWidth()
                .height(700.dp)
-               .padding(24.dp, 80.dp, 24.dp, 0.dp)
+               .padding(24.dp, 64.dp, 24.dp, 0.dp)
         ) {
             Box(
                 modifier = Modifier
@@ -71,8 +46,8 @@ fun UpgradeScreen() {
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Color(0xFF8F0101),
-                                Color(0xFF4D0000)
+                                Color(0xBB8F0101),
+                                Color(0xBB4D0000)
                             )
                         )
                     )
@@ -83,47 +58,80 @@ fun UpgradeScreen() {
                         .width(300.dp)
                         .height(448.dp)
                         .clip(RoundedCornerShape(16.dp))
-                        .background(Color.Black)
+                        .background(Color(0xEE000000))
                         .padding(8.dp)
                 ) {
                     Text(
-                        text = "Level up",
+                        text = "Level ${userState.level}",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Black,
                         color = Color.White,
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .padding(bottom = 16.dp)
+                            .padding(bottom = 4.dp)
                     )
 
-                    UpgradeItem(
-                        title = "Strength",
-                        description = "Increase the damage base of all attacks.",
-                        runnable = {}
+                    Text(
+                        text = "Next Level Up: ${userState.experience}/${userState.nextLevelUp}",
+                        fontSize = 14.sp,
+                        color = Color.White,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(bottom = 4.dp)
                     )
 
-                    UpgradeItem(
-                        title = "Dexterity",
-                        description = "Decrease the interval between spells",
-                        runnable = {}
-                    )
-
-                    UpgradeItem(
-                        title = "Speed",
-                        description = "Increase the movement speed",
-                        runnable = {}
+                    Text(
+                        text = "Available Points: ${userState.points}",
+                        fontSize = 14.sp,
+                        color = Color.White,
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(bottom = 8.dp)
                     )
 
                     UpgradeItem(
                         title = "Health",
                         description = "Increase the max health",
-                        runnable = {}
+                        value = userState.health.toString(),
+                        runnable = {
+                            UserState.addHealth()
+                        }
+                    )
+
+                    UpgradeItem(
+                        title = "Strength",
+                        description = "Increase the damage base of all attacks.",
+                        value = userState.strength.toString(),
+                        runnable = {
+                            UserState.addStrength()
+                        }
+                    )
+
+                    UpgradeItem(
+                        title = "Dexterity",
+                        description = "Decrease the interval between spells",
+                        value = userState.dexterity.toString(),
+                        runnable = {
+                            UserState.addDexterity()
+                        }
+                    )
+
+                    UpgradeItem(
+                        title = "Speed",
+                        description = "Increase the movement speed",
+                        value = userState.speed.toString(),
+                        runnable = {
+                            UserState.addSpeed()
+                        }
                     )
 
                     UpgradeItem(
                         title = "Luck",
                         description = "Increase the acquired when fights",
-                        runnable = {}
+                        value = userState.luck.toString(),
+                        runnable = {
+                            UserState.addLuck()
+                        }
                     )
                 }
             }

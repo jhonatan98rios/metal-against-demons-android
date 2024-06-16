@@ -41,7 +41,7 @@ fun QuestScreen() {
                 .padding(16.dp)
         ) {
             Text(
-                text = "R$${userState.money}",
+                text = "${userState.money} orbs",
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Black,

@@ -47,7 +47,6 @@ public class GameStatus {
     private void addEventListeners() {
         eventManager.on("player:die", args -> {
             setStatus(GameStatusOptions.STOPPED);
-
         });
 
         eventManager.on("player:levelup", args -> {

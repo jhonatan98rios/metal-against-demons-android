@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -39,6 +40,16 @@ public class UserInterface {
         this.font = new BitmapFont();
         font.getData().setScale(2.4f);
         addEventListeners();
+    }
+
+    private Image drawImage(String imageUrl, float posX, float posY, float width, float height) {
+        Texture texture = new Texture(imageUrl);
+        Drawable drawable = new TextureRegionDrawable(new TextureRegion(texture));
+        Image image = new Image(drawable);
+        image.setPosition(posX, posY);
+        image.setSize(width, height);
+        stage.addActor(image);
+        return image;
     }
 
     private ImageButton drawButton(String imageUrl, float posX, float posY, float width, float height, final Runnable action) {
@@ -97,13 +108,42 @@ public class UserInterface {
         menuModal.addActor(btn);
     }
 
-    public void showGameOverModal() {
+    public void drawVictoryTitle() {
+        String url = "ui/victory.png";
+        float width = Gdx.graphics.getWidth() * 0.9f;
+        float height = 72;
+        float posX = (menuModal.getWidth() - width) / 2f;
+        float posY = (menuModal.getHeight() / 3) + 150;
+
+        ImageButton btn = drawButton(url, posX, posY, width, height, () -> {});
+        menuModal.addActor(btn);
+    }
+
+    public void drawGameOverTitle() {
+        String url = "ui/gameover.png";
+        float width = Gdx.graphics.getWidth() * 0.9f;
+        float height = 72;
+        float posX = (menuModal.getWidth() - width) / 2f;
+        float posY = (menuModal.getHeight() / 3) + 150;
+
+        ImageButton btn = drawButton(url, posX, posY, width, height, () -> {});
+        menuModal.addActor(btn);
+    }
+
+    public void showGameOverModal(boolean isVictory) {
         menuModal = new Group();
         menuModal.setSize(500, 300);
         menuModal.setPosition(
                 (((float) Constants.SCENARIO_WIDTH / 2) - menuModal.getWidth()) / 2,
                 ((((float) Constants.SCENARIO_HEIGHT / 2) - menuModal.getHeight()) / 2) + 50
         );
+
+        if (isVictory) {
+            drawVictoryTitle();
+        } else {
+            drawGameOverTitle();
+        }
+
 
         drawExitButton();
         stage.addActor(menuModal);
@@ -212,8 +252,9 @@ public class UserInterface {
             pauseButton.remove();
         });
 
-        eventManager.on("player:die", args -> {
-            showGameOverModal();
+        eventManager.on("status:gameover", args -> {
+            Boolean isVictory = (Boolean) args[0];
+            showGameOverModal(isVictory);
             pauseButton.remove();
         });
     }

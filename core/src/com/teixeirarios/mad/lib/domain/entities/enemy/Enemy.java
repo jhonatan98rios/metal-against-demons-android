@@ -16,7 +16,7 @@ public class Enemy implements Body2D {
 
     public Enemy(
             int width, int height, int posX, int posY, int velocity,
-            int maxHealth, int damage, CanvasFacade enemyCanvas
+            int maxHealth, float damage, CanvasFacade enemyCanvas
         ) {
         this.id = UUID.randomUUID();
         this.width = width;

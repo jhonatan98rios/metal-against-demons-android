@@ -99,11 +99,6 @@ public class VampiresUnit implements AbstractSkill {
     }
 
     @Override
-    public void startSpawn(Player player, EnemyManager enemyManager) {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
     public void spawn(Player player, EnemyManager enemyManager) {
         throw new RuntimeException("Not implemented");
     }

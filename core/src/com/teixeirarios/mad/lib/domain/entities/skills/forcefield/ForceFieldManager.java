@@ -6,6 +6,8 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
+import com.teixeirarios.mad.lib.infra.database.models.UserState;
+import com.teixeirarios.mad.lib.infra.database.repository.UserRepository;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 
 import java.util.ArrayList;
@@ -14,22 +16,26 @@ import java.util.UUID;
 
 public class ForceFieldManager implements AbstractSkillManager {
 
-    private String category;
-    private int level, width, height, frame_amount;
-    private int damage;
+    private final ArrayList<ForceFieldUnit> activeSkills;
+    private final EventManager eventManager;
+    private final EnemyManager enemyManager;
+    private final SpriteBatch batch;
+    private final String category;
+    private final int frame_amount;
+    private int level, width, height;
+    private float damage;
     private String spritesheet;
     private Texture texture;
-    private ArrayList<ForceFieldUnit> activeSkills;
-    private EventManager eventManager;
-    private EnemyManager enemyManager;
-    private SpriteBatch batch;
 
     public ForceFieldManager(SpriteBatch batch, EnemyManager enemyManager) {
+        UserRepository userRepository = UserRepository.getInstance();
+        UserState userState = userRepository.getUserState();
+
         this.category = "Force Field";
         this.level = 1;
         this.width = 240;
         this.height = 240;
-        this.damage = 1;
+        this.damage = userState.strength / 3;
 
         this.spritesheet = "skills/force_field_1.png";
         this.texture = new Texture(this.spritesheet);
@@ -51,7 +57,6 @@ public class ForceFieldManager implements AbstractSkillManager {
             player.getPosY() + height,
             width,
             height,
-            damage,
             texture,
             frame_amount,
             batch

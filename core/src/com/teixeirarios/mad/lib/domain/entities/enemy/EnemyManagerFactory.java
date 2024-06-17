@@ -1,6 +1,5 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy;
 
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;

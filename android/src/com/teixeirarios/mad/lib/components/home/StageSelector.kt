@@ -12,6 +12,6 @@ fun StageSelector(
     stageList: List<StageModel>,
     onButtonClick: (Int) -> Unit
 ){
-    val pagerState = rememberPagerState(initialPage = 0)
+    val pagerState = rememberPagerState(initialPage = stageList.size - 1)
     CarouselSlider(pagerState, stageList, onButtonClick)
 }

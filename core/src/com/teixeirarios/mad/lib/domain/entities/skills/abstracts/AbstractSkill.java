@@ -10,7 +10,6 @@ import java.util.UUID;
 public interface AbstractSkill {
     void move();
     void checkCollision(ArrayList<Enemy> enemies, CollisionCallback callback);
-    void startSpawn(Player player, EnemyManager enemyManager);
     void spawn(Player player, EnemyManager enemyManager);
     UUID getId();
 

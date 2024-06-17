@@ -13,13 +13,13 @@ import java.util.UUID;
 
 public class SoundAttackUnit implements AbstractSkill {
     private final UUID id;
-    private final int width, height, initialX, initialY, targetX, targetY,  frame_amount, speed, srcY, damage;
+    private final Texture texture;
+    private final SpriteBatch batch;
+    private final int width, height, initialX, initialY, targetX, targetY,  frame_amount, speed, srcY;
     private int posX, posY, srcX, countAnim, lifeTime;
-    private Texture texture;
-    private SpriteBatch batch;
 
     public SoundAttackUnit(
-            int initialX, int initialY, int targetX, int targetY, int width, int height, int damage, int speed,
+            int initialX, int initialY, int targetX, int targetY, int width, int height, int speed,
             Texture texture, int frame_amount, int lifeTime, SpriteBatch batch
     ) {
 
@@ -34,7 +34,6 @@ public class SoundAttackUnit implements AbstractSkill {
         this.width = width;
         this.height = height;
         this.speed = speed;
-        this.damage = damage;
 
         this.srcX = 0;
         this.srcY = 0;
@@ -105,11 +104,6 @@ public class SoundAttackUnit implements AbstractSkill {
         }
 
         this.srcX = SELECTED_FRAME * this.width;
-    }
-
-    @Override
-    public void startSpawn(Player player, EnemyManager enemyManager) {
-        throw new RuntimeException("Not implemented");
     }
 
     @Override

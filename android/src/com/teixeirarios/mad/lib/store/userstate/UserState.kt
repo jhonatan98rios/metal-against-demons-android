@@ -10,8 +10,8 @@ import kotlin.math.round
 
 object UserState {
     private val _state = MutableStateFlow(UserStateData(
-        0, 0, 1, 0, 100, 0,
-        100, 1f, 1f, 1f, 1f
+        0, 0, 1, 0, 50, 0,
+        100, 1f, 1f, 1f, 0
     ))
 
     val state: StateFlow<UserStateData> get() = _state
@@ -29,13 +29,13 @@ object UserState {
                     userState.id, userState.money, userState.level,
                     userState.experience, userState.nextLevelUp, userState.points,
                     userState.health, userState.strength, userState.dexterity,
-                    userState.speed, userState.luck
+                    userState.luck, userState.currentStage
                 )
             )
         } else {
             updateState(UserStateData(
-                0, 0, 1, 0, 100,0,
-                1000, 1f, 1f, 1f, 1f
+                0, 0, 1, 0, 50,0,
+                1000, 1f, 1f, 1f, 0
             ))
         }
     }
@@ -53,8 +53,8 @@ object UserState {
         userStateModel.health = newState.health
         userStateModel.strength = newState.strength
         userStateModel.dexterity = newState.dexterity
-        userStateModel.speed = newState.speed
         userStateModel.luck = newState.luck
+        userStateModel.currentStage = newState.currentStage
 
         UserRepository.getInstance().userState = userStateModel
     }
@@ -65,29 +65,12 @@ object UserState {
         updateState(updateState)
     }
 
-    fun addExperience(experience: Long) {
-        val currentState = _state.value
-        var updateState = currentState.copy(experience = currentState.experience + experience)
-
-        if (updateState.experience >= updateState.nextLevelUp) {
-
-            updateState = updateState.copy(
-                level = updateState.level + 1,
-                experience = updateState.experience - updateState.nextLevelUp,
-                nextLevelUp = round(updateState.nextLevelUp * 1.5f).toLong(),
-                points = updateState.points + 1
-            )
-        }
-
-        updateState(updateState)
-    }
-
     fun addHealth() {
         val currentState = _state.value
         if (currentState.points <= 0) return
 
         val updateState = currentState.copy(
-            health =  round(currentState.health * 1.1).toLong(),
+            health = currentState.health + 200,
             points = currentState.points - 1
         )
         updateState(updateState)
@@ -98,7 +81,7 @@ object UserState {
         if (currentState.points <= 0) return
 
         val updateState = currentState.copy(
-            strength = Calculus.roundToTwoDecimalPlaces(currentState.strength * 1.1f),
+            strength = Calculus.roundToTwoDecimalPlaces(currentState.strength + 0.2f),
             points = currentState.points - 1
         )
         updateState(updateState)
@@ -106,21 +89,10 @@ object UserState {
 
     fun addDexterity() {
         val currentState = _state.value
-        if (currentState.points <= 0) return
+        if (currentState.points <= 0 || currentState.dexterity >= 3) return
 
         val updateState = currentState.copy(
-            dexterity = Calculus.roundToTwoDecimalPlaces(currentState.dexterity * 1.1f),
-            points = currentState.points - 1
-        )
-        updateState(updateState)
-    }
-
-    fun addSpeed() {
-        val currentState = _state.value
-        if (currentState.points <= 0) return
-
-        val updateState = currentState.copy(
-            speed = Calculus.roundToTwoDecimalPlaces(currentState.speed * 1.1f),
+            dexterity = Calculus.roundToTwoDecimalPlaces(currentState.dexterity + 0.1f),
             points = currentState.points - 1
         )
         updateState(updateState)
@@ -128,10 +100,10 @@ object UserState {
 
     fun addLuck() {
         val currentState = _state.value
-        if (currentState.points <= 0) return
+        if (currentState.points <= 0 || currentState.luck >= 3) return
 
         val updateState = currentState.copy(
-            luck = Calculus.roundToTwoDecimalPlaces(currentState.luck * 1.1f),
+            luck = Calculus.roundToTwoDecimalPlaces(currentState.luck + 0.1f),
             points = currentState.points - 1
         )
         updateState(updateState)

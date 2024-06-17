@@ -8,6 +8,8 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
+import com.teixeirarios.mad.lib.infra.database.models.UserState;
+import com.teixeirarios.mad.lib.infra.database.repository.UserRepository;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 
 import java.util.ArrayList;
@@ -17,30 +19,35 @@ import java.util.UUID;
 
 public class VampiresManager implements AbstractSkillManager {
 
-    private String category;
-    private final int frame_amount;
+    private final String category;
     private final ArrayList<VampiresUnit> activeSkills;
     private final GameStatus gameStatus;
     private final EventManager eventManager;
     private final EnemyManager enemyManager;
     private final Player player;
     private final SpriteBatch batch;
-    private int level, width, height, damage, lifeTime;
+    private final int frame_amount;
     private final float speed;
+    private int level, width, height, lifeTime;
+    private float damage, accumulatedTime, interval;
     private String spritesheet;
     private Texture texture;
-    private float accumulatedTime, interval;
 
     public VampiresManager(SpriteBatch batch, EnemyManager enemyManager) {
+        UserRepository userRepository = UserRepository.getInstance();
+        UserState userState = userRepository.getUserState();
+
         this.category = "Vampires Horde";
         this.level = 1;
         this.width = 48;
         this.height = 48;
         this.speed = 0.05f;
-        this.damage = 5;
-        this.interval = 3f;
         this.lifeTime = 600;
         this.accumulatedTime = 0;
+
+        this.damage = Math.round(5 * userState.strength);
+        this.interval = 3f / userState.dexterity;
+
         this.player = Player.getInstance();
 
         this.spritesheet = "skills/bat_attack_1.png";
@@ -127,7 +134,7 @@ public class VampiresManager implements AbstractSkillManager {
         level += 1;
         damage += 1;
         interval -= 0.05f;
-        lifeTime += 100;
+        lifeTime += 150;
 
         if (level <= 5) {
             this.spritesheet = "skills/bat_attack_" + level + ".png";

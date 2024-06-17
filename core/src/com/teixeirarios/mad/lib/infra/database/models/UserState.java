@@ -16,23 +16,23 @@ public class UserState {
     public long health;
     public Float strength;
     public Float dexterity;
-    public Float speed;
     public Float luck;
+    public int currentStage;
 
     public UserState() {}
 
     public UserState(
         long id,
         long money,
-        Integer level,
+        int level,
         long experience,
         long nextLevelUp,
-        Integer points,
+        int points,
         long health,
-        Float strength,
-        Float dexterity,
-        Float speed,
-        Float luck
+        float strength,
+        float dexterity,
+        float luck,
+        int currentStage
     ) {
         this.id = id;
         this.money = money;
@@ -43,7 +43,7 @@ public class UserState {
         this.health = health;
         this.strength = strength;
         this.dexterity = dexterity;
-        this.speed = speed;
         this.luck = luck;
+        this.currentStage = currentStage;
     }
 }

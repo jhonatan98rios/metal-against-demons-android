@@ -13,13 +13,14 @@ import java.util.UUID;
 
 public class ForceFieldUnit implements AbstractSkill {
 
-    private UUID id;
-    private int width, height, posX, posY, srcX, srcY, countAnim, frame_amount, damage;
-    private Texture texture;
-    private SpriteBatch batch;
+    private final UUID id;
+    private final int width, height, srcY, frame_amount;
+    private int posX, posY, srcX, countAnim;
+    private final Texture texture;
+    private final SpriteBatch batch;
 
     public ForceFieldUnit(
-            int initialX, int initialY, int width, int height, int damage,
+            int initialX, int initialY, int width, int height,
             Texture texture, int frame_amount, SpriteBatch batch
     ) {
         this.id = UUID.randomUUID();
@@ -27,7 +28,6 @@ public class ForceFieldUnit implements AbstractSkill {
         this.posY = initialY;
         this.width = width;
         this.height = height;
-        this.damage = damage;
 
         this.srcX = 0;
         this.srcY = 0;
@@ -63,11 +63,6 @@ public class ForceFieldUnit implements AbstractSkill {
                 callback.collision(this.getId(), enemy);
             }
         }
-    }
-
-    @Override
-    public void startSpawn(Player player, EnemyManager enemyManager) {
-        throw new RuntimeException("Not implemented");
     }
 
     @Override

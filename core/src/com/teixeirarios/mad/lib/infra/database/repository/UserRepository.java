@@ -26,11 +26,12 @@ public class UserRepository {
 
     private UserRepository(AppContext context) {
         BoxStore boxStore = MyObjectBox
-                .builder()
-                .androidContext(context.getApplicationContext())
-                .name("teste-1")
-                .build();
+            .builder()
+            .androidContext(context.getApplicationContext())
+            .name("teste-1")
+            .build();
 
+        //BoxStore boxStore = null;
         userStateBox = boxStore.boxFor(UserState.class);
     }
 

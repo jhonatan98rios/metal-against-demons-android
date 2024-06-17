@@ -11,6 +11,6 @@ data class UserStateData(
     val health: Long,
     val strength: Float,
     val dexterity: Float,
-    val speed: Float,
-    val luck: Float
+    val luck: Float,
+    val currentStage: Int,
 )

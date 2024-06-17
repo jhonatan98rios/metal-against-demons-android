@@ -8,6 +8,8 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
+import com.teixeirarios.mad.lib.infra.database.models.UserState;
+import com.teixeirarios.mad.lib.infra.database.repository.UserRepository;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.utils.ListUtils;
 
@@ -18,34 +20,38 @@ import java.util.UUID;
 
 public class SoundAttackManager implements AbstractSkillManager {
 
-    private String category;
-    private final int lifeTime, frame_amount, speed;
+    private final String category;
     private final ArrayList<SoundAttackUnit> activeSkills;
     private final GameStatus gameStatus;
     private final EventManager eventManager;
     private final EnemyManager enemyManager;
     private final Player player;
     private final SpriteBatch batch;
-    private int level, width, height, damage, range;
+    private final int lifeTime, frame_amount, speed;
+    private int level, width, height, range;
+    private float accumulatedTime, interval, damage;
     private String spritesheet;
     private Texture texture;
-    private float accumulatedTime, interval;
 
     public SoundAttackManager(SpriteBatch batch, EnemyManager enemyManager) {
+        UserRepository userRepository = UserRepository.getInstance();
+        UserState userState = userRepository.getUserState();
+
         this.category = "Sound Attack";
         this.level = 1;
         this.width = 26;
         this.height = 26;
         this.speed = 3;
-        this.damage = 100;
         this.range = 500;
+
+        this.damage = Math.round(100 * userState.strength);
+        this.interval = 1f / userState.dexterity;
 
         this.player = Player.getInstance();
 
         this.spritesheet = "skills/sound_attack_1.png";
         this.texture = new Texture(this.spritesheet);
 
-        this.interval = 1f;
         this.lifeTime = 300;
         this.accumulatedTime = 0;
 
@@ -84,7 +90,6 @@ public class SoundAttackManager implements AbstractSkillManager {
                 targetEnemy.getPosY() + (targetEnemy.getHeight() / 2),
                 width,
                 height,
-                damage,
                 speed,
                 texture,
                 frame_amount,

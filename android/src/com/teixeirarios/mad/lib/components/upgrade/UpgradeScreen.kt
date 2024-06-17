@@ -117,15 +117,6 @@ fun UpgradeScreen() {
                     )
 
                     UpgradeItem(
-                        title = "Speed",
-                        description = "Increase the movement speed",
-                        value = userState.speed.toString(),
-                        runnable = {
-                            UserState.addSpeed()
-                        }
-                    )
-
-                    UpgradeItem(
                         title = "Luck",
                         description = "Increase the acquired when fights",
                         value = userState.luck.toString(),

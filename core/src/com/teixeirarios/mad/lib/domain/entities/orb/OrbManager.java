@@ -96,8 +96,8 @@ public class OrbManager {
     private void handle(Object... args) {
         int posX = (int) args[0];
         int posY = (int) args[1];
-        int value = (int) args[2];
+        float value = (float) args[2];
 
-        spawnXpOrb(new Orb(posX, posY, value));
+        spawnXpOrb(new Orb(posX, posY, (int) value));
     }
 }

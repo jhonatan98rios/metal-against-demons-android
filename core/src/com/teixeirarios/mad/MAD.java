@@ -119,8 +119,6 @@ public class MAD extends ApplicationAdapter {
 		joystick.dispose();
 		scenario.dispose();
 		userInterface.dispose();
-		SpiritFactory.enemyCanvas.dispose();
-		CrawlerFactory.enemyCanvas.dispose();
 
 		GameStatus.instance = null;
 		StageManager.instance = null;

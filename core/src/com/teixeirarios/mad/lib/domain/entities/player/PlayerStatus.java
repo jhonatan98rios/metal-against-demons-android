@@ -1,26 +1,27 @@
 package com.teixeirarios.mad.lib.domain.entities.player;
 
+import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.infra.database.models.UserState;
 import com.teixeirarios.mad.lib.infra.database.repository.UserRepository;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 
 public class PlayerStatus {
+    private final EventManager eventManager;
+    private final UserState userState;
+
     public int level;
     public float maxHealth, currentHealth, nextLevelXp, currentXP;
-
-    public Long totalXP;
-    private final EventManager eventManager;
-    private UserRepository userRepository;
+    public long totalXP;
 
     public PlayerStatus() {
-        userRepository = UserRepository.getInstance();
-        UserState userState = userRepository.getUserState();
+        UserRepository userRepository = UserRepository.getInstance();
+        userState = userRepository.getUserState();
 
         level = 1;
         maxHealth = userState.health;
         currentHealth = userState.health;
         currentXP = 0;
-        nextLevelXp = 100;
+        nextLevelXp = 50;
         totalXP = 0L;
 
         eventManager = EventManager.getInstance();
@@ -29,11 +30,11 @@ public class PlayerStatus {
 
     private void addEventListeners() {
         eventManager.on("enemy:collision", args -> {
-            takeDamage((int) args[0]);
+            takeDamage((float) args[0]);
         });
     }
 
-    public void takeDamage(int damage) {
+    public void takeDamage(float damage) {
         this.currentHealth -= damage;
 
         if (this.currentHealth <= 0) {
@@ -42,7 +43,7 @@ public class PlayerStatus {
     }
 
     public void takeXp(float xp) {
-        float updateCurrentXP = this.currentXP + xp;
+        float updateCurrentXP = this.currentXP + (xp * userState.luck);
 
         if (updateCurrentXP >= this.nextLevelXp) {
             updateCurrentXP -= this.nextLevelXp;
@@ -59,31 +60,11 @@ public class PlayerStatus {
         this.maxHealth += 1;
         this.currentHealth += 1;
         this.eventManager.emit("player:levelup");
-        //eventManager.emit("player:levelup:forcefield");
     }
 
     public void die() {
-        this.eventManager.emit("player:die");
-        saveBattleAchievements(totalXP);
-    }
-
-    public void saveBattleAchievements(long totalXP) {
-        UserState userState = userRepository.getUserState();
-        //userState.money += totalXP / 10;
-        userState.experience += totalXP / 5;
-        userStateLevelUp(userState);
-
-        UserRepository.getInstance().setUserState(userState);
-    }
-
-    public void userStateLevelUp(UserState userState) {
-        if (userState.experience >= userState.nextLevelUp) {
-            userState.level += 1;
-            userState.experience -= userState.nextLevelUp;
-            userState.nextLevelUp = Math.round(userState.nextLevelUp * 1.5f);
-            userState.points += 1;
-
-            userStateLevelUp(userState);
-        }
+        this.eventManager.emit("status:gameover", false);
+        GameStatus gameStatus = GameStatus.getInstance();
+        gameStatus.saveBattleAchievements(totalXP, false);
     }
 }

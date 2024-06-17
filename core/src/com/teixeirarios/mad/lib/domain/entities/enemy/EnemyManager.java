@@ -67,7 +67,7 @@ public class EnemyManager {
             Enemy enemy = enemies.get(i);
             enemy.update(player.posX);
 
-            if (CollisionStrategy.isColliding(enemy, player, 10, 0)) {
+            if (CollisionStrategy.isColliding(enemy, player, 25, 25)) {
                 eventManager.emit("enemy:collision", enemy.status.damage);
             }
         }
@@ -112,13 +112,13 @@ public class EnemyManager {
     private void addEventListeners() {
         eventManager.on("skill:damage", args -> {
             Enemy enemy = (Enemy) args[0];
-            int damage = (int) args[1];
+            float damage = (float) args[1];
 
             takeDamage(enemy, damage);
         });
     }
 
-    public void takeDamage(Enemy enemy, int damage) {
+    public void takeDamage(Enemy enemy, float damage) {
         enemy.status.currentHealth -= damage;
         if (enemy.status.currentHealth <= 0) {
             removeEnemy(enemy);
@@ -133,6 +133,8 @@ public class EnemyManager {
                 iterator.remove();
             }
         }
+
+        this.eventManager.emit("enemy:die");
 
         this.eventManager.emit(
             "orb:spawn",

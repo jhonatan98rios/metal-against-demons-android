@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -54,23 +55,43 @@ fun StageSelectorCard (
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Text(
-                text = stageModel.title,
-                textAlign = TextAlign.Center,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Black,
-                color = Color.White,
-                style = TextStyle(
-                    shadow = Shadow(
-                        color = Color.Black,
-                        offset = Offset(4f, 4f),
-                        blurRadius = 6f
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    text = stageModel.title,
+                    textAlign = TextAlign.Center,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Black,
+                    color = Color.White,
+                    style = TextStyle(
+                        shadow = Shadow(
+                            color = Color.Black,
+                            offset = Offset(4f, 4f),
+                            blurRadius = 6f
+                        )
+                    ),
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+
+                Text(
+                    text = "Kill at least ${stageModel.goal} demons",
+                    textAlign = TextAlign.Center,
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    style = TextStyle(
+                        shadow = Shadow(
+                            color = Color.Black,
+                            offset = Offset(4f, 4f),
+                            blurRadius = 6f
+                        )
                     )
                 )
-            )
+            }
+
             Button(
                 onClick = { onButtonClick(stageModel.id) },
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray)
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFAA0000))
             ) {
                 Text(
                     text = "Start",

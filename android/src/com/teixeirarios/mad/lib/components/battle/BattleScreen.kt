@@ -25,6 +25,7 @@ import com.teixeirarios.mad.lib.store.userstate.UserState
 fun BattleScreen(onButtonClick: (Int) -> Unit, stageList: List<StageModel>) {
 
     val userState by UserState.state.collectAsState()
+    val availableStages = stageList.filter { it.id <= userState.currentStage }
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -50,7 +51,10 @@ fun BattleScreen(onButtonClick: (Int) -> Unit, stageList: List<StageModel>) {
             }
 
             Spacer(modifier = Modifier.height(64.dp))
-            StageSelector(stageList, onButtonClick)
+            StageSelector(
+                availableStages,
+                onButtonClick
+            )
         }
     }
 }

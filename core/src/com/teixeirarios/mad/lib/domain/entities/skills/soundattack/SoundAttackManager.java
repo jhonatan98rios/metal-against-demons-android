@@ -197,10 +197,12 @@ public class SoundAttackManager implements AbstractSkillManager {
     public void upgrade() {
         activeSkills.clear();
 
-        damage += 50;
-        interval -= 0.05f;
+        damage += 30;
         level += 1;
         range += 100;
+        if (interval > 0.2f) {
+            interval -= 0.05f;
+        }
 
         if (level <= 5) {
             this.spritesheet = "skills/sound_attack_" + level + ".png";

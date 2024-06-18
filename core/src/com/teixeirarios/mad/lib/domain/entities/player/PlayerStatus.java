@@ -21,7 +21,7 @@ public class PlayerStatus {
         maxHealth = userState.health;
         currentHealth = userState.health;
         currentXP = 0;
-        nextLevelXp = 50;
+        nextLevelXp = 20;
         totalXP = 0L;
 
         eventManager = EventManager.getInstance();

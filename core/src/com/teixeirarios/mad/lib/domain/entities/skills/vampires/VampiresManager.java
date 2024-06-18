@@ -38,7 +38,7 @@ public class VampiresManager implements AbstractSkillManager {
         UserState userState = userRepository.getUserState();
 
         this.category = "Vampires Horde";
-        this.level = 1;
+        this.level = 0;
         this.width = 48;
         this.height = 48;
         this.speed = 0.05f;
@@ -74,6 +74,8 @@ public class VampiresManager implements AbstractSkillManager {
 
     @Override
     public void spawn(Player player) {
+        if (this.level == 0) return;
+
         ArrayList<Enemy> enemies = enemyManager.getEnemies();
         if (player == null || enemies.isEmpty()) return;
 
@@ -128,13 +130,16 @@ public class VampiresManager implements AbstractSkillManager {
 
     @Override
     public void upgrade() {
-
         activeSkills.clear();
 
         level += 1;
+        if (this.level == 1) return;
+
         damage += 1;
-        interval -= 0.05f;
         lifeTime += 150;
+        if (interval > 0.5f) {
+            interval -= 0.05f;
+        }
 
         if (level <= 5) {
             this.spritesheet = "skills/bat_attack_" + level + ".png";

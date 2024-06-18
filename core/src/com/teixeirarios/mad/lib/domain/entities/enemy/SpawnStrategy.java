@@ -9,11 +9,18 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
 import java.util.ArrayList;
 
 public class SpawnStrategy {
-    private ArrayList<AbstractEcosystemFactory> ecosystemStrategies = new ArrayList<>();
+    private final ArrayList<AbstractEcosystemFactory> ecosystemStrategies = new ArrayList<>();
 
     public SpawnStrategy() {
-        ecosystemStrategies.add(SpiritFactory::create);
-        ecosystemStrategies.add(CrawlerFactory::create);
+        addFactoryWithWeight(SpiritFactory::create, 3); // 75%
+        addFactoryWithWeight(CrawlerFactory::create, 1); // 25%
+    }
+
+    // Método para adicionar fábricas com pesos
+    private void addFactoryWithWeight(AbstractEcosystemFactory factory, int weight) {
+        for (int i = 0; i < weight; i++) {
+            ecosystemStrategies.add(factory);
+        }
     }
 
     public AbstractEcosystemFactory getRandomEcosystemStrategy() {

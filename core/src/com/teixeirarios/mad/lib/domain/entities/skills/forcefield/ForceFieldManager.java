@@ -32,7 +32,7 @@ public class ForceFieldManager implements AbstractSkillManager {
         UserState userState = userRepository.getUserState();
 
         this.category = "Force Field";
-        this.level = 1;
+        this.level = 0;
         this.width = 240;
         this.height = 240;
         this.damage = userState.strength / 3;
@@ -51,6 +51,8 @@ public class ForceFieldManager implements AbstractSkillManager {
 
     @Override
     public void spawn(Player player) {
+
+        if (this.level == 0) return;
 
         ForceFieldUnit unit = new ForceFieldUnit(
             player.getPosX() - width,
@@ -84,8 +86,10 @@ public class ForceFieldManager implements AbstractSkillManager {
     public void upgrade() {
         activeSkills.clear();
 
-        damage += 1;
         level += 1;
+        if (this.level == 1) return;
+
+        damage += 0.5f;
 
         if (level <= 5) {
             this.spritesheet = "skills/force_field_" + level + ".png";

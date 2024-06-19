@@ -2,18 +2,31 @@ package com.teixeirarios.mad.lib.domain.entities.enemy;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CrawlerFactory;
-import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
+import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
+import com.teixeirarios.mad.lib.domain.entities.stage.StageModel;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class SpawnStrategy {
     private final ArrayList<AbstractEcosystemFactory> ecosystemStrategies = new ArrayList<>();
 
     public SpawnStrategy() {
-        addFactoryWithWeight(SpiritFactory::create, 3); // 75%
-        addFactoryWithWeight(CrawlerFactory::create, 1); // 25%
+
+        StageModel stage = StageManager.getInstance().getCurrentStage();
+        var enemies = stage.getEnemies();
+
+        if (enemies.isEmpty()) {
+            System.out.println(stage.getId());
+            System.out.println(stage.getEnemies());
+            throw new IllegalStateException("No enemies available");
+        }
+
+        for (Map.Entry<AbstractEcosystemFactory, Integer> entry : enemies.entrySet()) {
+            AbstractEcosystemFactory factory = entry.getKey();
+            int weight = entry.getValue();
+            addFactoryWithWeight(factory, weight);
+        }
     }
 
     // Método para adicionar fábricas com pesos
@@ -30,9 +43,5 @@ public class SpawnStrategy {
         int randomIndex = random.nextInt(ecosystemStrategies.size());
         return ecosystemStrategies.get(randomIndex);
     }
-
-    @FunctionalInterface
-    public interface AbstractEcosystemFactory {
-        Enemy create(SpriteBatch batch, int posX, int posY);
-    }
 }
+

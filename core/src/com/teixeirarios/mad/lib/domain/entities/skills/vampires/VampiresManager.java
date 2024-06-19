@@ -42,7 +42,7 @@ public class VampiresManager implements AbstractSkillManager {
         this.width = 48;
         this.height = 48;
         this.speed = 0.05f;
-        this.lifeTime = 600;
+        this.lifeTime = 800;
         this.accumulatedTime = 0;
 
         this.damage = Math.round(5 * userState.strength);
@@ -131,14 +131,15 @@ public class VampiresManager implements AbstractSkillManager {
     @Override
     public void upgrade() {
         activeSkills.clear();
-
         level += 1;
-        if (this.level == 1) return;
 
-        damage += 1;
-        lifeTime += 150;
-        if (interval > 0.5f) {
-            interval -= 0.05f;
+        if (this.level > 1) {
+
+            damage += 1;
+            lifeTime += 150;
+            if (interval > 0.5f) {
+                interval -= 0.05f;
+            }
         }
 
         if (level <= 5) {

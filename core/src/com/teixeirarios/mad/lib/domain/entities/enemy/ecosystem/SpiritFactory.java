@@ -5,7 +5,6 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
 import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 
-
 public class SpiritFactory {
 
     public static CanvasFacade enemyCanvas;
@@ -24,7 +23,7 @@ public class SpiritFactory {
                 posX,
                 posY,
                 2,
-                (int) stageManager.getCurrentStage().getBaseHealth() * 100,
+                (int) stageManager.getCurrentStage().getBaseHealth() * 150,
                 stageManager.getCurrentStage().getBaseDamage(),
                 enemyCanvas
         );

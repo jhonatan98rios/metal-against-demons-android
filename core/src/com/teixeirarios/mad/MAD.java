@@ -10,6 +10,7 @@ import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CrawlerFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.DragonFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManager;
@@ -125,6 +126,7 @@ public class MAD extends ApplicationAdapter {
 		Player.instance = null;
 		EventManager.instance = null;
 		SpiritFactory.enemyCanvas = null;
+		DragonFactory.enemyCanvas = null;
 		CrawlerFactory.enemyCanvas = null;
 	}
 }

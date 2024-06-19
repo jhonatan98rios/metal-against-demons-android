@@ -8,17 +8,17 @@ public class StageManager {
     private StageModel currentStage;
 
     private StageManager() {
-        addStageData(new StageModel(0, 5, 25, 50, 1f, 1f));
-        addStageData(new StageModel(1, 10, 50, 30, 1.5f, 1.5f));
-        addStageData(new StageModel(2, 20, 100, 30, 2f, 2f));
-        addStageData(new StageModel(3, 50, 200, 30, 3f, 3f));
-        addStageData(new StageModel(4, 100, 300, 20, 4f, 4f));
-        addStageData(new StageModel(5, 150, 500, 20, 5f, 5f));
-        addStageData(new StageModel(6, 200, 666, 20, 6f, 6f));
-        addStageData(new StageModel(7, 250, 750, 10, 7f, 7f));
-        addStageData(new StageModel(8, 300, 1000, 10, 8f, 8f));
-        addStageData(new StageModel(9, 400, 1200, 10, 8f, 8f));
-        addStageData(new StageModel(10, 500, 1500, 5, 10f, 10f));
+        addStageData(StageModelMock.GetStageModelLevel1());
+        addStageData(StageModelMock.GetStageModelLevel2());
+        addStageData(StageModelMock.GetStageModelLevel3());
+        addStageData(StageModelMock.GetStageModelLevel4());
+        addStageData(StageModelMock.GetStageModelLevel5());
+        addStageData(StageModelMock.GetStageModelLevel6());
+        addStageData(StageModelMock.GetStageModelLevel7());
+        addStageData(StageModelMock.GetStageModelLevel8());
+        addStageData(StageModelMock.GetStageModelLevel9());
+        addStageData(StageModelMock.GetStageModelLevel10());
+        addStageData(StageModelMock.GetStageModelLevel11());
     }
 
     public static StageManager getInstance() {

@@ -1,7 +1,6 @@
 package com.teixeirarios.mad.lib.domain.entities.enemy;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.strategies.CollisionStrategy;
@@ -11,6 +10,7 @@ import com.teixeirarios.mad.lib.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class EnemyManager {
 
@@ -77,15 +77,38 @@ public class EnemyManager {
         // Definindo uma margem de segurança para evitar que inimigos sejam gerados muito próximos uns dos outros
         float safetyMargin = 36f;
 
+        Random random = new Random();
+        int scenarioWidth = Constants.SCENARIO_WIDTH;
+        int scenarioHeight = Constants.SCENARIO_HEIGHT;
+        int cameraWidth = camera.getWidth();
+        int cameraHeight = camera.getHeight();
+        int cameraX = camera.getPosX();
+        int cameraY = camera.getPosY();
+
         // Loop até encontrar uma posição adequada para o novo inimigo
         while (true) {
-            // Gerar uma posição aleatória para o novo inimigo
-            int posX = MathUtils.random(Constants.SCENARIO_WIDTH) - Constants.SCENARIO_WIDTH / 2;
-            int posY = MathUtils.random(Constants.SCENARIO_HEIGHT) - Constants.SCENARIO_HEIGHT / 2;
 
-            // Verificar se a nova posição está dentro do cenário
-            if (posX < 0 || posX > Constants.SCENARIO_WIDTH || posY < 0 || posY > Constants.SCENARIO_HEIGHT) {
-                continue;
+            // Gerar uma posição aleatória para o novo inimigo
+            int posX = 0, posY = 0;
+            int region = random.nextInt(4);
+
+            switch (region) {
+                case 0: // Above the camera
+                    posX = random.nextInt(scenarioWidth);
+                    posY = random.nextInt(cameraY);
+                    break;
+                case 1: // Below the camera
+                    posX = random.nextInt(scenarioWidth);
+                    posY = random.nextInt(scenarioHeight - (cameraY + cameraHeight)) + (cameraY + cameraHeight);
+                    break;
+                case 2: // Left of the camera
+                    posX = random.nextInt(cameraX);
+                    posY = random.nextInt(scenarioHeight);
+                    break;
+                case 3: // Right of the camera
+                    posX = random.nextInt(scenarioWidth - (cameraX + cameraWidth)) + (cameraX + cameraWidth);
+                    posY = random.nextInt(scenarioHeight);
+                    break;
             }
 
             // Verificar se a nova posição está ocupada por outro inimigo

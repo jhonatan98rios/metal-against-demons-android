@@ -1,6 +1,10 @@
 package com.teixeirarios.mad.lib.domain.entities.stage;
 
 
+import com.teixeirarios.mad.lib.domain.entities.enemy.AbstractEcosystemFactory;
+
+import java.util.HashMap;
+
 public class StageModel {
     private final int id;
     private final int maxEnemies;
@@ -8,14 +12,24 @@ public class StageModel {
     private final int spawnInterval;
     private final float baseDamage;
     private final float baseHealth;
+    private final HashMap<AbstractEcosystemFactory, Integer> enemies;
 
-    public StageModel(int id, int maxEnemies, int totalEnemies, int spawnInterval, float baseDamage, float baseHealth) {
+    public StageModel(
+            int id,
+            int maxEnemies,
+            int totalEnemies,
+            int spawnInterval,
+            float baseDamage,
+            float baseHealth,
+            HashMap<AbstractEcosystemFactory, Integer> enemies
+    ) {
         this.id = id;
         this.maxEnemies = maxEnemies;
         this.totalEnemies = totalEnemies;
         this.spawnInterval = spawnInterval;
         this.baseDamage = baseDamage;
         this.baseHealth = baseHealth;
+        this.enemies = enemies;
     }
 
     // Getters
@@ -25,4 +39,5 @@ public class StageModel {
     public int getSpawnInterval() { return spawnInterval; }
     public float getBaseDamage() { return baseDamage; }
     public float getBaseHealth() { return baseHealth; }
+    public HashMap<AbstractEcosystemFactory, Integer> getEnemies() { return enemies; }
 }

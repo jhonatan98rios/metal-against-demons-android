@@ -90,12 +90,6 @@ public class AndroidLauncher extends AndroidApplication implements Navigator, Ap
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		onDestroy();
-	}
-
-	@Override
 	protected void onStop() {
 		super.onStop();
 		onDestroy();

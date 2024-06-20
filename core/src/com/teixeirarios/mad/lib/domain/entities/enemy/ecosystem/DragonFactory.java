@@ -18,6 +18,7 @@ public class DragonFactory {
         StageManager stageManager =  StageManager.getInstance();
 
         Enemy enemy = new Enemy(
+                "dragon",
                 114 * 2,
                 240,
                 posX,

@@ -18,6 +18,7 @@ public class SpiritFactory {
         StageManager stageManager =  StageManager.getInstance();
 
         Enemy enemy = new Enemy(
+                "spirit",
                 72,
                 150,
                 posX,

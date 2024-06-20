@@ -23,6 +23,7 @@ import com.teixeirarios.mad.lib.domain.entities.skills.SkillManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.canvas.RenderStack;
+import com.teixeirarios.mad.lib.infra.canvas.ShapeCanvas;
 import com.teixeirarios.mad.lib.infra.canvas.UserInterface;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.infra.input.ControllerFactory;
@@ -120,6 +121,7 @@ public class MAD extends ApplicationAdapter {
 		joystick.dispose();
 		scenario.dispose();
 		userInterface.dispose();
+		ShapeCanvas.dispose();
 
 		GameStatus.instance = null;
 		StageManager.instance = null;

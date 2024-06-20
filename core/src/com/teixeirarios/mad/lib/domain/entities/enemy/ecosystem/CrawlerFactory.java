@@ -18,6 +18,7 @@ public class CrawlerFactory {
         StageManager stageManager =  StageManager.getInstance();
 
         Enemy enemy = new Enemy(
+                "crawler",
                 130,
                 75,
                 posX,

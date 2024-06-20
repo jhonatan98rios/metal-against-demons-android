@@ -18,6 +18,7 @@ public class CyclopeFactory {
         StageManager stageManager =  StageManager.getInstance();
 
         Enemy enemy = new Enemy(
+                "cyclope",
                 177,
                 170,
                 posX,

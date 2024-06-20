@@ -9,6 +9,7 @@ import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -60,7 +61,10 @@ public class EnemyManager {
         movimentationStrategy.updateEnemiesMovement(enemies, playerPosition);
 
         if (!enemies.isEmpty()) {
-            enemies.get(0).enemyCanvas.animate();
+            ArrayList<Enemy> enemyCategories = getOneEnemyPerCategory();
+            for (Enemy enemy : enemyCategories) {
+                enemy.enemyCanvas.animate();
+            }
         }
 
         for (int i = enemies.size() - 1; i >= 0; i--) {
@@ -170,6 +174,19 @@ public class EnemyManager {
             enemy.getPosY() + (enemy.getHeight() / 2),
             enemy.status.maxHealth / 50
         );
+    }
+
+    public ArrayList<Enemy> getOneEnemyPerCategory() {
+        HashMap<String, Enemy> categoryMap = new HashMap<>();
+        for (Enemy enemy : this.enemies) {
+            // Se a categoria ainda não estiver no mapa, adiciona
+            if (!categoryMap.containsKey(enemy.getCategory())) {
+                categoryMap.put(enemy.getCategory(), enemy);
+            }
+        }
+
+        // Retorna os valores do mapa como uma lista
+        return new ArrayList<>(categoryMap.values());
     }
 
     // Getters e setters

@@ -89,24 +89,29 @@ public class EnemyManager {
         while (true) {
 
             // Gerar uma posição aleatória para o novo inimigo
-            int posX = 0, posY = 0;
+            int posX = 0, posY = 0, range = 0;
             int region = random.nextInt(4);
+            int seed = 0;
 
             switch (region) {
                 case 0: // Above the camera
                     posX = random.nextInt(scenarioWidth);
-                    posY = random.nextInt(cameraY);
+                    posY = cameraY > 0 ? random.nextInt(cameraY) : 0;
                     break;
                 case 1: // Below the camera
+                    range = scenarioHeight - (cameraY + cameraHeight);
+                    seed = (range > 0) ? random.nextInt(range) : 0;
+                    posY = seed + (cameraY + cameraHeight);
                     posX = random.nextInt(scenarioWidth);
-                    posY = random.nextInt(scenarioHeight - (cameraY + cameraHeight)) + (cameraY + cameraHeight);
                     break;
                 case 2: // Left of the camera
-                    posX = random.nextInt(cameraX);
+                    posX = cameraX > 0 ? random.nextInt(cameraX) : 0;
                     posY = random.nextInt(scenarioHeight);
                     break;
                 case 3: // Right of the camera
-                    posX = random.nextInt(scenarioWidth - (cameraX + cameraWidth)) + (cameraX + cameraWidth);
+                    range = scenarioWidth - (cameraX + cameraWidth);
+                    seed = (range > 0) ? random.nextInt(range) : 0;
+                    posX = seed + (cameraX + cameraWidth);
                     posY = random.nextInt(scenarioHeight);
                     break;
             }

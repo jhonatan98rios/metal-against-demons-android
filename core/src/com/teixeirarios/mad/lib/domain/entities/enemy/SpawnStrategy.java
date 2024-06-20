@@ -17,8 +17,6 @@ public class SpawnStrategy {
         var enemies = stage.getEnemies();
 
         if (enemies.isEmpty()) {
-            System.out.println(stage.getId());
-            System.out.println(stage.getEnemies());
             throw new IllegalStateException("No enemies available");
         }
 

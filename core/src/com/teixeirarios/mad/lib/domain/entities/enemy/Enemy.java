@@ -8,9 +8,9 @@ import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 import java.util.UUID;
 
 public class Enemy implements Body2D {
-    private UUID id;
+    private final UUID id;
     private final int velocity, width, height;
-    private int posX, posY, selectedFrame;
+    private int posX, posY, selectedDirection;
     public CanvasFacade enemyCanvas;
     public EnemyStatus status;
 
@@ -25,19 +25,19 @@ public class Enemy implements Body2D {
         this.posY = posY;
         this.velocity = velocity;
         this.enemyCanvas = enemyCanvas;
-        this.selectedFrame = 0;
+        this.selectedDirection = 0;
         this.status = new EnemyStatus(maxHealth, damage);
     }
 
     public void update(float playerPosX) {
         //enemyCanvas.animate();
-        this.selectedFrame = getSprite(playerPosX);
+        this.selectedDirection = getSprite(playerPosX);
     }
 
     public void render() {
         enemyCanvas.drawImage(
                 0,
-                selectedFrame,
+                selectedDirection,
                 (float) this.width /2,
                 (float) this.height /2,
                 this.posX,

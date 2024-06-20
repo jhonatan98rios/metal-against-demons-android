@@ -24,7 +24,7 @@ public class CrawlerFactory {
                 posY,
                 1,
                 (int) stageManager.getCurrentStage().getBaseHealth() * 300,
-                stageManager.getCurrentStage().getBaseDamage() * 2,
+                stageManager.getCurrentStage().getBaseDamage() * 1,
                 enemyCanvas
         );
         return enemy;

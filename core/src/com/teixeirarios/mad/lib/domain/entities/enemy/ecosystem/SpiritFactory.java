@@ -24,7 +24,7 @@ public class SpiritFactory {
                 posY,
                 2,
                 (int) stageManager.getCurrentStage().getBaseHealth() * 150,
-                stageManager.getCurrentStage().getBaseDamage(),
+                stageManager.getCurrentStage().getBaseDamage() * 1,
                 enemyCanvas
         );
         return enemy;

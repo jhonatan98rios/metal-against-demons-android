@@ -2,7 +2,6 @@ package com.teixeirarios.mad.lib.domain.entities.orb;
 
 
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
-import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.canvas.ShapeCanvas;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
@@ -18,10 +17,8 @@ public class OrbManager {
     ArrayList<Orb> orbs;
     Player player;
     Camera camera;
-    AbstractCanvasFacade canvas;
 
-    public OrbManager(AbstractCanvasFacade canvas, Camera camera) {
-        this.canvas = canvas;
+    public OrbManager(Camera camera) {
         this.camera = camera;
 
         this.player = Player.getInstance();

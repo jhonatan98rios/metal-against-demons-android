@@ -3,6 +3,7 @@ package com.teixeirarios.mad.lib.domain.entities.enemy;
 import com.badlogic.gdx.graphics.Color;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
+import com.teixeirarios.mad.lib.infra.canvas.ShapeCanvas;
 import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 
 import java.util.UUID;
@@ -50,9 +51,9 @@ public class Enemy implements Body2D {
     public void renderHealthBar(Camera camera) {
         if (status.currentHealth <= 0) {return;}
 
-        float healthPercentage = (float) status.currentHealth / status.maxHealth;
+        float healthPercentage = status.currentHealth / status.maxHealth;
 
-        enemyCanvas.drawShape(
+        ShapeCanvas.drawShape(
             healthPercentage < 0.5f ? Color.RED : Color.GREEN,
             posX + 10 - camera.getPosX(),
             this.posY + this.height + 10 - camera.getPosY(),

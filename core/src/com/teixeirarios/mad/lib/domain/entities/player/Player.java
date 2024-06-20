@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
+import com.teixeirarios.mad.lib.infra.canvas.ShapeCanvas;
 import com.teixeirarios.mad.lib.utils.Constants;
 
 public class Player implements Body2D {
@@ -62,7 +63,7 @@ public class Player implements Body2D {
     public void renderHealthBar(Camera camera) {
         float healthPercentage = playerStatus.currentHealth / playerStatus.maxHealth;
 
-        playerCanvas.drawShape(
+        ShapeCanvas.drawShape(
             healthPercentage < 0.5f ? Color.RED : Color.GREEN,
             24,
             Gdx.graphics.getHeight() - 80,
@@ -76,7 +77,7 @@ public class Player implements Body2D {
     public void renderXpBar() {
         float xpPercentage = playerStatus.currentXP / playerStatus.nextLevelXp;
 
-        playerCanvas.drawShape(
+        ShapeCanvas.drawShape(
             xpPercentage < 0.5f ? Color.SKY : Color.CYAN,
             24,
             Gdx.graphics.getHeight() - 100,

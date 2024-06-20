@@ -4,6 +4,7 @@ package com.teixeirarios.mad.lib.domain.entities.orb;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
+import com.teixeirarios.mad.lib.infra.canvas.ShapeCanvas;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.utils.Intersection;
 
@@ -76,10 +77,9 @@ public class OrbManager {
 
         for (int i = 0; i <= orbs.size()-1; i++) {
             Orb orb = orbs.get(i);
-
             orb.update(deltaTime);
 
-            canvas.drawShape(
+            ShapeCanvas.drawShape(
                 orb.getColor(),
                 orb.getPosX() - camera.getPosX(),
                 orb.getPosY() - camera.getPosY(),

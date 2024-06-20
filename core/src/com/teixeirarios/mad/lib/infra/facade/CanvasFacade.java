@@ -4,13 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 
 public class CanvasFacade implements AbstractCanvasFacade {
 
     public SpriteBatch batch;
-    private ShapeRenderer shapeRenderer;
     private float posX;
     private Texture sprite;
     private int numFramesX;
@@ -25,11 +23,6 @@ public class CanvasFacade implements AbstractCanvasFacade {
         this.numFramesX = numFramesX;
         this.frameDuration = frameDuration;
         this.frameWidth = frameWidth;
-        this.shapeRenderer = new ShapeRenderer();
-    }
-
-    public CanvasFacade() {
-        this.shapeRenderer = new ShapeRenderer();
     }
 
     @Override

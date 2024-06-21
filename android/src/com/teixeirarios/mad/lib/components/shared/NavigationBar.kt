@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.teixeirarios.mad.R
+import com.teixeirarios.mad.lib.analytics.AnalyticsService
 
 @Composable
 fun NavigationBar (navController: NavHostController) {
@@ -94,10 +95,15 @@ fun NavigationBar (navController: NavHostController) {
                                 val currentRoute = navController.currentBackStackEntry?.destination?.route
                                 if (currentRoute != "Upgrade") {
                                     navController.navigate("Upgrade")
+                                    AnalyticsService.logCustomEvent("click", mapOf(
+                                        "category" to "Navigation Bar",
+                                        "action" to "Navigate",
+                                        "label" to "UpgradeScreen",
+                                    ))
                                 }
                             }
                     )
-                    Text(text = "Status")
+                    Text(text = "Upgrade")
                 }
             }
 
@@ -123,6 +129,11 @@ fun NavigationBar (navController: NavHostController) {
                                 val currentRoute = navController.currentBackStackEntry?.destination?.route
                                 if (currentRoute != "Battle") {
                                     navController.navigate("Battle")
+                                    AnalyticsService.logCustomEvent("click", mapOf(
+                                        "category" to "Navigation Bar",
+                                        "action" to "Navigate",
+                                        "label" to "BattleScreen",
+                                    ))
                                 }
                             }
                     )

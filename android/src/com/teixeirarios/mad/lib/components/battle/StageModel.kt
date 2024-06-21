@@ -1,4 +1,4 @@
-package com.teixeirarios.mad.lib.components.home
+package com.teixeirarios.mad.lib.components.battle
 
 import androidx.annotation.DrawableRes
 import com.teixeirarios.mad.R

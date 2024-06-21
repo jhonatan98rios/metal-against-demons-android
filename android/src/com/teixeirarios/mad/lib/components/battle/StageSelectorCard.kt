@@ -1,4 +1,4 @@
-package com.teixeirarios.mad.lib.components.home
+package com.teixeirarios.mad.lib.components.battle
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.teixeirarios.mad.lib.analytics.AnalyticsService
 
 @Composable
 fun StageSelectorCard (
@@ -90,7 +91,13 @@ fun StageSelectorCard (
             }
 
             Button(
-                onClick = { onButtonClick(stageModel.id) },
+                onClick = {
+                    onButtonClick(stageModel.id)
+                    AnalyticsService.logCustomEvent("click", mapOf(
+                        "category" to "Stage Selector Card",
+                        "action" to "Select stage ${stageModel.id}"
+                    ))
+              },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFAA0000))
             ) {
                 Text(

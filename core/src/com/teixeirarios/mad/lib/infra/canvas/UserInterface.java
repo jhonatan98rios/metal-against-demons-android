@@ -15,8 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
+import com.teixeirarios.mad.lib.drivers.analytics.AbstractAnalyticsService;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
 import com.teixeirarios.mad.lib.utils.Constants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserInterface {
 
@@ -28,14 +32,21 @@ public class UserInterface {
     private final SpriteBatch batch;
     private final EventManager eventManager;
     private final BitmapFont font;
+    private AbstractAnalyticsService analyticsService;
 
 
-
-    public UserInterface(Stage stage, GameStatus gameStatus, Navigator navigator, SpriteBatch batch) {
+    public UserInterface(
+            Stage stage,
+            GameStatus gameStatus,
+            Navigator navigator,
+            SpriteBatch batch,
+            AbstractAnalyticsService analyticsService
+    ) {
         this.stage = stage;
         this.batch = batch;
         this.gameStatus = gameStatus;
         this.navigator = navigator;
+        this.analyticsService = analyticsService;
         this.eventManager = EventManager.getInstance();
         this.font = new BitmapFont();
         font.getData().setScale(2.4f);
@@ -117,6 +128,11 @@ public class UserInterface {
 
         ImageButton btn = drawButton(url, posX, posY, width, height, () -> {});
         menuModal.addActor(btn);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("category", "Game Over Menu");
+        params.put("action", "Victory");
+        analyticsService.logCustomEvent("event", params);
     }
 
     public void drawGameOverTitle() {
@@ -128,6 +144,12 @@ public class UserInterface {
 
         ImageButton btn = drawButton(url, posX, posY, width, height, () -> {});
         menuModal.addActor(btn);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("category", "Game Over Menu");
+        params.put("action", "Lose");
+        analyticsService.logCustomEvent("event", params);
+
     }
 
     public void showGameOverModal(boolean isVictory) {
@@ -190,6 +212,11 @@ public class UserInterface {
             menuModal.remove();
             eventManager.emit("player:levelup:sound");
             eventManager.emit("status:play");
+
+            Map<String, String> params = new HashMap<>();
+            params.put("category", "Level Up Menu");
+            params.put("action", "Sound Attack");
+            analyticsService.logCustomEvent("event", params);
         });
 
         menuModal.addActor(btn);
@@ -206,6 +233,11 @@ public class UserInterface {
             menuModal.remove();
             eventManager.emit("player:levelup:forcefield");
             eventManager.emit("status:play");
+
+            Map<String, String> params = new HashMap<>();
+            params.put("category", "Level Up Menu");
+            params.put("action", "Force Field");
+            analyticsService.logCustomEvent("event", params);
         });
 
         menuModal.addActor(btn);
@@ -222,6 +254,11 @@ public class UserInterface {
             menuModal.remove();
             eventManager.emit("player:levelup:vampires");
             eventManager.emit("status:play");
+
+            Map<String, String> params = new HashMap<>();
+            params.put("category", "Level Up Menu");
+            params.put("action", "Vampire Horde");
+            analyticsService.logCustomEvent("event", params);
         });
 
         menuModal.addActor(btn);

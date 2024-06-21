@@ -10,9 +10,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.calculateCurrentOffsetForPage
-import com.teixeirarios.mad.lib.components.home.StageModel
-import com.teixeirarios.mad.lib.components.home.StageSelectorCard
+import com.teixeirarios.mad.lib.components.battle.StageModel
+import com.teixeirarios.mad.lib.components.battle.StageSelectorCard
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable

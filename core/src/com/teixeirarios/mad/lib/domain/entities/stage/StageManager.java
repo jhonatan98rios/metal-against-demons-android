@@ -17,8 +17,8 @@ public class StageManager {
         addStageData(StageModelMock.GetStageModelLevel7());
         addStageData(StageModelMock.GetStageModelLevel8());
         addStageData(StageModelMock.GetStageModelLevel9());
-        addStageData(StageModelMock.GetStageModelLevel10());
-        addStageData(StageModelMock.GetStageModelLevel11());
+//        addStageData(StageModelMock.GetStageModelLevel10());
+//        addStageData(StageModelMock.GetStageModelLevel11());
     }
 
     public static StageManager getInstance() {

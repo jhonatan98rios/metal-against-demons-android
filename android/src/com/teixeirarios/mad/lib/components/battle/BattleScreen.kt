@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -17,12 +18,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.teixeirarios.mad.R
-import com.teixeirarios.mad.lib.components.home.StageModel
-import com.teixeirarios.mad.lib.components.home.StageSelector
+import com.teixeirarios.mad.lib.analytics.AnalyticsService
 import com.teixeirarios.mad.lib.store.userstate.UserState
 
 @Composable
 fun BattleScreen(onButtonClick: (Int) -> Unit, stageList: List<StageModel>) {
+
+    LaunchedEffect(Unit) {
+        AnalyticsService.logScreenView("Battle Screen", "BattleScreen.kt")
+    }
 
     val userState by UserState.state.collectAsState()
     val availableStages = stageList.filter { it.id <= userState.currentStage }

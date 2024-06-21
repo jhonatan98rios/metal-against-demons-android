@@ -1,4 +1,4 @@
-package com.teixeirarios.mad.lib.components.home
+package com.teixeirarios.mad.lib.components.battle
 
 import androidx.compose.runtime.Composable
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -15,3 +15,4 @@ fun StageSelector(
     val pagerState = rememberPagerState(initialPage = stageList.size - 1)
     CarouselSlider(pagerState, stageList, onButtonClick)
 }
+

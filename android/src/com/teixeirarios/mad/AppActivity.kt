@@ -6,11 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.background
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,9 +17,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.teixeirarios.mad.lib.analytics.AnalyticsService
 import com.teixeirarios.mad.lib.components.battle.BattleScreen
-import com.teixeirarios.mad.lib.components.home.StageManager
-import com.teixeirarios.mad.lib.components.quests.QuestScreen
+import com.teixeirarios.mad.lib.components.battle.StageManager
 import com.teixeirarios.mad.lib.components.shared.NavigationBar
 import com.teixeirarios.mad.lib.components.shared.TopBar
 import com.teixeirarios.mad.lib.components.upgrade.UpgradeScreen
@@ -31,6 +28,7 @@ import com.teixeirarios.mad.lib.store.userstate.UserState
 
 
 class AppActivity : AppCompatActivity(), AppContext {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFullscreen()
@@ -39,6 +37,8 @@ class AppActivity : AppCompatActivity(), AppContext {
         setContent {
             MainScreen()
         }
+
+        AnalyticsService.init(this)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -117,6 +117,11 @@ fun MainScreen() {
     }
 }
 
+
+
+// adb shell setprop debug.firebase.analytics.app com.teixeirarios.mad
+//
+//
 
 
 

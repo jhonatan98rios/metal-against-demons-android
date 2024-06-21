@@ -10,6 +10,7 @@ import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CrawlerFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CyclopeFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.DragonFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
@@ -21,6 +22,7 @@ import com.teixeirarios.mad.lib.domain.entities.scenario.Scenario;
 import com.teixeirarios.mad.lib.domain.entities.skills.SkillManager;
 import com.teixeirarios.mad.lib.domain.entities.skills.SkillManagerFactory;
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
+import com.teixeirarios.mad.lib.drivers.analytics.AbstractAnalyticsService;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.canvas.RenderStack;
 import com.teixeirarios.mad.lib.infra.canvas.ShapeCanvas;
@@ -46,10 +48,12 @@ public class MAD extends ApplicationAdapter {
 	SkillManager skillManager;
 	OrbManager orbManager;
 	Navigator navigator;
+	AbstractAnalyticsService analyticsService;
 
-	public MAD (Navigator navigator) {
+	public MAD (Navigator navigator, AbstractAnalyticsService analyticsService) {
 		// Remover o navigator como "this"
 		this.navigator = navigator;
+		this.analyticsService = analyticsService;
 	}
 
 	
@@ -68,7 +72,7 @@ public class MAD extends ApplicationAdapter {
 		skillManager = SkillManagerFactory.create(player, batch, enemyManager);
 		orbManager = OrbManagerFactory.create(camera);
 
-		userInterface = new UserInterface(stage, gameStatus, navigator, batch);
+		userInterface = new UserInterface(stage, gameStatus, navigator, batch, analyticsService);
 		userInterface.drawPauseButton();
 
 		BackgroundSound.init();
@@ -128,7 +132,8 @@ public class MAD extends ApplicationAdapter {
 		Player.instance = null;
 		EventManager.instance = null;
 		SpiritFactory.enemyCanvas = null;
-		DragonFactory.enemyCanvas = null;
 		CrawlerFactory.enemyCanvas = null;
+		CyclopeFactory.enemyCanvas = null;
+		DragonFactory.enemyCanvas = null;
 	}
 }

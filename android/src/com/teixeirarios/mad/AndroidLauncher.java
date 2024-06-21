@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.teixeirarios.mad.lib.analytics.AnalyticsServiceJava;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
@@ -40,10 +41,12 @@ public class AndroidLauncher extends AndroidApplication implements Navigator, Ap
 
 		stageManager.setCurrentStage(stageData);
 
+		AnalyticsServiceJava analyticsService = new AnalyticsServiceJava(this);
+
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
 		// Remover o navigator como "this"
-		game = new MAD(this);
+		game = new MAD(this, analyticsService);
 		eventManager = EventManager.getInstance();
 		initialize(game, config);
 

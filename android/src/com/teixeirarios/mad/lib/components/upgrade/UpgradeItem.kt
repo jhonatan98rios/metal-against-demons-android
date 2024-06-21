@@ -43,7 +43,9 @@ fun UpgradeItem (title: String, description: String, value: String, runnable: ()
             horizontalArrangement = Arrangement.End,
             modifier = Modifier
                 .width(80.dp)
-                .clickable { runnable() }
+                .clickable {
+                    runnable()
+                }
         ) {
 
             Text(

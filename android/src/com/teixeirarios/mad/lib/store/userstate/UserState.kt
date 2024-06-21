@@ -10,7 +10,7 @@ import kotlin.math.round
 
 object UserState {
     private val _state = MutableStateFlow(UserStateData(
-        0, 0, 1, 0, 50, 0,
+        0, 0, 1, 0, 25, 0,
         100, 1f, 1f, 1f, 0
     ))
 
@@ -34,7 +34,7 @@ object UserState {
             )
         } else {
             updateState(UserStateData(
-                0, 0, 1, 0, 50,0,
+                0, 0, 1, 0, 25,0,
                 1000, 1f, 1f, 1f, 0
             ))
         }
@@ -92,7 +92,7 @@ object UserState {
         if (currentState.points <= 0 || currentState.dexterity >= 3) return
 
         val updateState = currentState.copy(
-            dexterity = Calculus.roundToTwoDecimalPlaces(currentState.dexterity + 0.1f),
+            dexterity = Calculus.roundToTwoDecimalPlaces(currentState.dexterity + 0.2f),
             points = currentState.points - 1
         )
         updateState(updateState)
@@ -103,7 +103,7 @@ object UserState {
         if (currentState.points <= 0 || currentState.luck >= 3) return
 
         val updateState = currentState.copy(
-            luck = Calculus.roundToTwoDecimalPlaces(currentState.luck + 0.1f),
+            luck = Calculus.roundToTwoDecimalPlaces(currentState.luck + 0.2f),
             points = currentState.points - 1
         )
         updateState(updateState)

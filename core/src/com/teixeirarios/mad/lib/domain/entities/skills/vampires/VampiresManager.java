@@ -46,7 +46,7 @@ public class VampiresManager implements AbstractSkillManager {
         this.accumulatedTime = 0;
 
         this.damage = 3 * userState.strength;
-        this.interval = 4f / userState.dexterity;
+        this.interval = 5f / userState.dexterity;
 
         this.player = Player.getInstance();
 

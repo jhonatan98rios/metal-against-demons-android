@@ -41,20 +41,7 @@ fun BattleScreen(onButtonClick: (Int) -> Unit, stageList: List<StageModel>) {
             verticalArrangement = Arrangement.Top
         ) {
 
-            Box(
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .height(96.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "Metal Against Demons",
-                    modifier = Modifier
-                        .height(96.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(90.dp))
             StageSelector(
                 availableStages,
                 onButtonClick

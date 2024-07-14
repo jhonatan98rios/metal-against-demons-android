@@ -35,7 +35,7 @@ public class ForceFieldManager implements AbstractSkillManager {
         this.level = 0;
         this.width = 240;
         this.height = 240;
-        this.damage = userState.strength * 0.75f;
+        this.damage = (userState.strength + userState.dexterity) * 0.6f;
 
         this.spritesheet = "skills/force_field_1.png";
         this.texture = new Texture(this.spritesheet);
@@ -87,9 +87,9 @@ public class ForceFieldManager implements AbstractSkillManager {
         activeSkills.clear();
         level += 1;
 
-        if (this.level > 1) {
-            damage += 0.25f;
-        }
+        if (this.level == 1) return;
+
+        damage += 0.3f;
 
         if (level <= 5) {
             this.spritesheet = "skills/force_field_" + level + ".png";

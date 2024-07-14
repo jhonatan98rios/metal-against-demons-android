@@ -20,6 +20,12 @@
             android:name="com.google.firebase.analytics.APP_ID"
             android:value="@string/google_app_id" />
 
+        <!-- Prod AdMob App ID: ca-app-pub-1739197497968733~1196839359 -->
+        <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
         <activity
             android:name=".AppActivity"
             android:exported="true"

@@ -35,13 +35,13 @@ fun UpgradeScreen() {
     val userState by UserState.state.collectAsState()
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         Box(
            modifier = Modifier
                .fillMaxWidth()
-               .height(700.dp)
-               .padding(24.dp, 64.dp, 24.dp, 0.dp)
+               .padding(24.dp, 24.dp, 24.dp, 24.dp)
         ) {
             Box(
                 modifier = Modifier

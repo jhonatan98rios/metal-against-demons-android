@@ -80,6 +80,9 @@ project(":android") {
         implementation platform('com.google.firebase:firebase-bom:31.2.3') // Adicione esta linha
         implementation 'com.google.firebase:firebase-analytics-ktx' // Adicione esta linha
 
+        // Admob
+        implementation("com.google.android.gms:play-services-ads:22.6.0")
+
         api "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"

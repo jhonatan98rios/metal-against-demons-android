@@ -84,10 +84,10 @@ public class SoundAttackManager implements AbstractSkillManager {
 
         Enemy targetEnemy = nearbyEnemies.get(0);
         SoundAttackUnit soundAttackUnit = new SoundAttackUnit(
-                player.getPosX() + (player.getWidth() / 2) - width,
-                player.getPosY() + (player.getHeight() / 2) - height,
-                targetEnemy.getPosX() + (targetEnemy.getWidth() / 2),
-                targetEnemy.getPosY() + (targetEnemy.getHeight() / 2),
+                player.getPosX() + (player.getWidth() / 2) - (width / 2),
+                player.getPosY() + (player.getHeight() / 2) - (height / 2),
+                targetEnemy.getPosX() + (targetEnemy.getWidth() / 2) - (width / 2),
+                targetEnemy.getPosY() + (targetEnemy.getHeight() / 2) - (height / 2),
                 width,
                 height,
                 speed,
@@ -200,6 +200,7 @@ public class SoundAttackManager implements AbstractSkillManager {
         damage += 30;
         level += 1;
         range += 100;
+
         if (interval > 0.2f) {
             interval -= 0.05f;
         }

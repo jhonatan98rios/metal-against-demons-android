@@ -5,7 +5,9 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkill;
 import com.teixeirarios.mad.lib.domain.entities.skills.abstracts.AbstractSkillManager;
+import com.teixeirarios.mad.lib.domain.entities.skills.firewalk.FireWalkManager;
 import com.teixeirarios.mad.lib.domain.entities.skills.forcefield.ForceFieldManager;
+import com.teixeirarios.mad.lib.domain.entities.skills.lightning.LightningManager;
 import com.teixeirarios.mad.lib.domain.entities.skills.soundattack.SoundAttackManager;
 import com.teixeirarios.mad.lib.domain.entities.skills.vampires.VampiresManager;
 
@@ -21,6 +23,8 @@ public class SkillManager {
         this.availableSkills.add(new SoundAttackManager(batch, enemyManager));
         this.availableSkills.add(new ForceFieldManager(batch, enemyManager));
         this.availableSkills.add(new VampiresManager(batch, enemyManager));
+        this.availableSkills.add(new FireWalkManager(batch, enemyManager));
+        this.availableSkills.add(new LightningManager(batch, enemyManager));
     }
 
     public void startSpawn(Player player) {

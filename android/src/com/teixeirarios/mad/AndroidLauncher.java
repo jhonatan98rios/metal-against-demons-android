@@ -91,10 +91,4 @@ public class AndroidLauncher extends AndroidApplication implements Navigator, Ap
 			game = null;
 		}
 	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		onDestroy();
-	}
 }

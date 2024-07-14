@@ -103,7 +103,7 @@ object UserState {
         if (currentState.points <= 0 || currentState.luck >= 3) return
 
         val updateState = currentState.copy(
-            luck = Calculus.roundToTwoDecimalPlaces(currentState.luck + 0.2f),
+            luck = Calculus.roundToTwoDecimalPlaces(currentState.luck + 0.25f),
             points = currentState.points - 1
         )
         updateState(updateState)

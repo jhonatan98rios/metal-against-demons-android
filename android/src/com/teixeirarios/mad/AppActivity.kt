@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.material.Scaffold
@@ -17,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.teixeirarios.mad.lib.admob.AdmobService
 import com.teixeirarios.mad.lib.analytics.AnalyticsService
 import com.teixeirarios.mad.lib.components.battle.BattleScreen
 import com.teixeirarios.mad.lib.components.battle.StageManager
@@ -39,6 +42,7 @@ class AppActivity : AppCompatActivity(), AppContext {
         }
 
         AnalyticsService.init(this)
+        AdmobService.init(this)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -96,7 +100,9 @@ fun MainScreen() {
         NavHost(
             navController = navController,
             startDestination = "Battle",
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         ) {
             composable("Upgrade") {
                 UpgradeScreen()

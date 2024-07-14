@@ -59,7 +59,7 @@ public class GameStatus {
 
     public void saveBattleAchievements(long totalXp, boolean isWin) {
         //userState.money += totalXP / 10;
-        userState.experience += (totalXp * userState.luck / 5) ;
+        userState.experience += Math.round((totalXp * userState.luck) / 4) ;
         userStateLevelUp();
 
         if (isWin && userState.currentStage == stageManager.getCurrentStage().getId()) {

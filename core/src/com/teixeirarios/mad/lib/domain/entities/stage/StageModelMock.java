@@ -21,7 +21,7 @@ public class StageModelMock {
         HashMap<AbstractEcosystemFactory, Integer> enemies = new HashMap<>();
         enemies.put(SpiritFactory::create, 8);
         enemies.put(CrawlerFactory::create, 2);
-        return new StageModel(1, 10, 50, 30, 1.5f, 1.5f, enemies);
+        return new StageModel(1, 10, 50, 30, 1.2f, 1.2f, enemies);
     }
 
     public static StageModel GetStageModelLevel3() {
@@ -29,7 +29,7 @@ public class StageModelMock {
         enemies.put(SpiritFactory::create, 6);
         enemies.put(CrawlerFactory::create, 3);
         enemies.put(CyclopeFactory::create, 1);
-        return new StageModel(2, 25, 100, 30, 2f, 2f, enemies);
+        return new StageModel(2, 25, 100, 30, 1.5f, 1.5f, enemies);
     }
 
     public static StageModel GetStageModelLevel4() {
@@ -37,7 +37,7 @@ public class StageModelMock {
         enemies.put(SpiritFactory::create, 6);
         enemies.put(CrawlerFactory::create, 3);
         enemies.put(CyclopeFactory::create, 1);
-        return new StageModel(3, 32, 200, 30, 3f, 3f, enemies);
+        return new StageModel(3, 30, 200, 30, 2f, 2f, enemies);
     }
 
     public static StageModel GetStageModelLevel5() {
@@ -45,7 +45,7 @@ public class StageModelMock {
         enemies.put(SpiritFactory::create, 6);
         enemies.put(CrawlerFactory::create, 3);
         enemies.put(CyclopeFactory::create, 1);
-        return new StageModel(4, 50, 350, 20, 4f, 4f, enemies);
+        return new StageModel(4, 30, 350, 30, 2.5f, 3f, enemies);
     }
 
     public static StageModel GetStageModelLevel6() {
@@ -54,7 +54,7 @@ public class StageModelMock {
         enemies.put(CrawlerFactory::create, 5);
         enemies.put(CyclopeFactory::create, 2);
         enemies.put(DragonFactory::create, 1);
-        return new StageModel(5, 75, 500, 20, 5f, 5f, enemies);
+        return new StageModel(5, 50, 500, 30, 3f, 4f, enemies);
     }
 
     public static StageModel GetStageModelLevel7() {
@@ -63,7 +63,7 @@ public class StageModelMock {
         enemies.put(CrawlerFactory::create, 5);
         enemies.put(CyclopeFactory::create, 2);
         enemies.put(DragonFactory::create, 1);
-        return new StageModel(6, 100, 666, 20, 6f, 6f, enemies);
+        return new StageModel(6, 50, 666, 30, 4f, 5f, enemies);
     }
 
     public static StageModel GetStageModelLevel8() {
@@ -72,7 +72,7 @@ public class StageModelMock {
         enemies.put(CrawlerFactory::create, 5);
         enemies.put(CyclopeFactory::create, 2);
         enemies.put(DragonFactory::create, 1);
-        return new StageModel(7, 150, 750, 10, 7f, 7f, enemies);
+        return new StageModel(7, 75, 750, 25, 5f, 6f, enemies);
     }
 
     public static StageModel GetStageModelLevel9() {
@@ -81,7 +81,7 @@ public class StageModelMock {
         enemies.put(CrawlerFactory::create, 5);
         enemies.put(CyclopeFactory::create, 2);
         enemies.put(DragonFactory::create, 1);
-        return new StageModel(8, 200, 1000, 10, 8f, 8f, enemies);
+        return new StageModel(8, 100, 1000, 25, 6f, 8f, enemies);
     }
 
     public static StageModel GetStageModelLevel10() {
@@ -90,7 +90,7 @@ public class StageModelMock {
         enemies.put(CrawlerFactory::create, 5);
         enemies.put(CyclopeFactory::create, 3);
         enemies.put(DragonFactory::create, 2);
-        return new StageModel(9, 250, 1200, 10, 9f, 9f, enemies);
+        return new StageModel(9, 150, 1200, 20, 7f, 10f, enemies);
     }
 
     public static StageModel GetStageModelLevel11() {
@@ -99,6 +99,6 @@ public class StageModelMock {
         enemies.put(CrawlerFactory::create, 5);
         enemies.put(CyclopeFactory::create, 3);
         enemies.put(DragonFactory::create, 2);
-        return new StageModel(10, 300, 1500, 5, 10f, 10f, enemies);
+        return new StageModel(10, 200, 1500, 20, 8f, 8f, enemies);
     }
 }

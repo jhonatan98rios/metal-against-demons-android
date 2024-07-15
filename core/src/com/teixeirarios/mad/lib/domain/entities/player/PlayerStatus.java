@@ -1,5 +1,6 @@
 package com.teixeirarios.mad.lib.domain.entities.player;
 
+import com.badlogic.gdx.Gdx;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.infra.database.models.UserState;
 import com.teixeirarios.mad.lib.infra.database.repository.UserRepository;
@@ -10,8 +11,9 @@ public class PlayerStatus {
     private final UserState userState;
 
     public int level;
-    public float maxHealth, currentHealth, nextLevelXp, currentXP;
+    public float maxHealth, currentHealth, nextLevelXp, currentXP, damageDuration;
     public long totalXP;
+    public boolean isDamaged;
 
     public PlayerStatus() {
         UserRepository userRepository = UserRepository.getInstance();
@@ -23,9 +25,19 @@ public class PlayerStatus {
         currentXP = 0;
         nextLevelXp = 20;
         totalXP = 0L;
+        isDamaged = false;
 
         eventManager = EventManager.getInstance();
         addEventListeners();
+    }
+
+    public void update() {
+        if (isDamaged) {
+            damageDuration -= Gdx.graphics.getDeltaTime();
+            if (damageDuration <= 0) {
+                isDamaged = false;
+            }
+        }
     }
 
     private void addEventListeners() {
@@ -35,7 +47,13 @@ public class PlayerStatus {
     }
 
     public void takeDamage(float damage) {
+        if (isDamaged) {
+            return;
+        }
+
         this.currentHealth -= damage;
+        this.isDamaged = true;
+        this.damageDuration = 0.1f;
 
         if (this.currentHealth <= 0) {
             die();

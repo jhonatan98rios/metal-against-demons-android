@@ -54,6 +54,7 @@ public class Player implements Body2D {
     public void update() {
         move();
         playerCanvas.animate();
+        playerStatus.update();
     }
 
     public void render() {

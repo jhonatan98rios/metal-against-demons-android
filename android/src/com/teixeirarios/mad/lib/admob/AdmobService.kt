@@ -22,10 +22,14 @@ import kotlinx.coroutines.launch
 object AdmobService {
 
     private var initialized = false
+    private lateinit var adUnitId: String
 
     fun init(context: AppCompatActivity) {
         if (initialized) return
         initialized = true
+
+        adUnitId = "ca-app-pub-3940256099942544/9214589741" // Dev
+        // adUnitId = "ca-app-pub-1739197497968733/5627124674" // Prod
 
         // Initialize the Google Mobile Ads SDK on a background thread.
         val backgroundScope = CoroutineScope(Dispatchers.IO)
@@ -46,9 +50,13 @@ object AdmobService {
             factory = { context ->
                 // on below line specifying ad view.
                 AdView(context).apply {
-                    setAdSize(AdSize.BANNER)
-                    adUnitId = "ca-app-pub-3940256099942544/9214589741" // Dev
-                    // adUnitId = "ca-app-pub-1739197497968733/5627124674" // Prod
+                    setAdSize(
+                        AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+                            context,
+                            AdSize.FULL_WIDTH
+                        )
+                    )
+                    adUnitId = AdmobService.adUnitId
                     loadAd(AdRequest.Builder().build())
                 }
             }

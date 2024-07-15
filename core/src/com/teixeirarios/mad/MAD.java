@@ -25,6 +25,7 @@ import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
 import com.teixeirarios.mad.lib.drivers.analytics.AbstractAnalyticsService;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.canvas.RenderStack;
+import com.teixeirarios.mad.lib.infra.canvas.ShaderService;
 import com.teixeirarios.mad.lib.infra.canvas.ShapeCanvas;
 import com.teixeirarios.mad.lib.infra.canvas.UserInterface;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
@@ -49,6 +50,8 @@ public class MAD extends ApplicationAdapter {
 	OrbManager orbManager;
 	Navigator navigator;
 	AbstractAnalyticsService analyticsService;
+
+	ShaderService shaderService;
 
 	public MAD (Navigator navigator, AbstractAnalyticsService analyticsService) {
 		// Remover o navigator como "this"
@@ -77,6 +80,8 @@ public class MAD extends ApplicationAdapter {
 
 		BackgroundSound.init();
 		BackgroundSound.play();
+
+		shaderService = new ShaderService(batch);
 	}
 
 	@Override
@@ -84,6 +89,9 @@ public class MAD extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, 0, 1);
 
 		if (gameStatus.isPlaying()) {
+
+			shaderService.update();
+
 			batch.begin();
 			scenario.drawBackground();
 
@@ -106,12 +114,14 @@ public class MAD extends ApplicationAdapter {
 			if (batch.isDrawing()) {
 				batch.end();
 			}
+
 			RenderStack.renderHealthBar(body2DList, camera);
 
 			orbManager.checkOrbsCollection(player);
 			orbManager.renderOrbs(Gdx.graphics.getDeltaTime());
 		}
 
+		batch.setShader(null);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
@@ -126,6 +136,7 @@ public class MAD extends ApplicationAdapter {
 		scenario.dispose();
 		userInterface.dispose();
 		ShapeCanvas.dispose();
+		shaderService.dispose();
 
 		GameStatus.instance = null;
 		StageManager.instance = null;

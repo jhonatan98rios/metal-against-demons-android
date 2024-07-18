@@ -7,7 +7,6 @@ import android.view.View
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.material.Scaffold
@@ -19,6 +18,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.teixeirarios.mad.lib.admob.AdmobService
 import com.teixeirarios.mad.lib.analytics.AnalyticsService
 import com.teixeirarios.mad.lib.components.battle.BattleScreen
@@ -43,6 +44,12 @@ class AppActivity : AppCompatActivity(), AppContext {
 
         AnalyticsService.init(this)
         AdmobService.init(this)
+        MobileAds.initialize(this) {}
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder().build()
+        )
+
+        //AdmobService.getAdvertisingId(this)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

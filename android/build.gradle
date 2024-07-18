@@ -28,14 +28,20 @@ android {
         versionName "1.2.0"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "ENVIRONMENT", '"dev"'
+        }
         release {
+            buildConfigField "String", "ENVIRONMENT", '"prod"'
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     buildFeatures {
         compose true
+        buildConfig true
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

@@ -1,5 +1,6 @@
 package com.teixeirarios.mad.lib.components.shared
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,14 +22,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.teixeirarios.mad.R
+import com.teixeirarios.mad.lib.admob.AdmobService
 import com.teixeirarios.mad.lib.analytics.AnalyticsService
 
 @Composable
 fun NavigationBar (navController: NavHostController) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -77,7 +81,6 @@ fun NavigationBar (navController: NavHostController) {
                 modifier = Modifier
                     .height(80.dp)
                     .width(80.dp)
-                    //.border(shape = RoundedCornerShape(8.dp), width = 1.dp, color = Color.White)
                     .padding(8.dp)
             ){
                 Column(

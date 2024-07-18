@@ -14,24 +14,28 @@
         android:appCategory="game"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        tools:ignore="UnusedAttribute">
+        tools:ignore="UnusedAttribute"
+    >
 
         <meta-data
             android:name="com.google.firebase.analytics.APP_ID"
-            android:value="@string/google_app_id" />
+            android:value="@string/google_app_id"
+        />
 
         <!-- Prod AdMob App ID: ca-app-pub-1739197497968733~1196839359 -->
         <!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-1739197497968733~1196839359"
+        />
 
         <activity
             android:name=".AppActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

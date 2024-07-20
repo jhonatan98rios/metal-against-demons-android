@@ -11,17 +11,18 @@ import java.util.UUID;
 public class Enemy implements Body2D {
     private final String category;
     private final UUID id;
-    private final int velocity, width, height;
+    private final int velocity, width, height, safetyMargin;
     private int posX, posY, selectedDirection;
     public CanvasFacade enemyCanvas;
     public EnemyStatus status;
 
     public Enemy(
             String category,
-            int width, int height, int posX, int posY, int velocity,
+            int width, int height, int posX, int posY, int safetyMargin, int velocity,
             int maxHealth, float damage, CanvasFacade enemyCanvas
         ) {
         this.category = category;
+        this.safetyMargin = safetyMargin;
         this.id = UUID.randomUUID();
         this.width = width;
         this.height = height;
@@ -52,21 +53,25 @@ public class Enemy implements Body2D {
     }
 
     public void renderHealthBar(Camera camera) {
-        if (status.currentHealth <= 0) {return;}
+        if (status.currentHealth <= 0 || status.currentHealth == status.maxHealth) {return;}
 
         float healthPercentage = status.currentHealth / status.maxHealth;
+        float width = healthPercentage * 64;
+        float height = 5f;
+        float dx = this.posX + ((float) this.width / 2) - (width / 2) - camera.getPosX();
+        float dy = this.posY + this.height + 10 - camera.getPosY();
 
         ShapeCanvas.drawShape(
             healthPercentage < 0.5f ? Color.RED : Color.GREEN,
-            posX + 10 - camera.getPosX(),
-            this.posY + this.height + 10 - camera.getPosY(),
-            healthPercentage * 64,
-            5
+                dx,
+                dy,
+                width,
+                height
         );
     }
 
     public int getSprite(float playerPosX) {
-        return playerPosX > posX ? 0 : this.height /2;
+        return (playerPosX + 50) > posX + ((float) width / 2) ? 0 : this.height /2;
     }
 
     // Getters e setters
@@ -89,6 +94,10 @@ public class Enemy implements Body2D {
 
     public int getPosY() {
         return posY;
+    }
+
+    public int getSafetyMargin() {
+        return safetyMargin;
     }
 
     public int getVelocity() {

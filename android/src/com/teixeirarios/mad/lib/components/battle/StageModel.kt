@@ -6,7 +6,7 @@ import com.teixeirarios.mad.R
 data class StageModel(
     val id: Int,
     val title: String,
-    val goal: Int,
+    val goal: String,
     @DrawableRes val background: Int,
 )
 
@@ -14,17 +14,16 @@ object StageManager {
     private val gameDataMap: MutableMap<Int, StageModel> = mutableMapOf()
 
     init {
-        addStage(StageModel(0, "Highway to Hell", 25, R.drawable.stage_1))
-        addStage(StageModel(1, "Welcome to Hell", 50, R.drawable.stage_2))
-        addStage(StageModel(2, "Dance with the Devil", 100, R.drawable.stage_3))
-        addStage(StageModel(3, "Sympathy for the Devil", 200, R.drawable.stage_4))
-        addStage(StageModel(4, "Waking the Demon", 300, R.drawable.stage_5))
-        addStage(StageModel(5, "Hell Awaits", 500, R.drawable.stage_6))
-        addStage(StageModel(6, "The number of the Beast", 666, R.drawable.stage_7))
-        addStage(StageModel(7, "Gates of Hell", 750, R.drawable.stage_8))
-        addStage(StageModel(8, "Straight to Hell", 1000, R.drawable.stage_9))
-        addStage(StageModel(9, "Hell's Bells", 1200, R.drawable.stage_10))
-        addStage(StageModel(10, "Go to hell for heaven's sake", 1500, R.drawable.stage_11))
+        addStage(StageModel(0, "Highway to Hell", "Kill at least 25 demons", R.drawable.stage_0))
+        addStage(StageModel(1, "Welcome to Hell", "Kill at least 50 demons", R.drawable.stage_1))
+        addStage(StageModel(2, "Dance with the Devil", "Kill at least 100 demons", R.drawable.stage_2))
+        addStage(StageModel(3, "Sympathy for the Devil", "Kill at least 250 demons", R.drawable.stage_3))
+        addStage(StageModel(4, "Waking the Demon", "Kill the demon Azazel", R.drawable.stage_4))
+        addStage(StageModel(5, "Go to hell for heaven's sake", "Kill at least 500 demons", R.drawable.stage_5))
+        addStage(StageModel(6, "The number of the Beast", "Kill at least 666 demons", R.drawable.stage_6))
+        addStage(StageModel(7, "Gates of Hell", "Kill at least 750 demons", R.drawable.stage_7))
+        addStage(StageModel(8, "Straight to Hell", "Kill at least 1000 demons", R.drawable.stage_8))
+        addStage(StageModel(9, "Hell's Bells", "Kill the Twin Gargoyles", R.drawable.stage_9))
     }
 
     fun getStageList(): List<StageModel> {

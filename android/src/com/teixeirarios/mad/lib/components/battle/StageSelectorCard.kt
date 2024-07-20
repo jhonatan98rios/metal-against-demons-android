@@ -76,7 +76,7 @@ fun StageSelectorCard (
                 )
 
                 Text(
-                    text = "Kill at least ${stageModel.goal} demons",
+                    text = stageModel.goal,
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
                     color = Color.White,

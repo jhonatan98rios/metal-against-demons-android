@@ -41,5 +41,9 @@ public class SpawnStrategy {
         int randomIndex = random.nextInt(ecosystemStrategies.size());
         return ecosystemStrategies.get(randomIndex);
     }
+
+    public ArrayList<AbstractEcosystemFactory> getBossEcosystemStrategy() {
+        return StageManager.getInstance().getCurrentStage().getBosses();
+    }
 }
 

@@ -37,9 +37,12 @@ public class MovimentationStrategy {
         }
     }
 
-    Vector2 getDirection(Vector2 playerPosition, Enemy enemyPosition) {
+    Vector2 getDirection(Vector2 playerPosition, Enemy enemy) {
         // Calcula a direção para a qual o inimigo deve se mover em direção ao jogador
-        return new Vector2(playerPosition.x - enemyPosition.getPosX(), playerPosition.y - enemyPosition.getPosY()).nor();
+        return new Vector2(
+                playerPosition.x - (enemy.getPosX() + ((float) enemy.getWidth() / 4)) + 50,
+                playerPosition.y - (enemy.getPosY() - ((float) enemy.getHeight() / 4)) + 50
+        ).nor();
     }
 
     Vector2 getNextPosition(Vector2 directionToPlayer, Enemy enemyPosition) {

@@ -9,9 +9,11 @@ import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.AzazelFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CrawlerFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CyclopeFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.DragonFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.GargoyleFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManager;
@@ -135,5 +137,7 @@ public class MAD extends ApplicationAdapter {
 		CrawlerFactory.enemyCanvas = null;
 		CyclopeFactory.enemyCanvas = null;
 		DragonFactory.enemyCanvas = null;
+		AzazelFactory.enemyCanvas = null;
+		GargoyleFactory.enemyCanvas = null;
 	}
 }

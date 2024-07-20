@@ -87,7 +87,10 @@ public class ForceFieldManager implements AbstractSkillManager {
         activeSkills.clear();
         level += 1;
 
-        if (this.level == 1) return;
+        if (this.level == 1) {
+            spawn(Player.getInstance());
+            return;
+        }
 
         damage += 0.3f;
 

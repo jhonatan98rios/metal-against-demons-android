@@ -5,29 +5,30 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.Enemy;
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
 import com.teixeirarios.mad.lib.infra.facade.CanvasFacade;
 
-public class GargoyleFactory {
+public class NightmareFactory {
 
     public static CanvasFacade enemyCanvas;
 
     public static Enemy create(SpriteBatch batch, int posX, int posY) {
 
         if (enemyCanvas == null) {
-            enemyCanvas = new CanvasFacade(batch, "enemies/gargoyle.png", 6, 0.25f, 250);
+            enemyCanvas = new CanvasFacade(batch, "enemies/nightmare.png", 6, 0.25f, 200);
         }
 
         StageManager stageManager =  StageManager.getInstance();
 
-        return new Enemy(
+        Enemy enemy = new Enemy(
                 "boss",
-                500,
-                500,
+                400,
+                400,
                 posX,
                 posY,
                 120,
                 2,
-                (int) stageManager.getCurrentStage().getBaseHealth() * 15000,
-                stageManager.getCurrentStage().getBaseDamage(),
+                (int) stageManager.getCurrentStage().getBaseHealth() * 30000,
+                stageManager.getCurrentStage().getBaseDamage() * 3,
                 enemyCanvas
         );
+        return enemy;
     }
 }

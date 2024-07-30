@@ -19,6 +19,7 @@ public class GameStatus {
     private final StageManager stageManager;
     private final StageModel currentStage;
     private int deadEnemies;
+    private int deadBosses;
 
     public GameStatus(GameStatusOptions status) {
         this.userRepository = UserRepository.getInstance();
@@ -29,6 +30,9 @@ public class GameStatus {
         this.eventManager = EventManager.getInstance();
         this.currentStage = stageManager.getCurrentStage();
         addEventListeners();
+
+        deadBosses = 0;
+        deadEnemies = 0;
     }
 
     public static GameStatus getInstance() {
@@ -93,10 +97,15 @@ public class GameStatus {
         eventManager.on("enemy:die", args -> {
             deadEnemies += 1;
 
-            boolean isVictory = (!stageManager.isThereAnyBosses() && deadEnemies >= currentStage.getTotalEnemies());
-            isVictory = isVictory ? isVictory : stageManager.isThereAnyBosses() && Objects.equals(args[0], "boss");
+            if (stageManager.isThereAnyBosses() && Objects.equals(args[0], "boss")) {
+                deadBosses += 1;
 
-            if (isVictory) {
+                if (deadBosses >= stageManager.getTotalBosses()) {
+                    victory();
+                }
+            }
+
+            if(!stageManager.isThereAnyBosses() && deadEnemies >= currentStage.getTotalEnemies()) {
                 victory();
             }
         });

@@ -10,7 +10,7 @@ import com.teixeirarios.mad.lib.utils.Constants;
 
 public class Camera implements AbstractCamera, Body2D {
 
-    private OrthographicCamera camera;
+    public OrthographicCamera camera;
     private SpriteBatch batch;
     private Player player;
 

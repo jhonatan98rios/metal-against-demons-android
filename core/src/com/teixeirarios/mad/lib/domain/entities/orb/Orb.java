@@ -13,7 +13,7 @@ public class Orb implements Body2D {
     private final int width;
     private final int height;
     private final int value;
-    private Color color;
+    private Color color, primaryColor, secondaryColor;
     private boolean goingUp;
     private float accumulatedTime;
     private static final float ANIMATION_INTERVAL = 0.3f; // 300ms
@@ -25,8 +25,17 @@ public class Orb implements Body2D {
         this.width = 10;
         this.height = 20;
         this.value = value;
-        this.color = Color.SKY;
         this.accumulatedTime = 0;
+
+        this.primaryColor = value > 50 ? Color.RED
+                : value > 25 ? Color.PURPLE
+                : Color.SKY;
+
+        this.secondaryColor = value > 50 ? Color.FIREBRICK
+                : value > 25 ? Color.VIOLET
+                : Color.CYAN;
+
+        this.color = this.primaryColor;
     }
 
     public void update(float deltaTime) {
@@ -40,10 +49,10 @@ public class Orb implements Body2D {
 
     private void animate() {
         if (goingUp) {
-            this.color = Color.CYAN;
+            this.color = this.primaryColor;
             this.posY += 5;
         } else {
-            this.color = Color.SKY;
+            this.color = this.secondaryColor;
             this.posY -= 5;
         }
         goingUp = !goingUp;

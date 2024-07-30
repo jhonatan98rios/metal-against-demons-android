@@ -27,7 +27,9 @@ public class SoundAttackManager implements AbstractSkillManager {
     private final EnemyManager enemyManager;
     private final Player player;
     private final SpriteBatch batch;
-    private final int lifeTime, frame_amount, speed;
+    private int lifeTime;
+    private final int frame_amount;
+    private final int speed;
     private int level, width, height, range;
     private float accumulatedTime, interval, damage;
     private String spritesheet;
@@ -42,7 +44,7 @@ public class SoundAttackManager implements AbstractSkillManager {
         this.width = 26;
         this.height = 26;
         this.speed = 3;
-        this.range = 500;
+        this.range = 700;
 
         this.damage = Math.round(100 * userState.strength);
         this.interval = 1f / userState.dexterity;
@@ -103,8 +105,8 @@ public class SoundAttackManager implements AbstractSkillManager {
     private ArrayList<Enemy> getNearbyEnemies(EnemyManager enemyManager) {
         SoundAttackManager.RangeArea rangeArea = new SoundAttackManager.RangeArea(
             player.getPosX() - range,
-            player.getPosY() - range,
-            player.getPosX() + range,
+            player.getPosY() - player.getHeight() - range,
+            player.getPosX() + player.getWidth() + range,
             player.getPosY() + range
         );
 
@@ -200,6 +202,7 @@ public class SoundAttackManager implements AbstractSkillManager {
         damage += 30;
         level += 1;
         range += 100;
+        lifeTime += 100;
 
         if (interval > 0.2f) {
             interval -= 0.05f;

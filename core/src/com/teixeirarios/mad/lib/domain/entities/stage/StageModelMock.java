@@ -54,7 +54,7 @@ public class StageModelMock {
         ArrayList<AbstractEcosystemFactory> bosses = new ArrayList<>();
         bosses.add(AzazelFactory::create);
 
-        return new StageModel(4, 50, 350, 30, 2.5f, 3f, enemies, bosses);
+        return new StageModel(4, 50, 10000, 30, 2.5f, 3f, enemies, bosses);
     }
 
     public static StageModel GetStageModelLevel6() {
@@ -104,7 +104,7 @@ public class StageModelMock {
         bosses.add(GargoyleFactory::create);
         bosses.add(GargoyleFactory::create);
 
-        return new StageModel(9, 150, 1000, 30, 6f, 6f, enemies, bosses);
+        return new StageModel(9, 150, 10000, 30, 6f, 6f, enemies, bosses);
     }
 
     public static StageModel GetStageModelLevel11() {
@@ -157,7 +157,7 @@ public class StageModelMock {
         ArrayList<AbstractEcosystemFactory> bosses = new ArrayList<>();
         bosses.add(NightmareFactory::create);
 
-        return new StageModel(14, 350, 1500, 25, 9f, 9f, enemies, bosses);
+        return new StageModel(14, 350, 10000, 25, 9f, 9f, enemies, bosses);
     }
 
     public static StageModel GetStageModelLevel16() {
@@ -210,6 +210,6 @@ public class StageModelMock {
         ArrayList<AbstractEcosystemFactory> bosses = new ArrayList<>();
         bosses.add(TormentorFactory::create);
 
-        return new StageModel(19, 700, 2000, 10, 12f, 12f, enemies, bosses);
+        return new StageModel(19, 700, 10000, 10, 12f, 12f, enemies, bosses);
     }
 }

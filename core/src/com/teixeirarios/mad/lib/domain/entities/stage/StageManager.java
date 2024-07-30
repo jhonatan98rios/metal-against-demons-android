@@ -56,4 +56,8 @@ public class StageManager {
     public boolean isThereAnyBosses() {
         return currentStage.getBosses() != null;
     }
+
+    public int getTotalBosses() {
+        return currentStage.getBosses().size();
+    }
 }

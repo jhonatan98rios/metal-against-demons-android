@@ -80,9 +80,6 @@ project(":android") {
         implementation platform('com.google.firebase:firebase-bom:31.2.3') // Dont update
         implementation 'com.google.firebase:firebase-analytics-ktx' // Dont update
 
-        implementation 'com.google.firebase:firebase-auth-ktx:23.0.0'
-        implementation 'com.google.android.gms:play-services-auth:21.2.0'
-
         // Admob
         implementation("com.google.android.gms:play-services-ads:23.2.0")
 

@@ -81,7 +81,7 @@ object UserState {
         if (currentState.points <= 0) return
 
         val updateState = currentState.copy(
-            strength = Calculus.roundToTwoDecimalPlaces(currentState.strength + 0.2f),
+            strength = Calculus.sumFloat(currentState.strength, 0.2f),
             points = currentState.points - 1
         )
         updateState(updateState)
@@ -92,7 +92,7 @@ object UserState {
         if (currentState.points <= 0 || currentState.dexterity >= 4) return
 
         val updateState = currentState.copy(
-            dexterity = Calculus.roundToTwoDecimalPlaces(currentState.dexterity + 0.2f),
+            dexterity = Calculus.sumFloat(currentState.dexterity, 0.2f),
             points = currentState.points - 1
         )
         updateState(updateState)
@@ -103,7 +103,7 @@ object UserState {
         if (currentState.points <= 0 || currentState.luck >= 3) return
 
         val updateState = currentState.copy(
-            luck = Calculus.roundToTwoDecimalPlaces(currentState.luck + 0.25f),
+            luck = Calculus.sumFloat(currentState.luck, 0.25f),
             points = currentState.points - 1
         )
         updateState(updateState)

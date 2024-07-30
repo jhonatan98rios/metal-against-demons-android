@@ -14,7 +14,9 @@ import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CrawlerFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CyclopeFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.DragonFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.GargoyleFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.NightmareFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.TormentorFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManager;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManagerFactory;
@@ -51,6 +53,7 @@ public class MAD extends ApplicationAdapter {
 	OrbManager orbManager;
 	Navigator navigator;
 	AbstractAnalyticsService analyticsService;
+	//Viewport viewport;
 
 	public MAD (Navigator navigator, AbstractAnalyticsService analyticsService) {
 		// Remover o navigator como "this"
@@ -70,6 +73,7 @@ public class MAD extends ApplicationAdapter {
 
 		scenario = new Scenario(batch);
 		camera = new Camera(player);
+		//viewport = new FitViewport((float) Constants.SCENARIO_WIDTH /4, (float) Constants.SCENARIO_HEIGHT /4, camera.camera);
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
 		skillManager = SkillManagerFactory.create(player, batch, enemyManager);
 		orbManager = OrbManagerFactory.create(camera);
@@ -117,6 +121,11 @@ public class MAD extends ApplicationAdapter {
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
+
+//	@Override
+//	public void resize(int width, int height) {
+//		viewport.update(width, height);
+//	}
 	
 	@Override
 	public void dispose () {
@@ -139,5 +148,7 @@ public class MAD extends ApplicationAdapter {
 		DragonFactory.enemyCanvas = null;
 		AzazelFactory.enemyCanvas = null;
 		GargoyleFactory.enemyCanvas = null;
+		NightmareFactory.enemyCanvas = null;
+		TormentorFactory.enemyCanvas = null;
 	}
 }

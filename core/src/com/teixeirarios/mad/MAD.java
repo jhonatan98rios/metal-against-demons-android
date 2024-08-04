@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
@@ -53,7 +54,7 @@ public class MAD extends ApplicationAdapter {
 	OrbManager orbManager;
 	Navigator navigator;
 	AbstractAnalyticsService analyticsService;
-	//Viewport viewport;
+	ExtendViewport viewport;
 
 	public MAD (Navigator navigator, AbstractAnalyticsService analyticsService) {
 		// Remover o navigator como "this"
@@ -73,7 +74,8 @@ public class MAD extends ApplicationAdapter {
 
 		scenario = new Scenario(batch);
 		camera = new Camera(player);
-		//viewport = new FitViewport((float) Constants.SCENARIO_WIDTH /4, (float) Constants.SCENARIO_HEIGHT /4, camera.camera);
+
+		viewport = new ExtendViewport(Gdx.graphics.getWidth() ,Gdx.graphics.getHeight(), camera.camera);
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
 		skillManager = SkillManagerFactory.create(player, batch, enemyManager);
 		orbManager = OrbManagerFactory.create(camera);
@@ -122,10 +124,10 @@ public class MAD extends ApplicationAdapter {
 		stage.draw();
 	}
 
-//	@Override
-//	public void resize(int width, int height) {
-//		viewport.update(width, height);
-//	}
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height, true);
+	}
 	
 	@Override
 	public void dispose () {

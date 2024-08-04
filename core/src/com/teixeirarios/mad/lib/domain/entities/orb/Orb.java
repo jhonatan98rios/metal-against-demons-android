@@ -27,12 +27,12 @@ public class Orb implements Body2D {
         this.value = value;
         this.accumulatedTime = 0;
 
-        this.primaryColor = value > 50 ? Color.RED
-                : value > 25 ? Color.PURPLE
+        this.primaryColor = value > 90 ? Color.RED
+                : value > 45 ? Color.PURPLE
                 : Color.SKY;
 
-        this.secondaryColor = value > 50 ? Color.FIREBRICK
-                : value > 25 ? Color.VIOLET
+        this.secondaryColor = value > 90 ? Color.FIREBRICK
+                : value > 45 ? Color.VIOLET
                 : Color.CYAN;
 
         this.color = this.primaryColor;

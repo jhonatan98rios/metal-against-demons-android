@@ -35,7 +35,7 @@ public class PlayerStatus {
     }
 
     public void takeDamage(float damage) {
-        //this.currentHealth -= damage;
+        this.currentHealth -= damage;
 
         if (this.currentHealth <= 0) {
             die();

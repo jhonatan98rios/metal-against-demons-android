@@ -1,9 +1,11 @@
 package com.teixeirarios.mad.lib.domain.entities.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.drivers.facade.AbstractCanvasFacade;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
+import com.teixeirarios.mad.lib.infra.canvas.ShapeCanvas;
 import com.teixeirarios.mad.lib.utils.Constants;
 
 public class Player implements Body2D {
@@ -13,8 +15,9 @@ public class Player implements Body2D {
     public float posX, posY;
     public final int width, height, velocity;
     char posDirection;
+    public static Player instance;
 
-    public Player(AbstractCanvasFacade playerCanvas, PlayerController playerController, PlayerStatus playerStatus, float posX, float posY) {
+    private Player(AbstractCanvasFacade playerCanvas, PlayerController playerController, PlayerStatus playerStatus, float posX, float posY) {
         this.playerCanvas = playerCanvas;
         this.playerController = playerController;
         this.playerStatus = playerStatus;
@@ -27,8 +30,29 @@ public class Player implements Body2D {
         this.velocity = 3;
     }
 
+    public static Player getInstance(AbstractCanvasFacade playerCanvas, PlayerController playerController, PlayerStatus playerStatus, float posX, float posY) {
+        if (Player.instance == null) {
+            Player.instance = new Player(
+                playerCanvas,
+                playerController,
+                playerStatus,
+                posX,
+                posY
+            );
+        }
+        return Player.instance;
+    }
+
+    public static Player getInstance() {
+        if (Player.instance == null) {
+            throw new IllegalStateException("Player not initialized");
+        } else {
+            return Player.instance;
+        }
+    }
+
     public void update() {
-        moveTouch();
+        move();
         playerCanvas.animate();
     }
 
@@ -37,14 +61,28 @@ public class Player implements Body2D {
     }
 
     public void renderHealthBar(Camera camera) {
-        float healthPercentage = (float) playerStatus.currentHealth / playerStatus.maxHealth;
+        float healthPercentage = playerStatus.currentHealth / playerStatus.maxHealth;
 
-        playerCanvas.drawShape(
+        ShapeCanvas.drawShape(
             healthPercentage < 0.5f ? Color.RED : Color.GREEN,
-            posX + 10 - camera.getPosX(),
-            this.posY + this.height + 10 - camera.getPosY(),
-            healthPercentage * 64,
-            5
+            24,
+            Gdx.graphics.getHeight() - 80,
+            healthPercentage * 128,
+            16
+        );
+
+        renderXpBar();
+    }
+
+    public void renderXpBar() {
+        float xpPercentage = playerStatus.currentXP / playerStatus.nextLevelXp;
+
+        ShapeCanvas.drawShape(
+            xpPercentage < 0.5f ? Color.SKY : Color.CYAN,
+            24,
+            Gdx.graphics.getHeight() - 100,
+            xpPercentage * 128,
+            16
         );
     }
 
@@ -56,7 +94,7 @@ public class Player implements Body2D {
         return sprite;
     }
 
-    public void moveTouch() {
+    public void move() {
         if(playerController.getAnalogX() > 0) {
             posDirection = 'R';
         } else if(playerController.getAnalogX() < 0) {
@@ -78,6 +116,10 @@ public class Player implements Body2D {
 
         posY = nextPosY;
         posX = nextPosX;
+    }
+
+    public void dispose() {
+        playerCanvas.dispose();
     }
 
     @Override

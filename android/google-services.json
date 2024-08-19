@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "414784220481",
+    "project_id": "metal-against-demons",
+    "storage_bucket": "metal-against-demons.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414784220481:android:855194ed7f0200d28dc5c0",
+        "android_client_info": {
+          "package_name": "com.teixeirarios.mad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmW_vSTysdZ4SJZ4mvF1Q7mWpzgHk-6rA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class EventManager {
 
-    private Map<String, List<EventListener>> listeners = new HashMap<>();
-    private static EventManager instance;
+    private final Map<String, List<EventListener>> listeners = new HashMap<>();
+    public static EventManager instance;
 
     private EventManager() {}
 
@@ -31,7 +31,8 @@ public class EventManager {
     public void emit(String event, Object... args) {
         List<EventListener> callbacks = listeners.get(event);
         if (callbacks != null) {
-            for (EventListener listener : callbacks) {
+            for (int i = 0; i < callbacks.size(); i++) {
+                EventListener listener = callbacks.get(i);
                 listener.handle(args);
             }
         }

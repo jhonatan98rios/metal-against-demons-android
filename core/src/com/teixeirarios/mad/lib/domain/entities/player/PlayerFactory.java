@@ -14,7 +14,7 @@ public class PlayerFactory {
         PlayerController playerController = new PlayerController(joystick);
         PlayerStatus playerStatus = new PlayerStatus();
 
-        Player player = new Player(
+        Player player = Player.getInstance(
                 playerCanvas,
                 playerController,
                 playerStatus,

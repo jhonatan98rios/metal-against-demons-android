@@ -1,0 +1,84 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2736558956188900125",
+      "lastPropertyId": "12:3872558271051934555",
+      "name": "UserState",
+      "properties": [
+        {
+          "id": "1:4235556269909405305",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:277352578262110777",
+          "name": "money",
+          "type": 6
+        },
+        {
+          "id": "3:3722192681229144571",
+          "name": "level",
+          "type": 5
+        },
+        {
+          "id": "4:2485310852055601125",
+          "name": "experience",
+          "type": 6
+        },
+        {
+          "id": "5:3772873327744485419",
+          "name": "nextLevelUp",
+          "type": 6
+        },
+        {
+          "id": "6:2498802729582568232",
+          "name": "points",
+          "type": 5
+        },
+        {
+          "id": "7:2213063578943431104",
+          "name": "health",
+          "type": 6
+        },
+        {
+          "id": "8:7898757309957152440",
+          "name": "strength",
+          "type": 7
+        },
+        {
+          "id": "9:8303475534398804288",
+          "name": "dexterity",
+          "type": 7
+        },
+        {
+          "id": "11:1448016394802374594",
+          "name": "luck",
+          "type": 7
+        },
+        {
+          "id": "12:3872558271051934555",
+          "name": "currentStage",
+          "type": 5
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:2736558956188900125",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    4048598844334983269
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}

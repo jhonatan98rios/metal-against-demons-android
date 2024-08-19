@@ -26,17 +26,17 @@ object StageManager {
         addStage(StageModel(8, "Straight to Hell", "Kill at least 1000 demons", R.drawable.stage_8))
         addStage(StageModel(9, "Hell's Bells", "Kill the Twin Gargoyles", R.drawable.stage_9))
 
-        addStage(StageModel(10, "Hell's Bells", "Kill at least 1200 demons", R.drawable.stage_10))
-        addStage(StageModel(11, "Hell's Bells", "Kill at least 1300 demons", R.drawable.stage_11))
-        addStage(StageModel(12, "Hell's Bells", "Kill at least 1400 demons", R.drawable.stage_12))
-        addStage(StageModel(13, "Hell's Bells", "Kill at least 1500 demons", R.drawable.stage_13))
-        addStage(StageModel(14, "Hell's Bells", "Kill the Nightmare", R.drawable.stage_14))
+        addStage(StageModel(10, "Symphony of Destruction", "Kill at least 1200 demons", R.drawable.stage_10))
+        addStage(StageModel(11, "Raining Blood", "Kill at least 1300 demons", R.drawable.stage_11))
+        addStage(StageModel(12, "Burn in Hell", "Kill at least 1400 demons", R.drawable.stage_12))
+        addStage(StageModel(13, "Hell Awaits", "Kill at least 1500 demons", R.drawable.stage_13))
+        addStage(StageModel(14, "Nightmare", "Kill the Nightmare", R.drawable.stage_14))
 
-        addStage(StageModel(15, "Hell's Bells", "Kill at least 1600 demons", R.drawable.stage_15))
-        addStage(StageModel(16, "Hell's Bells", "Kill at least 1700 demons", R.drawable.stage_16))
-        addStage(StageModel(17, "Hell's Bells", "Kill at least 1800 demons", R.drawable.stage_17))
-        addStage(StageModel(18, "Hell's Bells", "Kill at least 2000 demons", R.drawable.stage_18))
-        addStage(StageModel(19, "Hell's Bells", "Kill the Tormentor", R.drawable.stage_19))
+        addStage(StageModel(15, "Born of Fire", "Kill at least 1600 demons", R.drawable.stage_15))
+        addStage(StageModel(16, "Paranoid", "Kill at least 1700 demons", R.drawable.stage_16))
+        addStage(StageModel(17, "Beyond the Gates of Hell", "Kill at least 1800 demons", R.drawable.stage_17))
+        addStage(StageModel(18, "Hellfire", "Kill at least 2000 demons", R.drawable.stage_18))
+        addStage(StageModel(19, "Tormentor ", "Kill the Tormentor", R.drawable.stage_19))
     }
 
     fun getStageList(): List<StageModel> {

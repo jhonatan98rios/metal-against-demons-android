@@ -177,7 +177,7 @@ public class StageModelMock {
         enemies.put(CyclopeFactory::create, 3);
         enemies.put(DragonFactory::create, 1);
 
-        return new StageModel(16, 450, 1700, 20, 10f, 10f, enemies, null);
+        return new StageModel(16, 450, 1700, 20, 11f, 11f, enemies, null);
     }
 
     public static StageModel GetStageModelLevel18() {
@@ -187,7 +187,7 @@ public class StageModelMock {
         enemies.put(CyclopeFactory::create, 3);
         enemies.put(DragonFactory::create, 1);
 
-        return new StageModel(17, 500, 1800, 20, 11f, 11f, enemies, null);
+        return new StageModel(17, 500, 1800, 20, 12f, 12f, enemies, null);
     }
 
     public static StageModel GetStageModelLevel19() {
@@ -197,7 +197,7 @@ public class StageModelMock {
         enemies.put(CyclopeFactory::create, 3);
         enemies.put(DragonFactory::create, 2);
 
-        return new StageModel(18, 500, 2000, 20, 12f, 12f, enemies, null);
+        return new StageModel(18, 500, 2000, 20, 13f, 13f, enemies, null);
     }
 
     public static StageModel GetStageModelLevel20() {
@@ -210,6 +210,6 @@ public class StageModelMock {
         ArrayList<AbstractEcosystemFactory> bosses = new ArrayList<>();
         bosses.add(TormentorFactory::create);
 
-        return new StageModel(19, 700, 10000, 10, 12f, 12f, enemies, bosses);
+        return new StageModel(19, 500, 10000, 10, 15f, 15f, enemies, bosses);
     }
 }

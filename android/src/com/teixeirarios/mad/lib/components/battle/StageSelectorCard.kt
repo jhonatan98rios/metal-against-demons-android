@@ -3,6 +3,7 @@ package com.teixeirarios.mad.lib.components.battle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,7 +38,7 @@ fun StageSelectorCard (
         shape = RoundedCornerShape(16.dp),
         backgroundColor = Color.White,
         modifier = Modifier
-            .height(250.dp)
+            .aspectRatio(1f)
             .width(250.dp)
             .shadow(
                 elevation = 10.dp,

@@ -2,9 +2,12 @@ package com.teixeirarios.mad.lib.domain.entities.game;
 
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
 import com.teixeirarios.mad.lib.domain.entities.stage.StageManager;
+import com.teixeirarios.mad.lib.domain.entities.stage.StageModel;
 import com.teixeirarios.mad.lib.infra.database.models.UserState;
 import com.teixeirarios.mad.lib.infra.database.repository.UserRepository;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
+
+import java.util.Objects;
 
 public class GameStatus {
 
@@ -13,8 +16,10 @@ public class GameStatus {
     private final UserState userState;
     public static GameStatus instance;
     private GameStatusOptions status;
-    private StageManager stageManager;
+    private final StageManager stageManager;
+    private final StageModel currentStage;
     private int deadEnemies;
+    private int deadBosses;
 
     public GameStatus(GameStatusOptions status) {
         this.userRepository = UserRepository.getInstance();
@@ -23,7 +28,11 @@ public class GameStatus {
         this.status = status;
         this.stageManager = StageManager.getInstance();
         this.eventManager = EventManager.getInstance();
+        this.currentStage = stageManager.getCurrentStage();
         addEventListeners();
+
+        deadBosses = 0;
+        deadEnemies = 0;
     }
 
     public static GameStatus getInstance() {
@@ -88,13 +97,16 @@ public class GameStatus {
         eventManager.on("enemy:die", args -> {
             deadEnemies += 1;
 
-            if (deadEnemies >= stageManager.getCurrentStage().getTotalEnemies()) {
-                this.eventManager.emit("status:gameover", true);
+            if (stageManager.isThereAnyBosses() && Objects.equals(args[0], "boss")) {
+                deadBosses += 1;
 
-                long totalXp = Player.getInstance().playerStatus.totalXP;
-                saveBattleAchievements(totalXp, true);
+                if (deadBosses >= stageManager.getTotalBosses()) {
+                    victory();
+                }
+            }
 
-                setStatus(GameStatusOptions.STOPPED);
+            if(!stageManager.isThereAnyBosses() && deadEnemies >= currentStage.getTotalEnemies()) {
+                victory();
             }
         });
 
@@ -109,5 +121,18 @@ public class GameStatus {
         eventManager.on("status:play", args -> {
             setStatus(GameStatusOptions.PLAYING);
         });
+    }
+
+    private void victory() {
+        this.eventManager.emit("status:gameover", true);
+
+        long totalXp = Player.getInstance().playerStatus.totalXP;
+        if (stageManager.isThereAnyBosses()) {
+            totalXp = (long) (totalXp + (currentStage.getBaseHealth() * 300));
+        }
+
+        saveBattleAchievements(totalXp, true);
+
+        setStatus(GameStatusOptions.STOPPED);
     }
 }

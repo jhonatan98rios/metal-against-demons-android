@@ -21,7 +21,7 @@ public class EnemyManagerFactory {
         }
 
         return new EnemyManager(
-            batch, player, camera, currentStage.getSpawnInterval(), currentStage.getMaxEnemies(),
+            batch, player, camera, currentStage,
             movimentationStrategy, spawnStrategy, eventManager
         );
     }

@@ -77,8 +77,8 @@ project(":android") {
         implementation 'com.google.accompanist:accompanist-pager:0.20.0'
 
         // Firebase dependencies
-        implementation platform('com.google.firebase:firebase-bom:31.2.3') // Adicione esta linha
-        implementation 'com.google.firebase:firebase-analytics-ktx' // Adicione esta linha
+        implementation platform('com.google.firebase:firebase-bom:31.2.3') // Dont update
+        implementation 'com.google.firebase:firebase-analytics-ktx' // Dont update
 
         // Admob
         implementation("com.google.android.gms:play-services-ads:23.2.0")

@@ -5,14 +5,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.teixeirarios.mad.lib.domain.abstracts.Body2D;
 import com.teixeirarios.mad.lib.domain.abstracts.Navigator;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManager;
 import com.teixeirarios.mad.lib.domain.entities.enemy.EnemyManagerFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.AzazelFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CrawlerFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.CyclopeFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.DragonFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.GargoyleFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.NightmareFactory;
 import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.SpiritFactory;
+import com.teixeirarios.mad.lib.domain.entities.enemy.ecosystem.TormentorFactory;
 import com.teixeirarios.mad.lib.domain.entities.game.GameStatus;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManager;
 import com.teixeirarios.mad.lib.domain.entities.orb.OrbManagerFactory;
@@ -49,6 +54,7 @@ public class MAD extends ApplicationAdapter {
 	OrbManager orbManager;
 	Navigator navigator;
 	AbstractAnalyticsService analyticsService;
+	ExtendViewport viewport;
 
 	public MAD (Navigator navigator, AbstractAnalyticsService analyticsService) {
 		// Remover o navigator como "this"
@@ -68,6 +74,8 @@ public class MAD extends ApplicationAdapter {
 
 		scenario = new Scenario(batch);
 		camera = new Camera(player);
+
+		viewport = new ExtendViewport(Gdx.graphics.getWidth() ,Gdx.graphics.getHeight(), camera.camera);
 		enemyManager = EnemyManagerFactory.create(batch, player, camera);
 		skillManager = SkillManagerFactory.create(player, batch, enemyManager);
 		orbManager = OrbManagerFactory.create(camera);
@@ -115,6 +123,11 @@ public class MAD extends ApplicationAdapter {
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
+
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height, true);
+	}
 	
 	@Override
 	public void dispose () {
@@ -135,5 +148,9 @@ public class MAD extends ApplicationAdapter {
 		CrawlerFactory.enemyCanvas = null;
 		CyclopeFactory.enemyCanvas = null;
 		DragonFactory.enemyCanvas = null;
+		AzazelFactory.enemyCanvas = null;
+		GargoyleFactory.enemyCanvas = null;
+		NightmareFactory.enemyCanvas = null;
+		TormentorFactory.enemyCanvas = null;
 	}
 }

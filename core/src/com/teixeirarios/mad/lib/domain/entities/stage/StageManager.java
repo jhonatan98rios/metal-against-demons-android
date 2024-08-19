@@ -17,8 +17,17 @@ public class StageManager {
         addStageData(StageModelMock.GetStageModelLevel7());
         addStageData(StageModelMock.GetStageModelLevel8());
         addStageData(StageModelMock.GetStageModelLevel9());
-//        addStageData(StageModelMock.GetStageModelLevel10());
-//        addStageData(StageModelMock.GetStageModelLevel11());
+        addStageData(StageModelMock.GetStageModelLevel10());
+        addStageData(StageModelMock.GetStageModelLevel11());
+        addStageData(StageModelMock.GetStageModelLevel12());
+        addStageData(StageModelMock.GetStageModelLevel13());
+        addStageData(StageModelMock.GetStageModelLevel14());
+        addStageData(StageModelMock.GetStageModelLevel15());
+        addStageData(StageModelMock.GetStageModelLevel16());
+        addStageData(StageModelMock.GetStageModelLevel17());
+        addStageData(StageModelMock.GetStageModelLevel18());
+        addStageData(StageModelMock.GetStageModelLevel19());
+        addStageData(StageModelMock.GetStageModelLevel20());
     }
 
     public static StageManager getInstance() {
@@ -42,5 +51,13 @@ public class StageManager {
 
     public StageModel getCurrentStage() {
         return currentStage;
+    }
+
+    public boolean isThereAnyBosses() {
+        return currentStage.getBosses() != null;
+    }
+
+    public int getTotalBosses() {
+        return currentStage.getBosses().size();
     }
 }

@@ -23,6 +23,7 @@ public class DragonFactory {
                 240,
                 posX,
                 posY,
+                25,
                 1,
                 (int) stageManager.getCurrentStage().getBaseHealth() * 500,
                 stageManager.getCurrentStage().getBaseDamage() * 3,

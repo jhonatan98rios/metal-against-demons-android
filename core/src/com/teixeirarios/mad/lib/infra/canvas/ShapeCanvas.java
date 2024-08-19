@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class ShapeCanvas {
-    static ShapeRenderer shapeRenderer;
+    public static ShapeRenderer shapeRenderer;
 
     public static void drawShape(Color color, float dx, float dy, float dw, float dh) {
         if (shapeRenderer == null) {
@@ -17,6 +17,14 @@ public class ShapeCanvas {
             shapeRenderer.rect(dx, dy, dw, dh);
             shapeRenderer.end();
         }
+    }
+
+    public static ShapeRenderer getShapeRenderer() {
+        if (shapeRenderer == null) {
+            shapeRenderer = new ShapeRenderer();
+        }
+
+        return shapeRenderer;
     }
 
     public static void dispose() {

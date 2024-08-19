@@ -23,6 +23,7 @@ public class SpiritFactory {
                 150,
                 posX,
                 posY,
+                25,
                 2,
                 (int) stageManager.getCurrentStage().getBaseHealth() * 150,
                 stageManager.getCurrentStage().getBaseDamage() * 1,

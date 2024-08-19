@@ -23,6 +23,7 @@ public class CyclopeFactory {
                 170,
                 posX,
                 posY,
+                25,
                 2,
                 (int) stageManager.getCurrentStage().getBaseHealth() * 200,
                 stageManager.getCurrentStage().getBaseDamage() * 2,

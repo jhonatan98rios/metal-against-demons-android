@@ -24,8 +24,8 @@ android {
         applicationId "com.teixeirarios.mad"
         minSdkVersion 24
         targetSdkVersion 34
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 6
+        versionName "1.3.2"
     }
     buildTypes {
         debug {

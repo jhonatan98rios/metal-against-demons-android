@@ -3,6 +3,7 @@ package com.teixeirarios.mad.lib.domain.entities.enemy;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.teixeirarios.mad.lib.domain.entities.player.Player;
+import com.teixeirarios.mad.lib.domain.entities.stage.StageModel;
 import com.teixeirarios.mad.lib.domain.strategies.CollisionStrategy;
 import com.teixeirarios.mad.lib.infra.camera.Camera;
 import com.teixeirarios.mad.lib.infra.events.EventManager;
@@ -17,6 +18,7 @@ public class EnemyManager {
 
     private final Player player;
     private final Camera camera;
+    private final StageModel currentStage;
     private final ArrayList<Enemy> enemies;
     private final int spawnInterval;
     private final int maxEnemies;
@@ -30,15 +32,15 @@ public class EnemyManager {
             SpriteBatch batch,
             Player player,
             Camera camera,
-            int spawnInterval,
-            int maxEnemies,
+            StageModel currentStage,
             MovimentationStrategy movimentationStrategy,
             SpawnStrategy spawnStrategy,
             EventManager eventManager
     ) {
         this.enemies = new ArrayList<>();
-        this.spawnInterval = spawnInterval;
-        this.maxEnemies = maxEnemies;
+        this.currentStage = currentStage;
+        this.spawnInterval = currentStage.getSpawnInterval();
+        this.maxEnemies = currentStage.getMaxEnemies();
         this.spawnTimer = 0;
         this.movimentationStrategy = movimentationStrategy;
         this.spawnStrategy = spawnStrategy;
@@ -48,6 +50,7 @@ public class EnemyManager {
         this.eventManager = eventManager;
 
         this.addEventListeners();
+        this.spawnBoss();
     }
 
     public void update() {
@@ -57,7 +60,10 @@ public class EnemyManager {
             spawnTimer = 0;
         }
 
-        Vector2 playerPosition = new Vector2(player.getPosX(), player.getPosY());
+        Vector2 playerPosition = new Vector2(
+                player.getPosX() - ((float) player.getWidth() / 2),
+                player.getPosY() - ((float) player.getHeight() / 2)
+        );
         movimentationStrategy.updateEnemiesMovement(enemies, playerPosition);
 
         if (!enemies.isEmpty()) {
@@ -71,7 +77,7 @@ public class EnemyManager {
             Enemy enemy = enemies.get(i);
             enemy.update(player.posX);
 
-            if (CollisionStrategy.isColliding(enemy, player, 25, 25)) {
+            if (CollisionStrategy.isColliding(enemy, player, enemy.getSafetyMargin())) {
                 eventManager.emit("enemy:collision", enemy.status.damage);
             }
         }
@@ -81,64 +87,76 @@ public class EnemyManager {
         // Definindo uma margem de segurança para evitar que inimigos sejam gerados muito próximos uns dos outros
         float safetyMargin = 36f;
 
-        Random random = new Random();
-        int scenarioWidth = Constants.SCENARIO_WIDTH;
-        int scenarioHeight = Constants.SCENARIO_HEIGHT;
-        int cameraWidth = camera.getWidth();
-        int cameraHeight = camera.getHeight();
-        int cameraX = camera.getPosX();
-        int cameraY = camera.getPosY();
-
         // Loop até encontrar uma posição adequada para o novo inimigo
         while (true) {
-
-            // Gerar uma posição aleatória para o novo inimigo
-            int posX = 0, posY = 0, range = 0;
-            int region = random.nextInt(4);
-            int seed = 0;
-
-            switch (region) {
-                case 0: // Above the camera
-                    posX = random.nextInt(scenarioWidth);
-                    posY = cameraY > 0 ? random.nextInt(cameraY) : 0;
-                    break;
-                case 1: // Below the camera
-                    range = scenarioHeight - (cameraY + cameraHeight);
-                    seed = (range > 0) ? random.nextInt(range) : 0;
-                    posY = seed + (cameraY + cameraHeight);
-                    posX = random.nextInt(scenarioWidth);
-                    break;
-                case 2: // Left of the camera
-                    posX = cameraX > 0 ? random.nextInt(cameraX) : 0;
-                    posY = random.nextInt(scenarioHeight);
-                    break;
-                case 3: // Right of the camera
-                    range = scenarioWidth - (cameraX + cameraWidth);
-                    seed = (range > 0) ? random.nextInt(range) : 0;
-                    posX = seed + (cameraX + cameraWidth);
-                    posY = random.nextInt(scenarioHeight);
-                    break;
-            }
+            Vector2 position = calculateRandomPosition();
 
             // Verificar se a nova posição está ocupada por outro inimigo
             boolean positionOccupied = false;
 
             for (int i = 0; i < enemies.size(); i++) {
                 Enemy enemy = enemies.get(i);
-                if (Math.abs(posX - enemy.getPosX()) < safetyMargin && Math.abs(posY - enemy.getPosY()) < safetyMargin) {
+                if (Math.abs(position.x - enemy.getPosX()) < safetyMargin && Math.abs(position.y - enemy.getPosY()) < safetyMargin) {
                     positionOccupied = true;
                     break;
                 }
             }
 
-            // Se a posição não estiver ocupada, criar o novo inimigo e sair do loop
+            // Se a posição não estiver ocupada, criar o novo inimigo e sai do loop
             if (!positionOccupied) {
                 var strategy = this.spawnStrategy.getRandomEcosystemStrategy();
-                Enemy newEnemy = strategy.create(batch, posX, posY);
+                Enemy newEnemy = strategy.create(batch, (int) position.x, (int) position.y);
                 enemies.add(newEnemy);
                 break;
             }
         }
+    }
+
+    private void spawnBoss() {
+        if (this.currentStage.getBosses() == null) return;
+        var strategies = this.spawnStrategy.getBossEcosystemStrategy();
+        for (AbstractEcosystemFactory strategy : strategies) {
+            Vector2 position = calculateRandomPosition();
+            Enemy newEnemy = strategy.create(batch, (int) position.x, (int) position.y);
+            enemies.add(newEnemy);
+        }
+    }
+    
+    private Vector2 calculateRandomPosition() {
+        Random random = new Random();
+        int region = random.nextInt(4);
+        int scenarioWidth = Constants.SCENARIO_WIDTH;
+        int scenarioHeight = Constants.SCENARIO_HEIGHT;
+        int cameraWidth = camera.getWidth();
+        int cameraHeight = camera.getHeight();
+        int cameraX = camera.getPosX();
+        int cameraY = camera.getPosY();
+        int posX = 0, posY = 0, range = 0, seed = 0;
+
+        switch (region) {
+            case 0: // Above the camera
+                posX = random.nextInt(scenarioWidth);
+                posY = cameraY > 0 ? random.nextInt(cameraY) : 0;
+                break;
+            case 1: // Below the camera
+                range = scenarioHeight - (cameraY + cameraHeight);
+                seed = (range > 0) ? random.nextInt(range) : 0;
+                posY = seed + (cameraY + cameraHeight);
+                posX = random.nextInt(scenarioWidth);
+                break;
+            case 2: // Left of the camera
+                posX = cameraX > 0 ? random.nextInt(cameraX) : 0;
+                posY = random.nextInt(scenarioHeight);
+                break;
+            case 3: // Right of the camera
+                range = scenarioWidth - (cameraX + cameraWidth);
+                seed = (range > 0) ? random.nextInt(range) : 0;
+                posX = seed + (cameraX + cameraWidth);
+                posY = random.nextInt(scenarioHeight);
+                break;
+        }
+
+        return new Vector2(posX, posY);
     }
 
     private void addEventListeners() {
@@ -166,7 +184,7 @@ public class EnemyManager {
             }
         }
 
-        this.eventManager.emit("enemy:die");
+        this.eventManager.emit("enemy:die", enemy.getCategory());
 
         this.eventManager.emit(
             "orb:spawn",

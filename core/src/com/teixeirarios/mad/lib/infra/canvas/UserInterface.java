@@ -101,8 +101,8 @@ public class UserInterface {
         menuModal = new Group();
         menuModal.setSize(500, 300);
         menuModal.setPosition(
-            (((float) Constants.SCENARIO_WIDTH / 2) - menuModal.getWidth()) / 2,
-            ((((float) Constants.SCENARIO_HEIGHT / 2) - menuModal.getHeight()) / 2) + 50
+            (((float) Constants.SCENARIO_WIDTH / 5) - menuModal.getWidth()) / 2,
+            ((((float) Constants.SCENARIO_HEIGHT / 5) - menuModal.getHeight()) / 2) + 50
         );
 
         drawContinueButton();
@@ -159,8 +159,8 @@ public class UserInterface {
         menuModal = new Group();
         menuModal.setSize(500, 300);
         menuModal.setPosition(
-                (((float) Constants.SCENARIO_WIDTH / 2) - menuModal.getWidth()) / 2,
-                ((((float) Constants.SCENARIO_HEIGHT / 2) - menuModal.getHeight()) / 2) + 50
+                (((float) Constants.SCENARIO_WIDTH / 5) - menuModal.getWidth()) / 2,
+                ((((float) Constants.SCENARIO_HEIGHT / 5) - menuModal.getHeight()) / 2) + 50
         );
 
         if (isVictory) {
@@ -193,8 +193,8 @@ public class UserInterface {
         menuModal = new Group();
         menuModal.setSize(Gdx.graphics.getWidth() * 0.9f, 400);
         menuModal.setPosition(
-            (((float) Constants.SCENARIO_WIDTH / 2) - menuModal.getWidth()) / 2,
-            ((((float) Constants.SCENARIO_HEIGHT / 2) - menuModal.getHeight()) / 2) + 50
+            (((float) Constants.SCENARIO_WIDTH / 5) - menuModal.getWidth()) / 2,
+            ((((float) Constants.SCENARIO_HEIGHT / 5) - menuModal.getHeight()) / 2) + 50
         );
 
         ArrayList<String> randomSkills = SkillCatalog.getRandomSkills();

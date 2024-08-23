@@ -24,11 +24,13 @@ import com.teixeirarios.mad.lib.admob.AdmobService
 import com.teixeirarios.mad.lib.analytics.AnalyticsService
 import com.teixeirarios.mad.lib.components.battle.BattleScreen
 import com.teixeirarios.mad.lib.components.battle.StageManager
+import com.teixeirarios.mad.lib.components.profile.ProfileScreen
 import com.teixeirarios.mad.lib.components.shared.NavigationBar
 import com.teixeirarios.mad.lib.components.shared.TopBar
 import com.teixeirarios.mad.lib.components.upgrade.UpgradeScreen
 import com.teixeirarios.mad.lib.infra.database.repository.AppContext
 import com.teixeirarios.mad.lib.store.userstate.UserState
+import com.teixeirarios.mad.lib.store.tokenState.TokenState
 
 
 class AppActivity : AppCompatActivity(), AppContext {
@@ -36,6 +38,7 @@ class AppActivity : AppCompatActivity(), AppContext {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setFullscreen()
+        TokenState.init(this)
         UserState.init(this)
 
         setContent {
@@ -93,7 +96,7 @@ fun MainScreen() {
     val (scale, offsetX, offsetY) = when (currentRoute) {
         "Upgrade" -> Triple(1.7f, 240f, -300f) // Zoom no player
         "Battle" -> Triple(1.0f, 0f, 0f) // Sem zoom
-        "Quests" -> Triple(2.5f, 0f, -400f) // Zoom na fogueira
+        "Profile" -> Triple(2.5f, 0f, -400f) // Zoom na fogueira
         else -> Triple(1.0f, 0f, 0f)
     }
 
@@ -123,9 +126,9 @@ fun MainScreen() {
                     StageManager.getStageList()
                 )
             }
-//            composable("Quests") {
-//                QuestScreen()
-//            }
+            composable("Profile") {
+                ProfileScreen()
+            }
         }
     }
 }

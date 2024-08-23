@@ -1,5 +1,6 @@
 package com.teixeirarios.mad.lib.store.userstate
 
+import android.content.Context
 import com.teixeirarios.mad.lib.infra.database.models.UserState as UserStateModel
 import com.teixeirarios.mad.lib.infra.database.repository.AppContext
 import com.teixeirarios.mad.lib.infra.database.repository.UserRepository
@@ -9,10 +10,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlin.math.round
 
 object UserState {
-    private val _state = MutableStateFlow(UserStateData(
-        0, 0, 1, 0, 25, 0,
-        100, 1f, 1f, 1f, 0
-    ))
+
+    private val defaultState = UserStateData(
+    0, 0, 1, 0, 25, 0,
+    100, 1f, 1f, 1f, 0
+    )
+
+    private val _state = MutableStateFlow(defaultState)
 
     val state: StateFlow<UserStateData> get() = _state
     private lateinit var context: AppContext;
@@ -57,6 +61,7 @@ object UserState {
         userStateModel.currentStage = newState.currentStage
 
         UserRepository.getInstance().userState = userStateModel
+
     }
 
     fun addMoney(money: Long) {

@@ -66,6 +66,13 @@ project(":android") {
         implementation 'androidx.activity:activity-compose:1.9.0'
         implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0' // Dont update
 
+        // Security
+        implementation "androidx.security:security-crypto-ktx:1.1.0-alpha06"
+        implementation 'com.google.code.gson:gson:2.10.1'
+        implementation 'com.auth0.android:jwtdecode:2.0.2'
+
+        implementation "com.squareup.okhttp3:okhttp:4.9.3"
+
         // dependency for exoplayer
         //implementation 'com.google.android.exoplayer:exoplayer-core:2.19.1'
         //implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'

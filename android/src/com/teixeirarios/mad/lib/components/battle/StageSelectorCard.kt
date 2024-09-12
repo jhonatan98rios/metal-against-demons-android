@@ -98,7 +98,7 @@ fun StageSelectorCard (
                         "category" to "Stage Selector Card",
                         "action" to "Select stage ${stageModel.id}"
                     ))
-              },
+                },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFAA0000))
             ) {
                 Text(

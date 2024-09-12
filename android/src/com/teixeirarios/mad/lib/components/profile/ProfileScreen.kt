@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -38,7 +39,7 @@ fun ProfileScreen() {
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
 
-            TextButton(onClick = { TokenState.clearToken(context) }) {
+            Button(onClick = { TokenState.clearToken(context) }) {
                 Text("Logout")
             }
         }

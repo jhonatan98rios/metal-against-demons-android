@@ -37,7 +37,13 @@ object TokenState {
         _tokenFlow.value = token
     }
 
-    fun getToken(): StateFlow<String?> = tokenFlow
+    fun getToken(): String? {
+        return _tokenFlow.value
+    }
+
+    fun hasToken(): Boolean {
+        return _tokenFlow.value != null
+    }
 
     fun clearToken(context: Context) {
         val sharedPreferences = getSharedPreferences(context)

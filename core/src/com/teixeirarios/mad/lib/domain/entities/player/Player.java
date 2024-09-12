@@ -67,7 +67,7 @@ public class Player implements Body2D {
             healthPercentage < 0.5f ? Color.RED : Color.GREEN,
             24,
             Gdx.graphics.getHeight() - 80,
-            healthPercentage * 128,
+                healthPercentage <= 100 ? (healthPercentage * 128) : 12800,
             16
         );
 
@@ -81,7 +81,7 @@ public class Player implements Body2D {
             xpPercentage < 0.5f ? Color.SKY : Color.CYAN,
             24,
             Gdx.graphics.getHeight() - 100,
-            xpPercentage * 128,
+                xpPercentage <= 100 ? (xpPercentage * 128) : 12800,
             16
         );
     }

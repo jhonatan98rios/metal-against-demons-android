@@ -25,8 +25,8 @@ fun BattleScreen(onButtonClick: (Int) -> Unit, stageList: List<StageModel>) {
     }
 
     val userState by UserState.state.collectAsState()
-    val availableStages = stageList.filter { it.id <= userState.currentStage }
-    //val availableStages = stageList
+    //val availableStages = stageList.filter { it.id <= userState.currentStage }
+    val availableStages = stageList
 
     Box(
         modifier = Modifier.fillMaxSize()

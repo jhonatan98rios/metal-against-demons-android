@@ -3,7 +3,12 @@ package com.teixeirarios.mad.lib.components.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
@@ -16,8 +21,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -58,32 +65,53 @@ fun SignUpForm(onToggleForm: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Criar Conta")
+        Text(
+            text = "Criar Conta",
+            color = Color.White,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
 
         TextField(
             value = email,
             onValueChange = { email = it },
             label = { Text("Email") },
-            modifier = Modifier.background(Color.White)
+            modifier = Modifier
+                .background(Color.White, shape = RoundedCornerShape(12.dp))
+                .height(56.dp)
+                .width(300.dp),
         )
         TextField(
             value = username,
             onValueChange = { username = it },
             label = { Text("Usuário") },
-            modifier = Modifier.background(Color.White)
+            modifier = Modifier
+                .background(Color.White, shape = RoundedCornerShape(12.dp))
+                .height(56.dp)
+                .width(300.dp),
         )
         TextField(
             value = password,
             onValueChange = { password = it },
             label = { Text("Senha") },
             visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.background(Color.White)
+            modifier = Modifier
+                .background(Color.White, shape = RoundedCornerShape(12.dp))
+                .height(56.dp)
+                .width(300.dp),
         )
-        Button(onClick = { handleClick() }) {
-            Text("Criar Conta")
+        Button(
+            onClick = { handleClick() },
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFAA0000)),
+            modifier = Modifier
+                .height(56.dp)
+                .width(300.dp)
+        ) {
+            Text("Criar Conta", color = Color.White)
         }
         TextButton(onClick = onToggleForm) {
-            Text("Já tem conta criada?")
+            Text("Já tem conta criada?", color = Color(0xFFAA0000))
         }
 
         message?.let {
